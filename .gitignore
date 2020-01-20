@@ -8,4 +8,6 @@ tmp/
 *.x86
 *.db
 .bak
+*.mp4
+*.log
 
