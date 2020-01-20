@@ -2,8 +2,9 @@ sudo /bin/hostname -b g808;
 
 
 #PWA
+cd /home/wzw/project/go/src/2html/15pwa/2workbox/
 "/home/wzw/project/go/src/2html/15pwa/2workbox/laboratory.arm" &
-sleep 3s
+
 #<----------------注意: 选用上面, 或是下面的!!!
 #选用下面的须建立目录 mkdir ~/p ;并拷贝 fileserver-arm 文件
 #sudo setcap CAP_NET_BIND_SERVICE=+eip "/home/wzw/p/fileserver.arm"
