@@ -4,6 +4,10 @@
 
 // In this codelab, you will be streaming video only: "video: true".
 // Audio will not be streamed because it is set to "audio: false" by default.
+
+//流程图:
+//startButton-->CLICK-->startAction-->gotLocalMediaStream-->'loadedmetadata'-->logVideoLoaded
+//callButton-->CLICK-->callAction-->
 const mediaStreamConstraints = {
   video: true,
 };
@@ -151,6 +155,9 @@ function createdOffer(description) {
     }).catch(setSessionDescriptionError);
 
   trace('remotePeerConnection setRemoteDescription start.');
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
   remotePeerConnection.setRemoteDescription(description)
     .then(() => {
       setRemoteDescriptionSuccess(remotePeerConnection);
@@ -163,6 +170,9 @@ function createdOffer(description) {
 }
 
 // Logs answer to offer creation and sets peer connection session descriptions.
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的description本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
 function createdAnswer(description) {
   trace(`Answer from remotePeerConnection:\n${description.sdp}.`);
 
