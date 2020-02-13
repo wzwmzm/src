@@ -8,7 +8,7 @@ var socket = io.connect();
 
 if (room !== "") {
   console.log('Message from client: Asking to join room ' + room);
-  socket.emit('create or join', room);
+  socket.emit('create or join', room);//房间号是手工输入的
 }
 
 socket.on('created', function(room, clientId) {

@@ -25,16 +25,16 @@ io.sockets.on('connection', function(socket) {
   socket.on('message', function(message) {
     log('Client said: ', message);
     // for a real app, would be room-only (not broadcast)
-    socket.broadcast.emit('message', message);
+    socket.broadcast.emit('message', message);//消息转发
   });
 
-  socket.on('create or join', function(room) {
+  socket.on('create or join', function(room) {//房间号是在页面手工提示输入的地
     log('Received request to create or join room ' + room);
 
-    var clientsInRoom = io.sockets.adapter.rooms[room];
+    var clientsInRoom = io.sockets.adapter.rooms[room];//房间里有几个人
     var numClients = clientsInRoom ? Object.keys(clientsInRoom.sockets).length : 0;
     log('Room ' + room + ' now has ' + numClients + ' client(s)');
-
+	  //房间里没有人则建立房间; 房间里有1个人则加入房间; 房间里有2个人则满了无法加入
     if (numClients === 0) {
       socket.join(room);
       log('Client ID ' + socket.id + ' created room ' + room);
@@ -51,7 +51,7 @@ io.sockets.on('connection', function(socket) {
     }
   });
 
-  socket.on('ipaddr', function() {
+  socket.on('ipaddr', function() {//将服务器设备地址全部发出
     var ifaces = os.networkInterfaces();
     for (var dev in ifaces) {
       ifaces[dev].forEach(function(details) {

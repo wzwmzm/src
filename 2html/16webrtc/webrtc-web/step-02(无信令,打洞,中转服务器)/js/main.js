@@ -82,7 +82,9 @@ remoteVideo.addEventListener('onresize', logResizedVideo);
 
 
 // Define RTC peer connection behavior.
-
+//!!!!!!!!!!这里的newIceCandidate本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的newIceCandidate本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
+//!!!!!!!!!!这里的newIceCandidate本来要通过信令服务器来传递的!!!!!!!!!!!!!!!!!!
 // Connects with new peer candidate.
 function handleConnection(event) {
   const peerConnection = event.target;
