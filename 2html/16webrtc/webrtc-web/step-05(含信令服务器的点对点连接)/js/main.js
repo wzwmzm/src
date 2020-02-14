@@ -9,7 +9,7 @@ var remoteStream;
 var turnReady;
 
 //stun是打洞服务器,  'stun:stun.l.google.com:19302'
-//turn是中继服务器,  'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
+//turn是中继服务器,  'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'    ;超出5g要付费
 var pcConfig = {
   'iceServers': [{
     'urls': 'stun:stun.l.google.com:19302'
@@ -22,7 +22,7 @@ var sdpConstraints = {
   offerToReceiveVideo: true
 };
 
-/////////////////////////////////////////////
+////////websockets 实现房间管理功能////////////////////////////
 
 var room = 'foo';
 // Could prompt for room name:
@@ -59,7 +59,7 @@ socket.on('log', function(array) {
   console.log.apply(console, array);
 });
 
-////////////////////////////////////////////////
+/////////实现信令服务器功能///////////////////////////////////////
 
 function sendMessage(message) {
   console.log('Client sending message: ', message);
@@ -71,26 +71,26 @@ socket.on('message', function(message) {
   console.log('Client received message:', message);
   if (message === 'got user media') {
     maybeStart();
-  } else if (message.type === 'offer') {
+  } else if (message.type === 'offer') {                     //remotePeer
     if (!isInitiator && !isStarted) {
       maybeStart();
     }
     pc.setRemoteDescription(new RTCSessionDescription(message));
     doAnswer();
-  } else if (message.type === 'answer' && isStarted) {
+  } else if (message.type === 'answer' && isStarted) {      //localPeer
     pc.setRemoteDescription(new RTCSessionDescription(message));
-  } else if (message.type === 'candidate' && isStarted) {
+  } else if (message.type === 'candidate' && isStarted) {   //icecandidate
     var candidate = new RTCIceCandidate({
       sdpMLineIndex: message.label,
       candidate: message.candidate
     });
     pc.addIceCandidate(candidate);
-  } else if (message === 'bye' && isStarted) {
+  } else if (message === 'bye' && isStarted) {              //结束
     handleRemoteHangup();
   }
 });
 
-////////////////////////////////////////////////////
+///////////主  程  序/////////////////////////////////////////
 
 var localVideo = document.querySelector('#localVideo');
 var remoteVideo = document.querySelector('#remoteVideo');
@@ -121,7 +121,7 @@ var constraints = {
 console.log('Getting user media with constraints', constraints);
 
 if (location.hostname !== 'localhost') {
-  requestTurn(
+  requestTurn(//中继服务器
     'https://computeengineondemand.appspot.com/turn?username=41784574&key=4080218913'
   );
 }
