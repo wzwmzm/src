@@ -1,0 +1,4 @@
+1, 自签名证书的生成:  go run generate_cert.go  --host localhost
+                      go run generate_cert.go  -ca --host "*.example.com,10.23.1.123,a.ga111.ga"
+2, 自签名证书的使用:  go run main.go
+3, 现在的问题:        生成的签我中查不到对象,即查不到申请的域名.

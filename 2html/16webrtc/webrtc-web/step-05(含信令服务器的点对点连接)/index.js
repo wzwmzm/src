@@ -60,13 +60,13 @@ io.sockets.on('connection', function(socket) {
     }
   });
 
-    //发送服务器的IPv4地址(非127.0.0.1)给客户端
+    //发送服务器的IPv4地址(非127.0.0.1)给客户端,,,客户端对此消息未处理
   socket.on('ipaddr', function() {
     var ifaces = os.networkInterfaces();
     for (var dev in ifaces) {
       ifaces[dev].forEach(function(details) {
         if (details.family === 'IPv4' && details.address !== '127.0.0.1') {
-          socket.emit('ipaddr', details.address);
+          socket.emit('ipaddr', details.address);//客户端对此消息未处理
         }
       });
     }
