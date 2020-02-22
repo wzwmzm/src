@@ -158,7 +158,7 @@ caddy.shymj.shop:443 {
 wzw.shymj.ga:443 {
 #        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
         tls     "/home/wzw/.acme.sh/*.shymj.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.ga/*.shymj.ga.key"
-        proxy / localhost:44444/root/home/wzw/project/go/src/8QR-code/QrCodeHtmlScanner/misc/examples/
+        proxy / https://file.ga111.ga/root/home/wzw/project/go/src/8QR-code/QrCodeHtmlScanner/misc/examples/
 #       log requests.log {
 #               rotate_size 50  # Rotate after 50 MB
 #               rotate_age  90  # Keep rotated files for 90 days
