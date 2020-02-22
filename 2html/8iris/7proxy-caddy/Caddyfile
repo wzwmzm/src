@@ -6,17 +6,19 @@
 #        caddy -version 查看版本号
 #4, sudo setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/caddy
 #5, 运行 : caddy -port 44444 -conf  /home/wzw/project/go/src/html/8iris/7proxy-caddy/Caddyfile
+#6, 说明 : caddy 本身的web服务器器运行在44444端口
 
 # 本机测试服务器 http://localhost:44444, 这里的端口44444只能在命令行指定 
 localhost {
-#	root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
-	root /home/wzw/project/go/src/8QR-code/QrCodeHtmlScanner/misc/examples
+	root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
+#	root /home/wzw/project/go/src/8QR-code/QrCodeHtmlScanner/misc/examples
 }
-
+#############################################################################################################
 # 本机测试服务器 https://test.ga111.ga .    不能用https://localhost, 因为SSL证书无法对应  
 caddy.ga111.ga:443 {
-        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
+#        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
 	tls     "/home/wzw/.acme.sh/*.ga111.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.ga111.ga/*.ga111.ga.key"
+	proxy / localhost:44444
 #       log requests.log {
 #               rotate_size 50  # Rotate after 50 MB
 #               rotate_age  90  # Keep rotated files for 90 days
@@ -48,6 +50,10 @@ pwa.ga111.ga:443 {
 	proxy / localhost:8100
 }
 
+
+
+
+#############################################################################################################
 # 重定向到2号机的徐高阳目录:
 6.ga111.ga:443 {
         tls     "/home/wzw/.acme.sh/*.ga111.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.ga111.ga/*.ga111.ga.key"
@@ -93,7 +99,7 @@ pwa.ga111.ga:443 {
 
 
 # 重定向到百度
-4.ga111.ga:443 {
+baidu.ga111.ga:443 {
 	tls     "/home/wzw/.acme.sh/*.ga111.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.ga111.ga/*.ga111.ga.key"
 	proxy / https://www.baidu.com
 }
@@ -108,4 +114,40 @@ pwa.ga111.ga:443 {
 #	}
 
 
+
+##############################################################################################################
+caddy.shymj.ga:443 {
+#        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
+        tls     "/home/wzw/.acme.sh/*.shymj.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.ga/*.shymj.ga.key"
+        proxy / localhost:44444
+#       log requests.log {
+#               rotate_size 50  # Rotate after 50 MB
+#               rotate_age  90  # Keep rotated files for 90 days
+#               rotate_keep 20  # Keep at most 20 log files
+#       }
+}
+
+
+caddy.shymj.info.sh:443 {
+#        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
+        tls     "/home/wzw/.acme.sh/*.shymj.info.sh/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.info.sh/*.shymj.info.sh.key"
+        proxy / localhost:44444
+#       log requests.log {
+#               rotate_size 50  # Rotate after 50 MB
+#               rotate_age  90  # Keep rotated files for 90 days
+#               rotate_keep 20  # Keep at most 20 log files
+#       }
+}
+
+
+caddy.shymj.shop:443 {
+#        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
+        tls     "/home/wzw/.acme.sh/*.shymj.shop/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.shop/*.shymj.shop.key"
+        proxy / localhost:44444
+#       log requests.log {
+#               rotate_size 50  # Rotate after 50 MB
+#               rotate_age  90  # Keep rotated files for 90 days
+#               rotate_keep 20  # Keep at most 20 log files
+#       }
+}
 

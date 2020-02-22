@@ -5,5 +5,4 @@
 	安装到了 /usr/local/bin/caddy；
 	caddy -version 查看版本号
 4, 运行 : caddy -port 44444 -conf  /home/wzw/project/go/src/html/8iris/7proxy-caddy/Caddyfile
-
-
+5, 说明 : caddy 作为一个服务器运行在44444端口
