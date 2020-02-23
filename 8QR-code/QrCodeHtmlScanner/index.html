@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>二维码扫描</title>
+
+
+</head>
+
+<body class="cont">
+
+	<h3 class="txt-cntr mar-top-2">简单二维码扫描</h3>
+
+	<article class="pad-2">
+		<section>
+			<div class="frm-grp txt-cntr">
+				<label class="disp-blck">选择摄像头:</label>
+				<select id="webcameraChanger" onchange="cameraChange($(this).val());" class="frm-ctrl mar-btm-2"></select>
+			</div>
+			<!-- webcamera view component -->
+			<video id="webcameraPreview" playsinline autoplay controls muted loop style="width: 100%;"></video>
+		</section>
+	</article>
+	<!--
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+-->
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/adapter.min.js"></script>
+	<script type="text/javascript" src="./js/instascan.js"></script>
+	<script type="text/javascript" src="./js/QrCodeScanner.js"></script>
+	<script type="text/javascript">
+		//HTML video component for web camera
+		var videoComponent = $("#webcameraPreview");
+		//HTML select component for cameras change
+		var webcameraChanger = $("#webcameraChanger");
+		var options = {};
+		//init options for scanner
+		options = initVideoObjectOptions("webcameraPreview");
+		var cameraId = 0;
+
+		initScanner(options);
+
+		initAvaliableCameras(
+			webcameraChanger,
+			function() {
+				cameraId = parseInt(getSelectedCamera(webcameraChanger));
+				initCamera(cameraId);
+			}
+		);
+
+		//initCamera(cameraId);
+
+
+		scanStart(function(data) {	//data就是扫描结果
+			alert(data);
+		});
+		//////////////////////////////////////////////////////////////////
+		//上面的例子是通过 QrCodeScanner.js 封装 instascan.js 实现的
+		//下面的例子, 不使用 QrCodeScanner.js, 直接从'webcameraPreview'中取视频,然后扫描
+/*
+		let scanner = newInstascan.Scanner({			//scanner是一个对象
+			video: document.getElementById('webcameraPreview')
+		});												//里面关联了一个视频对象
+		scanner.addListener('scan', function(content) {	//扫描
+			console.log(content);						//显示扫描结果
+		});
+		Instascan.Camera.getCameras().then(function(cameras) {	//获取摄像头
+			if (cameras.length > 0) {
+				scanner.start(cameras[0]);
+			} else {
+				console.error('No cameras found.');
+			}
+		}).catch(function(e) {
+			console.error(e);
+		});
+*/
+	</script>
+
+</body>
+
+</html>

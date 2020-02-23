@@ -17,22 +17,19 @@ function initVideoObjectOptions(id) {
         video: initHtmlElement(id),
         // Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
         // If true, the scanner emits the "scan" event when a QR code is scanned. Default true.
-        continuous: true,
-		// Whether to horizontally mirror the video preview. This is helpful when trying to
-		// scan a QR code with a user-facing camera. Default true.
-        mirror: false,
-        // Whether to include the scanned image data as part of the scan result. See the "scan" event
-        // for image format details. Default false.
-        captureImage: false,
+        continuous: true,		//持续扫描
+		// Whether to horizontally mirror the video preview. This is helpful when trying to scan a QR code with a user-facing camera. Default true.
+        mirror: false,			//镜像,使用前置摄像头时使用
+        // Whether to include the scanned image data as part of the scan result. See the "scan" event for image format details. Default false.
+        captureImage: false,	//将图像数据作为结果的一部分
         // Only applies to continuous mode. Whether to actively scan when the tab is not active.
         // When false, this reduces CPU usage when the tab is not active. Default true.
-        backgroundScan: true,
-        // Only applies to continuous mode. The period, in milliseconds, before the same QR code
-        // will be recognized in succession. Default 5000 (5 seconds).
-        refractoryPeriod: 5000,
+        backgroundScan: false,	//选项卡未激活时是否扫描
+        // Only applies to continuous mode. The period, in milliseconds, before the same QR code will be recognized in succession. Default 5000 (5 seconds).
+        refractoryPeriod: 5000,	//连续识别相同QR码之前的时间
         // Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
         // increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
-        scanPeriod: 1
+        scanPeriod: 1			//两次扫描之间的周期
     };
 
 }
