@@ -2,7 +2,8 @@
 <html lang="zh">
 
 <head>
-	<!-- Required meta tags -->
+	<!-- Simple Qr Code scanner, based on [instascan](https://github.com/schmich/instascan)  -->
+	<!-- 中文说明: https://www.helplib.cn/fansisi/instascan  -->
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<title>二维码扫描</title>
@@ -43,11 +44,11 @@
 
 		initScanner(options);
 
-		initAvaliableCameras(
+		initAvaliableCameras(//<--------默认选择最后一个摄像头
 			webcameraChanger,
 			function() {
 				cameraId = parseInt(getSelectedCamera(webcameraChanger));
-				initCamera(cameraId);
+				initCamera(cameraId);	//<--initAvaliableCameras()中默认选择最后一个摄像头
 			}
 		);
 

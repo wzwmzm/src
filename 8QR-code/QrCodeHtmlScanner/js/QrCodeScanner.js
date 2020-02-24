@@ -34,7 +34,7 @@ function initVideoObjectOptions(id) {
 
 }
 
-//init Avaliable Cameras of current device
+//init Avaliable Cameras of current device//<--------默认选择最后一个摄像头
 function initAvaliableCameras(selectObject, callBack) {
     var max = 0;
     Instascan.Camera.getCameras().then(function (cameras) {
@@ -47,7 +47,7 @@ function initAvaliableCameras(selectObject, callBack) {
         }
 
         //choose the rear camera (last)
-        selectObject.val(max);
+        selectObject.val(max);	//<--------默认选择最后一个摄像头
 
         callBack();
     });

@@ -1,5 +1,6 @@
 # QrCodeHtmlScanner
 Simple Qr Code scanner, based on [instascan](https://github.com/schmich/instascan) 
+中文说明: https://www.helplib.cn/fansisi/instascan
 
 Supported platforms (tested)
 - IOS11, Safari
