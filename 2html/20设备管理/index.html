@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+	<meta charset="utf-8">
+	<title>资产管理</title>
+
+	<title>资产管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="资产管理">
+	<link rel="apple-touch-icon" href="img/icons/book-256.png">
+
+	<!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="./css/swiper.min.css">
+
+	<!-- Demo styles -->
+	<style>
+		html,
+		body {
+			position: relative;
+			height: 100%;
+		}
+
+		body {
+			background: #eee;
+			font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+			/*  font-size: 14px;  */
+			color: #000;
+			margin: 0;
+			padding: 0;
+		}
+
+		.swiper-container {
+			width: 100%;
+			height: 100%;
+		}
+
+		.swiper-slide {
+			text-align: center;
+			font-size: 5rem;
+			background: #fff;
+
+			/* Center slide text vertically */
+			display: -webkit-box;
+			display: -ms-flexbox;
+			display: -webkit-flex;
+			display: flex;
+			-webkit-box-pack: center;
+			-ms-flex-pack: center;
+			-webkit-justify-content: center;
+			justify-content: center;
+			-webkit-box-align: center;
+			-ms-flex-align: center;
+			-webkit-align-items: center;
+			align-items: center;
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<!-- Swiper -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+			<div class="swiper-slide">页面 1</div>
+			<div class="swiper-slide">页面 2</div>
+			<div class="swiper-slide">页面 3</div>
+			<div class="swiper-slide">页面 4</div>
+			<div class="swiper-slide">页面 5</div>
+			<div class="swiper-slide">页面 6</div>
+			<div class="swiper-slide">页面 7</div>
+			<div class="swiper-slide">页面 8</div>
+			<div class="swiper-slide">页面 9</div>
+			<div class="swiper-slide">页面 10</div>
+		</div>
+	</div>
+
+	<!-- Swiper JS -->
+	<script src="./js/swiper.min.js"></script>
+
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.swiper-container');
+
+	</script>
+</body>
+
+</html>
+
+
+
+
+
+<!---------------- 备用代码 ------------------->
+
+
+<!-------
+<script>
+	//在头部添加
+	swiper.appendSlide([
+		'<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>',
+		'<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>'
+	]);
+	
+	mySwiper.removeAllSlides();      //移除全部
+	mySwiper.addSlide(index, slides);//在指定位置增加
+	mySwiper.appendSlide(slides);    //在尾部添加
+</script>
+------>
