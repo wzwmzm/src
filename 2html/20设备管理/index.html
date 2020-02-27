@@ -3,13 +3,13 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>资产管理</title>
+	<title>Swiper demo</title>
 
-	<title>资产管理</title>
+	<title>WEB标准页</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="default">
-	<meta name="apple-mobile-web-app-title" content="资产管理">
+	<meta name="apple-mobile-web-app-title" content="WEB标准页">
 	<link rel="apple-touch-icon" href="img/icons/book-256.png">
 
 	<!-- Link Swiper's CSS -->
@@ -41,12 +41,14 @@
 			text-align: center;
 			font-size: 5rem;
 			background: #fff;
+			overflow: auto;
 
 			/* Center slide text vertically */
 			display: -webkit-box;
 			display: -ms-flexbox;
 			display: -webkit-flex;
 			display: flex;
+			/*
 			-webkit-box-pack: center;
 			-ms-flex-pack: center;
 			-webkit-justify-content: center;
@@ -55,6 +57,7 @@
 			-ms-flex-align: center;
 			-webkit-align-items: center;
 			align-items: center;
+			*/
 		}
 
 	</style>
@@ -67,7 +70,7 @@
 		<div class="swiper-wrapper">
 			<div class="swiper-slide">页面 1</div>
 			<div class="swiper-slide">页面 2</div>
-			<div class="swiper-slide">页面 3</div>
+			<div class="swiper-slide">页面 3一二三四五六七八九十<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 5<br/>页面 4<br/>页面 3<br/>页面 3<br/>页面 2<br/>页面 1<br/></div>
 			<div class="swiper-slide">页面 4</div>
 			<div class="swiper-slide">页面 5</div>
 			<div class="swiper-slide">页面 6</div>
@@ -91,15 +94,52 @@
 </html>
 
 
-
-
-
 <!---------------- 备用代码 ------------------->
 
+<!--------https://www.swiper.com.cn/demo/index.html--------->
 
 <!-------
 <script>
-	//在头部添加
+	//0,初始化时的基本属性设置----------------------------
+	var mySwiper = new Swiper('.swiper-container', {
+
+		initialSlide :2,		//1,设置为2后，画面初始停在第三个Slide
+		direction : 'vertical',	//2,滑动方向,(horizontal)或垂直(vertical)
+		observer:true,			//3,swiper元素更新后的显示自动更新, 
+								//  默认false，不开启，可以使用update()手动更新。
+		on: {					//4,事件注册, 有哪些具体事件可以查看手册
+				slideChange: function () {	//A,(activeIndex发生改变时)
+					console.log(this.activeIndex);
+				},
+
+				slideChangeTransitionEnd: function(){//B,切换结束时
+				  	alert(this.activeIndex);
+				},
+		},
+	})
+
+	//Swiper的一些主要属性------------------------------
+	1,mySwiper.activeIndex		//返回当前活动块(激活块)的索引。
+	2,mySwiper.el.style.opacity=0.5;//el, 相当于 ${} 选择器
+	3,mySwiper.allowSlideNext	//设置/查看是否允许切换至下一个slide。
+	4,mySwiper.allowTouchMove	//设置/查看是否禁止触摸滑动。
+
+	//Swiper的一些主要方法------------------------------
+	1,mySwiper.slideNext()		//滑动到下一滑块
+	2,mySwiper.slideTo(index)	//滑动到指定滑块
+	3,mySwiper.updateSlides()	//重新计算Slides的数量，当你使用js来删除slide时可能会用到。使用mySwiper.removeSlide来删除slide则会自动计算，无需使用此方法。
+	4,mySwiper.update()			//更新Swiper，就像重新初始化一样
+	5,mySwiper.appendSlide(slides)//添加slide到slides的结尾。
+	6,mySwiper.prependSlide(slides)//添加slide到slides的第一个位置。
+	7,mySwiper.addSlide(index, slides)//在指定位置增加slide
+	8,mySwiper.removeSlide(index)//移除索引为index的slide。
+	9,mySwiper.removeAllSlides()//移除所有slides。
+	10,mySwiper.on(event,handler)//添加回调函数或者事件句柄。
+	11,
+
+
+	//1,添加删除页(没有更新显示)-------------------------
+	//注意: 修改swiper后如果要更新显示效果,需要调Update()方法,或设置observer:true,
 	swiper.appendSlide([
 		'<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>',
 		'<div class="swiper-slide">Slide ' + (++appendNumber) + '</div>'
@@ -108,5 +148,29 @@
 	mySwiper.removeAllSlides();      //移除全部
 	mySwiper.addSlide(index, slides);//在指定位置增加
 	mySwiper.appendSlide(slides);    //在尾部添加
+
+	//2,删除页后更新显示:--------------------------------
+	var mySwiper = new Swiper('.swiper-container',{
+		pagination: {
+			el: '.swiper-pagination',//分页器,就是几个点点
+		},
+		observer:true,	//<-----相当于自动初始化swiper
+						//<-----默认false，不开启，可以使用update()方法更新。
+	})
+	$('#btn1').click(function(){
+	$(".swiper-wrapper .swiper-slide1").remove();
+	})
+
+	//3,删除页后更新显示----------------------------------
+	var mySwiper = new Swiper('.swiper-container',{
+	  pagination : '.swiper-pagination',//分页器,就是几个点点
+	})
+	$('#btn1').click(function(){
+	  $(".swiper-wrapper .swiper-slide1").remove(); 
+	  mySwiper.update()	//<------更新显示(不然会有一个空白页)
+	})
+
+	//4,可以使用 div 的 显示/隐藏 属性实现页面的添加或删除
+
 </script>
 ------>
