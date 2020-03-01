@@ -2,25 +2,30 @@
 <html lang="zh">
 
 <head>
-    <meta charset="utf-8">
-    <title>Swiper demo</title>
+	<meta charset="utf-8">
+	<title>Swiper demo</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="screen-orientation" content="portrait">
-    <meta name="full-screen" content="yes">
-    
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="screen-orientation" content="portrait">
+	<meta name="full-screen" content="yes">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="图书搜索">
+	<link rel="apple-touch-icon" href="img/icons/book-256.png">
+
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
 
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet" href="./css/swiper.min.css">
+	<!-- Link Swiper's CSS -->
+	<link rel="stylesheet" href="./css/swiper.min.css">
 
-    <!-- Demo styles -->
-    <style>
-        html,
+	<!-- Demo styles -->
+	<style>
+		html,
         body {
             position: relative;
             height: 100%;
@@ -67,119 +72,120 @@
 </head>
 
 <body>
-    <!-- Swiper -->
-    <div class="swiper-container">
-        <div class="swiper-wrapper">
+	<!-- Swiper -->
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
 
-            <!-- Swiper-slide 1 -->
-            <div class="swiper-slide">
+			<!-- Swiper-slide 1 -->
+			<div class="swiper-slide">
 
-                <div class="container-fluid">
-                    <div class="jumbotron ">
-                        <h1 class="display-4 text-center"><strong>移动资管</strong></h1>
-                    </div>
-                </div>
-                <div class="container">
-                    <div id="accordion">
-                        <div class="card">
-                            <div class="card-header" data-toggle="collapse" href="#collapseOne">
-                                <a class="card-link" href="#collapseOne">用户名: 191536</a>
-                            </div>
-                            <div id="collapseOne" class="collapse" data-parent="#accordion">
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-group">
-                                            <label for="usr">用户名:</label>
-                                            <input type="text" class="form-control" id="usr">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="pwd">密码:</label>
-                                            <input type="password" class="form-control" id="pwd">
-                                        </div>
-                                        <div class="d-flex flex-row-reverse">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" data-toggle="collapse" href="#collapseTwo">
-                                <a class="collapsed card-link" href="#collapseTwo">摄像头: Camer#1</a>
-                            </div>
-                            <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                                <div class="card-body">
-                                    <form>
-                                        请选择摄像头:
-                                        <div class="radio text-center">
-                                            <label><input type="radio" name="optradio"> Camer#1</label>
-                                        </div>
-                                        <div class="radio text-center">
-                                            <label><input type="radio" name="optradio"> Camer#2</label>
-                                        </div>
-                                        <div class="radio text-center">
-                                            <label><input type="radio" name="optradio" > Camer#3</label>
-                                        </div>
-                                    </form>
-                                    <div class="d-flex justify-content-center">
-                                        <video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded"  style="width: 50%;"></video>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header" data-toggle="collapse" href="#collapseThree">
-                                <a class="collapsed card-link" href="#collapseThree">用户手册</a>
-                            </div>
-                            <div id="collapseThree" class="collapse" data-parent="#accordion">
-                                <div class="card-body">
-                                    #3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				<div class="container-fluid">
+					<div class="jumbotron ">
+						<h1 class="display-4 text-center"><strong>移动资管</strong></h1>
+					</div>
+				</div>
+				<div class="container">
+					<div id="accordion">
+						<div class="card">
+							<div class="card-header" data-toggle="collapse" href="#collapseOne">
+								<a class="card-link" href="#collapseOne">用户名: 191536</a>
+							</div>
+							<div id="collapseOne" class="collapse" data-parent="#accordion">
+								<div class="card-body">
+									<form>
+										<div class="form-group">
+											<label for="usr">用户名:</label>
+											<input type="text" class="form-control" id="usr">
+										</div>
+										<div class="form-group">
+											<label for="pwd">密码:</label>
+											<input type="password" class="form-control" id="pwd">
+										</div>
+										<div class="d-flex flex-row-reverse">
+											<button type="submit" class="btn btn-primary">Submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
+								<a class="collapsed card-link" href="#collapseTwo">摄像头: Camer#1</a>
+							</div>
+							<div id="collapseTwo" class="collapse" data-parent="#accordion">
+								<div class="card-body">
+									<form>
+										请选择摄像头:
+										<div class="radio text-center">
+											<label><input type="radio" name="optradio"> Camer#1</label>
+										</div>
+										<div class="radio text-center">
+											<label><input type="radio" name="optradio"> Camer#2</label>
+										</div>
+										<div class="radio text-center">
+											<label><input type="radio" name="optradio"> Camer#3</label>
+										</div>
+									</form>
+									<div class="d-flex justify-content-center">
+										<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 50%;"></video>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card">
+							<div class="card-header" data-toggle="collapse" href="#collapseThree">
+								<a class="collapsed card-link" href="#collapseThree">用户手册</a>
+							</div>
+							<div id="collapseThree" class="collapse" data-parent="#accordion">
+								<div class="card-body">
+									#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 
-            </div>
-            <!-- Swiper-slide 2 -->
-            <div class="swiper-slide">
+			</div>
+			<!-- Swiper-slide 2 -->
+			<div class="swiper-slide">
 
-                <div class="container">
-                    <br/><br/><br/>
-                    <h2> 请扫码:</h2>
-                    <div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;" >
-                        
-                        <video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded"   style="width: 60%; height: 50%;"></video>
-                    </div>
-                </div>
+				<div class="container">
+					<br /><br /><br />
+					<h2> 请扫码:</h2>
+					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
-            </div>
-            <!-- Swiper-slide 3 -->
-            <div class="swiper-slide">页面 3一二三四五六七八九十<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 3<br/>页面 5<br/>页面 4<br/>页面 3<br/>页面 3<br/>页面 2<br/>页面 1<br/></div>
-            <!-- Swiper-slide 4 -->
-            <div class="swiper-slide">页面 4</div>
-            <!-- Swiper-slide 5 -->
-            <div class="swiper-slide">页面 5</div>
-            <!-- Swiper-slide 6 -->
-            <div class="swiper-slide">页面 6</div>
-            <!-- Swiper-slide 7 -->
-            <div class="swiper-slide">页面 7</div>
-            <!-- Swiper-slide 8 -->
-            <div class="swiper-slide">页面 8</div>
-            <!-- Swiper-slide 9 -->
-            <div class="swiper-slide">页面 9</div>
-            <!-- Swiper-slide 10 -->
-            <div class="swiper-slide">页面 10</div>
-        </div>
-    </div>
+						<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+					</div>
+				</div>
 
-    <!-- Swiper JS -->
-    <script src="./js/swiper.min.js"></script>
+			</div>
+			<!-- Swiper-slide 3 -->
+			<div class="swiper-slide">页面 3一二三四五六七八九十<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 5<br />页面 4<br />页面 3<br />页面 3<br />页面 2<br />页面 1<br /></div>
+			<!-- Swiper-slide 4 -->
+			<div class="swiper-slide">页面 4</div>
+			<!-- Swiper-slide 5 -->
+			<div class="swiper-slide">页面 5</div>
+			<!-- Swiper-slide 6 -->
+			<div class="swiper-slide">页面 6</div>
+			<!-- Swiper-slide 7 -->
+			<div class="swiper-slide">页面 7</div>
+			<!-- Swiper-slide 8 -->
+			<div class="swiper-slide">页面 8</div>
+			<!-- Swiper-slide 9 -->
+			<div class="swiper-slide">页面 9</div>
+			<!-- Swiper-slide 10 -->
+			<div class="swiper-slide">页面 10</div>
+		</div>
+	</div>
 
-    <!-- Initialize Swiper -->
-    <script>
-        var swiper = new Swiper('.swiper-container');
-    </script>
+	<!-- Swiper JS -->
+	<script src="./js/swiper.min.js"></script>
+
+	<!-- Initialize Swiper -->
+	<script>
+		var swiper = new Swiper('.swiper-container');
+
+	</script>
 </body>
 
 </html>

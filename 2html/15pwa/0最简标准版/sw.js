@@ -1,4 +1,4 @@
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js');
+importScripts('./js/workbox-sw.js');
 
 if (workbox) {
   console.log(`Yay! Workbox is loaded 🎉`);
@@ -33,20 +33,21 @@ workbox.core.setCacheNameDetails({
 //或者workbox.precaching.precacheAndRoute([]);
 
 workbox.routing.registerRoute(
-  new RegExp('.*\.js'),     //可以跨目录
+  new RegExp('/js/.*\.js'),     //可以跨域, 相当于 /js/*.js 
+								//(同时避开本文件sw.js)
   workbox.strategies.networkFirst()
 );
 
 workbox.routing.registerRoute(
-  /.*\.css/,                //不可以跨目录
+  /.*\.css/,                //不可以跨域
   workbox.strategies.staleWhileRevalidate({		//先直接用缓存内容,然后再网络更新及缓存更新
     cacheName: 'css-cache',
   })
 );
 
 workbox.routing.registerRoute(
-//  /.*\.(?:png|jpg|jpeg|svg|gif)/,             //不可以跨目录，只能在当下目录
-  new RegExp('.*\.(?:png|jpg|jpeg|svg|gif)'),   //可以跨目录
+//  /.*\.(?:png|jpg|jpeg|svg|gif)/,             //不可以跨域，只能在当下目录
+  new RegExp('.*\.(?:png|jpg|jpeg|svg|gif)'),   //可以跨域
   workbox.strategies.cacheFirst({				//如果有缓存就用缓存,不再进行网络更新
     cacheName: 'image-cache',
     plugins: [

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<meta name="application-name" content="百度天气" />
+	<meta name="msapplication-TileColor" content="#222">
+	<meta name="msapplication-square70x70logo" content="images/icons/icon-32x32.png" />
+	<meta name="msapplication-square150x150logo" content="images/icons/icon-144x144.png" />
+	<meta name="msapplication-square310x310logo" content="images/icons/icon-256x256.png" />
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="图书搜索">
+	<link rel="apple-touch-icon" href="img/icons/book-256.png">
+
+	<link rel="shortcut icon" href="./favicon.ico" />
+
+	<link rel="manifest" href="./manifest.json" crossorigin="use-credentials">
+
+
+	<title>hello pwa!</title>
+</head>
+
+<body>
+	<h1> hello pwa!</h1>
+
+	<script>
+		//PWA 使用缓存
+		if ('serviceWorker' in navigator) {
+			window.addEventListener('load', () => {
+				navigator.serviceWorker.register('./sw.js')
+					.then(registration => {
+						console.log(`Service Worker registered! Scope: ${registration.scope}`);
+					})
+					.catch(err => {
+						console.log(`Service Worker registration failed: ${err}`);
+					});
+			});
+		}
+	</script>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+	</script>
+</body>
+
+</html>
