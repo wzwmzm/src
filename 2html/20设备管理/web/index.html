@@ -18,7 +18,7 @@
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-	
+
 	<link rel="shortcut icon" href="./img/favicon32.ico" />
 	<link rel="manifest" href="./manifest.json" crossorigin="use-credentials">
 
@@ -78,7 +78,7 @@
 	<div class="swiper-container">
 		<div class="swiper-wrapper">
 
-			<!-- Swiper-slide 1 -->
+			<!-- Swiper-slide 1  设置页 -->
 			<div class="swiper-slide">
 
 				<div class="container-fluid">
@@ -148,7 +148,7 @@
 				</div>
 
 			</div>
-			<!-- Swiper-slide 2 -->
+			<!-- Swiper-slide 2  第一次扫描页 -->
 			<div class="swiper-slide">
 
 				<div class="container">
@@ -161,14 +161,255 @@
 				</div>
 
 			</div>
-			<!-- Swiper-slide 3 -->
-			<div class="swiper-slide">页面 3一二三四五六七八九十<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 3<br />页面 5<br />页面 4<br />页面 3<br />页面 3<br />页面 2<br />页面 1<br /></div>
-			<!-- Swiper-slide 4 -->
-			<div class="swiper-slide">页面 4</div>
-			<!-- Swiper-slide 5 -->
-			<div class="swiper-slide">页面 5</div>
-			<!-- Swiper-slide 6 -->
-			<div class="swiper-slide">页面 6</div>
+			<!-- Swiper-slide 3  扫描设备结果页 -->
+			<div class="swiper-slide">
+
+
+
+				<div class="container">
+					上页扫描结果如果是设备则自动进入此页
+					<h2><br /><br />设备页:<br /><br /></h2>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+			</div>
+			<!-- Swiper-slide 4  扫描地址码-->
+			<div class="swiper-slide">
+
+				<div class="container">
+					<br /><br /><br />
+					<h2> 请地址扫码:</h2>
+					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
+
+						<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+					</div>
+				</div>
+
+
+
+
+
+
+			</div>
+			<!-- Swiper-slide 5  确认地址变更页-->
+			<div class="swiper-slide">
+
+
+				<div class="container">
+					上页扫描地址正确后自动进入此页<br /><br />
+					<h2>确认地址变更页:<br /><br /></h2>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">原位置:</p>
+							<p class="card-text">T1出境15号验证台</p>
+							<p class="card-text">变更为:</p>
+							<p class="card-text">T1主机房备品备件库</p>
+							<p class="card-text">备注: </p>
+							<p class="card-text">
+								<textarea class="form-control" rows="5" id="comment"></textarea>
+							</p>
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</div>
+					</div>
+				</div>
+
+
+
+
+			</div>
+			<!-- Swiper-slide 6  第一次扫描地址结果页-->
+			<div class="swiper-slide">
+
+
+				<div class="container">
+					第一次扫描的是地址则自动进入此页<br /><br />
+					<h2>T1出境15号验证台:<br /><br /></h2>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
+						</div>
+						<div class="card-body">
+
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+						</div>
+					</div>
+
+
+
+				</div>
+
+
+
+
+
+
+			</div>
 			<!-- Swiper-slide 7 -->
 			<div class="swiper-slide">页面 7</div>
 			<!-- Swiper-slide 8 -->
@@ -186,7 +427,6 @@
 	<!-- Initialize Swiper -->
 	<script>
 		var swiper = new Swiper('.swiper-container');
-
 	</script>
 </body>
 
