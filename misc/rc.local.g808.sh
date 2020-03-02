@@ -10,7 +10,7 @@ cd /home/wzw/project/go/src/2html/15pwa/2workbox/
 #移动资管
 #prot:8101
 cd  "/home/wzw/project/go/src/2html/20设备管理"
-"example.arm" &
+"/home/wzw/project/go/src/2html/20设备管理/example.arm" &
 
 
 #<----------------注意: 选用上面, 或是下面的!!!
