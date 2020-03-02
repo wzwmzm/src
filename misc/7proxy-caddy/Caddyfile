@@ -150,7 +150,7 @@ caddy.shymj.shop:443 {
 
 ##############################################################################################################
 #二维码仓库管理
-shymj.ga:443 {
+wzw.shymj.ga:443 {
 #        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
         tls     "/home/wzw/.acme.sh/*.shymj.ga/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.ga/*.shymj.ga.key"
         proxy / localhost:8101
