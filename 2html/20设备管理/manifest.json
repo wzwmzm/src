@@ -1,31 +1,31 @@
 {
-	"name": "Weather",
-	"short_name": "Weather",
+	"name": "移动资管",
+	"short_name": "移动资管",
 	"icons": [
 		{
-			"src": "images/icons/icon-128x128.png",
+			"src": "img/favicon128.ico",
 			"sizes": "128x128",
-			"type": "image/png"
+			"type": "image/x-icon"
         },
 		{
-			"src": "images/icons/icon-144x144.png",
-			"sizes": "144x144",
-			"type": "image/png"
+			"src": "img/favicon16.ico",
+			"sizes": "16x16",
+			"type": "image/x-icon"
         },
 		{
-			"src": "images/icons/icon-152x152.png",
-			"sizes": "152x152",
-			"type": "image/png"
+			"src": "img/favicon32.ico",
+			"sizes": "32x32",
+			"type": "image/x-icon"
         },
 		{
-			"src": "images/icons/icon-192x192.png",
-			"sizes": "192x192",
-			"type": "image/png"
+			"src": "img/favicon48.ico",
+			"sizes": "48x48",
+			"type": "image/x-icon"
         },
 		{
-			"src": "images/icons/icon-256x256.png",
+			"src": "img/favicon256.ico",
 			"sizes": "256x256",
-			"type": "image/png"
+			"type": "image/x-icon"
         }
     ],
 	"start_url": "/",
