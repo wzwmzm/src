@@ -24,6 +24,7 @@
 
 	<!-- Link Swiper's CSS -->
 	<link rel="stylesheet" href="./css/swiper.min.css">
+	<script type="text/javascript" src="./js/instascan.js"></script>
 
 	<!-- Demo styles -->
 	<style>
@@ -70,6 +71,13 @@
 			*/
         }
     </style>
+	<script>
+		let camera_id=0;
+		let n_cameras=5;
+		let cameras1=null;
+		
+
+	</script>
 
 </head>
 
@@ -112,24 +120,16 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
-								<a class="collapsed card-link" href="#collapseTwo">摄像头: Camer#1</a>
+								<a class="collapsed card-link" href="#collapseTwo">摄像头:<span id="cameraid_c">Camera#1</span></a>
 							</div>
 							<div id="collapseTwo" class="collapse" data-parent="#accordion">
-								<div class="card-body">
-									<form>
-										请选择摄像头:
-										<div class="radio text-center">
-											<label><input type="radio" name="optradio"> Camer#1</label>
-										</div>
-										<div class="radio text-center">
-											<label><input type="radio" name="optradio"> Camer#2</label>
-										</div>
-										<div class="radio text-center">
-											<label><input type="radio" name="optradio"> Camer#3</label>
-										</div>
-									</form>
+								<div class="card-body" id="cameras-div">
+
+									<!---此处添加摄像头列表---->
+
+
 									<div class="d-flex justify-content-center">
-										<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 50%;"></video>
+										<video id="webcamera1" playsinline autoplay controls muted loop class="rounded" style="width: 50%;"></video>
 									</div>
 								</div>
 							</div>
@@ -427,6 +427,43 @@
 	<!-- Initialize Swiper -->
 	<script>
 		var swiper = new Swiper('.swiper-container');
+
+		//////////摄像头列表
+		//		for (var i=n_cameras;i>=0;i--){
+		//			$("#cameras-div").prepend(`
+		//					<div class="radio text-center">
+		//						<label><input type="radio" name="cameras" value="`+i+`"  onclick="camera_id=`+i+`;$('#cameraid').text(camera_id)"> `+i+`</label>
+		//					</div>`);   
+		//
+		//		};
+
+		//////////初始化第一个摄像头
+		let scanner1 = new Instascan.Scanner({
+			video: document.getElementById('webcamera1')
+		});
+		//      scanner1.addListener('scan', function (content) {
+		//        console.log(content);       //<----扫描结果
+		//                                    //<----可以调用scanner.stop()结束扫描
+		//      });
+		Instascan.Camera.getCameras().then(function(cameras) {
+			if (cameras.length > 0) {
+				//scanner.start(cameras[0]);//<----开始用这个摄像头扫描
+				//<----scanner.stop();停止扫描
+				//摄像头列表
+				cameras1=cameras;
+				n_cameras = cameras.length;
+				for (var i = n_cameras; --i >= 0;) {
+					$("#cameras-div").prepend(`
+						<div class="radio text-left">
+							<label><input type="radio" name="cameras_c" value="` + i + `"  onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.start(cameras1[` + i + `]);"> ` + cameras1[i].name + `</label>
+						</div>`);
+				};
+			} else {
+				alert('No cameras found.');
+			}
+		}).catch(function(e) {
+			alert(e);
+		});
 	</script>
 </body>
 
