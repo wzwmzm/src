@@ -122,7 +122,7 @@
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
 								<a class="collapsed card-link" href="#collapseTwo">摄像头:<span id="cameraid_c">Camera#1</span></a>
 							</div>
-							<div id="collapseTwo" class="collapse" data-parent="#accordion">
+							<div id="collapseTwo" class="collapse" data-parent="#accordion" onblur="console.log('blur-1')" onfocus="console.log('focus-1')">
 								<div class="card-body" id="cameras-div">
 
 									<!---此处添加摄像头列表---->
@@ -149,14 +149,14 @@
 
 			</div>
 			<!-- Swiper-slide 2  第一次扫描页 -->
-			<div class="swiper-slide">
+			f<div class="swiper-slide">
 
 				<div class="container">
 					<br /><br /><br />
 					<h2> 请扫码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
-						<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+						<video id="webcameraPreview111" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
 					</div>
 				</div>
 
@@ -200,7 +200,7 @@
 					<h2> 请地址扫码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
-						<video id="webcameraPreview" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+						<video id="webcameraPreview222" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
 					</div>
 				</div>
 
@@ -411,7 +411,77 @@
 
 			</div>
 			<!-- Swiper-slide 7 -->
-			<div class="swiper-slide">页面 7</div>
+			<div class="swiper-slide">页面 7
+			
+			
+	<h3 class="txt-cntr mar-top-2">简单二维码扫描</h3>
+
+	<article class="pad-2">
+		<section>
+			<div class="frm-grp txt-cntr">
+				<label class="disp-blck">选择摄像头:</label>
+				<select id="webcameraChanger" onchange="cameraChange($(this).val());" class="frm-ctrl mar-btm-2"></select>
+			</div>
+			<!-- webcamera view component -->
+			<video id="webcameraPreview" playsinline autoplay controls muted loop style="width: 100%;"></video>
+		</section>
+	</article>			
+			
+		<script type="text/javascript" src="./js/QrCodeScanner.js"></script>
+	<script type="text/javascript">
+		//HTML video component for web camera
+		var videoComponent = $("#webcameraPreview");
+		//HTML select component for cameras change
+		var webcameraChanger = $("#webcameraChanger");
+		var options = {};
+		//init options for scanner
+		options = initVideoObjectOptions("webcameraPreview");
+		var cameraId = 0;
+
+		initScanner(options);
+
+		initAvaliableCameras(//<--------默认选择最后一个摄像头
+			webcameraChanger,
+			function() {
+				cameraId = parseInt(getSelectedCamera(webcameraChanger));
+				initCamera(cameraId);	//<--initAvaliableCameras()中默认选择最后一个摄像头
+			}
+		);
+
+		//initCamera(cameraId);
+
+
+		scanStart(function(data) {	//data就是扫描结果
+			alert(data);
+		});
+		//////////////////////////////////////////////////////////////////
+		//上面的例子是通过 QrCodeScanner.js 封装 instascan.js 实现的
+		//下面的例子, 不使用 QrCodeScanner.js, 直接从'webcameraPreview'中取视频,然后扫描
+/*
+		let scanner = newInstascan.Scanner({			//scanner是一个对象
+			video: document.getElementById('webcameraPreview')
+		});												//里面关联了一个视频对象
+		scanner.addListener('scan', function(content) {	//扫描
+			console.log(content);						//显示扫描结果
+		});
+		Instascan.Camera.getCameras().then(function(cameras) {	//获取摄像头
+			if (cameras.length > 0) {
+				scanner.start(cameras[0]);
+			} else {
+				console.error('No cameras found.');
+			}
+		}).catch(function(e) {
+			console.error(e);
+		});
+*/
+	</script>		
+			
+			
+			
+			
+			
+			
+			</div>
 			<!-- Swiper-slide 8 -->
 			<div class="swiper-slide">页面 8</div>
 			<!-- Swiper-slide 9 -->
@@ -437,25 +507,52 @@
 		//
 		//		};
 
-		//////////初始化第一个摄像头
+		//////////  1,初始化第一个摄像头
+/*		{
 		let scanner1 = new Instascan.Scanner({
-			video: document.getElementById('webcamera1')
+			video: document.getElementById('webcamera1'),
+			// The HTML element to use for the camera's video preview. Must be a <video> element.
+			// When the camera is active, this element will have the "active" CSS class, otherwise,
+			// it will have the "inactive" class. By default, an invisible element will be created to
+			// host the video.
+			//video: initHtmlElement(id),
+			// Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
+			// If true, the scanner emits the "scan" event when a QR code is scanned. Default true.
+			continuous: true, //持续扫描
+			// Whether to horizontally mirror the video preview. This is helpful when trying to scan a QR code with a user-facing camera. Default true.
+			mirror: false, //镜像,使用前置摄像头时使用
+			// Whether to include the scanned image data as part of the scan result. See the "scan" event for image format details. Default false.
+			captureImage: false, //将图像数据作为结果的一部分
+			// Only applies to continuous mode. Whether to actively scan when the tab is not active.
+			// When false, this reduces CPU usage when the tab is not active. Default true.
+			backgroundScan: false, //选项卡未激活时是否扫描
+			// Only applies to continuous mode. The period, in milliseconds, before the same QR code will be recognized in succession. Default 5000 (5 seconds).
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			// Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
+			// increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
+			scanPeriod: 1 //两次扫描之间的周期
 		});
 		//      scanner1.addListener('scan', function (content) {
 		//        console.log(content);       //<----扫描结果
 		//                                    //<----可以调用scanner.stop()结束扫描
 		//      });
+		//		scanner1.addListener('inactive', function(){
+		//			scanner1.stop();
+		//		} )
+		//		scanner1.addListener('active', function(){
+		//			scanner1.start(cameras1[camera_id]);
+		//		} )
 		Instascan.Camera.getCameras().then(function(cameras) {
 			if (cameras.length > 0) {
 				//scanner.start(cameras[0]);//<----开始用这个摄像头扫描
 				//<----scanner.stop();停止扫描
 				//摄像头列表
-				cameras1=cameras;
+				cameras1 = cameras;
 				n_cameras = cameras.length;
 				for (var i = n_cameras; --i >= 0;) {
 					$("#cameras-div").prepend(`
 						<div class="radio text-left">
-							<label><input type="radio" name="cameras_c" value="` + i + `"  onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.start(cameras1[` + i + `]);"> ` + cameras1[i].name + `</label>
+							<label><input type="radio"   onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.start(cameras1[` + i + `]);   "> ` + cameras1[i].name + `</label>
 						</div>`);
 				};
 			} else {
@@ -463,6 +560,26 @@
 			}
 		}).catch(function(e) {
 			alert(e);
+		});
+		}		*/
+		///////2,///////
+		window.onpagehide = function() {
+			console.log("pagehide");
+		}
+		window.onpageshow = function() {
+			console.log("pageshow");
+		}
+		window.addEventListener('blur', function() {
+			console.log('window blur-2');
+		});
+		window.addEventListener('focus', function() {
+			console.log('window focus-2');
+		});
+		$("#usr").focusin(function() {
+			console.log("手风琴1 focusin");
+		});
+		$("#usr").focusout(function() {
+			console.log("手风琴1 focusout");
 		});
 	</script>
 </body>
