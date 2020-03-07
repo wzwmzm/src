@@ -72,10 +72,9 @@
         }
     </style>
 	<script>
-		let camera_id=0;
-		let n_cameras=5;
-		let cameras1=null;
-		
+
+
+
 
 	</script>
 
@@ -87,7 +86,7 @@
 		<div class="swiper-wrapper">
 
 			<!-- Swiper-slide 1  设置页 -->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide0">
 
 				<div class="container-fluid">
 					<div class="jumbotron jumbotron-fluid">
@@ -120,7 +119,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
-								<a class="collapsed card-link" href="#collapseTwo">摄像头:<span id="cameraid_c">Camera#1</span></a>
+								<a class="collapsed card-link" href="#collapseTwo">摄像头: <span id="cameraid_c">Camera#1</span></a>
 							</div>
 							<div id="collapseTwo" class="collapse" data-parent="#accordion" onblur="console.log('blur-1')" onfocus="console.log('focus-1')">
 								<div class="card-body" id="cameras-div">
@@ -140,7 +139,7 @@
 							</div>
 							<div id="collapseThree" class="collapse" data-parent="#accordion">
 								<div class="card-body">
-									#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！
+									#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内容：菜鸟教程 -- 学的不仅是技术，更是梦想！！！#3 内
 								</div>
 							</div>
 						</div>
@@ -149,20 +148,20 @@
 
 			</div>
 			<!-- Swiper-slide 2  第一次扫描页 -->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide1">
 
 				<div class="container">
 					<br /><br /><br />
 					<h2> 请扫码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
-						<video id="webcameraPreview111" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+						<video id="webcamera2" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
 					</div>
 				</div>
 
 			</div>
 			<!-- Swiper-slide 3  扫描设备结果页 -->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide2">
 
 
 
@@ -193,14 +192,14 @@
 
 			</div>
 			<!-- Swiper-slide 4  扫描地址码-->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide3">
 
 				<div class="container">
 					<br /><br /><br />
 					<h2> 请地址扫码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
-						<video id="webcameraPreview222" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
+						<video id="webcamera3" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
 					</div>
 				</div>
 
@@ -211,7 +210,7 @@
 
 			</div>
 			<!-- Swiper-slide 5  确认地址变更页-->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide4">
 
 
 				<div class="container">
@@ -244,7 +243,7 @@
 
 			</div>
 			<!-- Swiper-slide 6  第一次扫描地址结果页-->
-			<div class="swiper-slide">
+			<div class="swiper-slide" id="slide5">
 
 
 				<div class="container">
@@ -411,124 +410,89 @@
 
 			</div>
 			<!-- Swiper-slide 7 -->
-			<div class="swiper-slide">页面 7
-			
-	<!--		
-	<h3 class="txt-cntr mar-top-2">简单二维码扫描</h3>
-
-	<article class="pad-2">
-		<section>
-			<div class="frm-grp txt-cntr">
-				<label class="disp-blck">选择摄像头:</label>
-				<select id="webcameraChanger" onchange="cameraChange($(this).val());" class="frm-ctrl mar-btm-2"></select>
-			</div>
-
-			<video id="webcameraPreview" playsinline autoplay controls muted loop style="width: 100%;"></video>
-		</section>
-	</article>			
-			
-		<script type="text/javascript" src="./js/QrCodeScanner.js"></script>
-	<script type="text/javascript">
-		//HTML video component for web camera
-		var videoComponent = $("#webcameraPreview");
-		//HTML select component for cameras change
-		var webcameraChanger = $("#webcameraChanger");
-		var options = {};
-		//init options for scanner
-		options = initVideoObjectOptions("webcameraPreview");
-		var cameraId = 0;
-
-		initScanner(options);
-
-		initAvaliableCameras(//<--------默认选择最后一个摄像头
-			webcameraChanger,
-			function() {
-				cameraId = parseInt(getSelectedCamera(webcameraChanger));
-				initCamera(cameraId);	//<--initAvaliableCameras()中默认选择最后一个摄像头
-			}
-		);
-
-		//initCamera(cameraId);
-
-
-		scanStart(function(data) {	//data就是扫描结果
-			alert(data);
-		});
-		//////////////////////////////////////////////////////////////////
-		//上面的例子是通过 QrCodeScanner.js 封装 instascan.js 实现的
-		//下面的例子, 不使用 QrCodeScanner.js, 直接从'webcameraPreview'中取视频,然后扫描
-/*
-		let scanner = newInstascan.Scanner({			//scanner是一个对象
-			video: document.getElementById('webcameraPreview')
-		});												//里面关联了一个视频对象
-		scanner.addListener('scan', function(content) {	//扫描
-			console.log(content);						//显示扫描结果
-		});
-		Instascan.Camera.getCameras().then(function(cameras) {	//获取摄像头
-			if (cameras.length > 0) {
-				scanner.start(cameras[0]);
-			} else {
-				console.error('No cameras found.');
-			}
-		}).catch(function(e) {
-			console.error(e);
-		});
-*/
-	</script>		
-			
--->			
-			
-			
-			
-			
-			</div>
+			<div class="swiper-slide" id="slide6">页面 7</div>
 			<!-- Swiper-slide 8 -->
-			<div class="swiper-slide">页面 8</div>
+			<div class="swiper-slide" id="slide7">页面 8</div>
 			<!-- Swiper-slide 9 -->
-			<div class="swiper-slide">页面 9</div>
+			<div class="swiper-slide" id="slide8">页面 9</div>
 			<!-- Swiper-slide 10 -->
-			<div class="swiper-slide">页面 10</div>
+			<div class="swiper-slide" id="slide9">页面 10</div>
 		</div>
 	</div>
+
+
+
+
+
+
+
+
+
 
 	<!-- Swiper JS -->
 	<script src="./js/swiper.min.js"></script>
 
 	<!-- Initialize Swiper -->
 	<script>
-		var swiper = new Swiper('.swiper-container');
+		//if (!(localStorage.camera_id)) localStorage.camera_id=0;
+		//选用哪个摄像头,  注意:  不初始化!!!
+		let n_cameras = 0; //一共有几个摄像头
+		let cameras1 = null; //取得的摄像头组, 对于scanner是通用的
+		var swiper = new Swiper('.swiper-container', {
+			on: {
+				slideChange: function() {
+					console.log('改变了，activeIndex为' + this.activeIndex);
+					
+					switch (this.activeIndex) {
+						case 0:
+							x = "0 页";
+							break;
+						case 1:
+							x = "1 页";
+							$("#slide2").hide();
+							break;
+						case 2:
+							x = "2 页";
+							break;
+						case 3:
+							x = "3 页";
+							break;
+						case 4:
+							x = "4 页";
+							break;
+						case 5:
+							x = "5 页";
+							$("#slide2").show();
+							break;
+						case 6:
+							x = "6 页";
+							break;
+						case 7:
+							x = "7 页";
+							break;
+						case 8:
+							x = "8 页";
+							break;
+						case 9:
+							x = "9 页";
+							break;
+					}
+					console.log(x);
+				},
+			},
+		});
 
-		//////////摄像头列表
-		//		for (var i=n_cameras;i>=0;i--){
-		//			$("#cameras-div").prepend(`
-		//					<div class="radio text-center">
-		//						<label><input type="radio" name="cameras" value="`+i+`"  onclick="camera_id=`+i+`;$('#cameraid').text(camera_id)"> `+i+`</label>
-		//					</div>`);   
-		//
-		//		};
 
-		//////////  1,初始化第一个摄像头
+		//////////  1,初始化第一个摄像头(设置页)
+		//			与<vedio>图像输出硬关联(初始化后不能更改), 
+		//			与摄像头软关联
 		let scanner1 = new Instascan.Scanner({
 			video: document.getElementById('webcamera1'),
-			// The HTML element to use for the camera's video preview. Must be a <video> element.
-			// When the camera is active, this element will have the "active" CSS class, otherwise,
-			// it will have the "inactive" class. By default, an invisible element will be created to
-			// host the video.
-			//video: initHtmlElement(id),
-			// Whether to scan continuously for QR codes. If false, use scanner.scan() to manually scan.
-			// If true, the scanner emits the "scan" event when a QR code is scanned. Default true.
 			continuous: true, //持续扫描
-			// Whether to horizontally mirror the video preview. This is helpful when trying to scan a QR code with a user-facing camera. Default true.
 			mirror: false, //镜像,使用前置摄像头时使用
-			// Whether to include the scanned image data as part of the scan result. See the "scan" event for image format details. Default false.
 			captureImage: false, //将图像数据作为结果的一部分
-			// Only applies to continuous mode. Whether to actively scan when the tab is not active.
-			// When false, this reduces CPU usage when the tab is not active. Default true.
 			backgroundScan: false, //选项卡未激活时是否扫描
-			// Only applies to continuous mode. The period, in milliseconds, before the same QR code will be recognized in succession. Default 5000 (5 seconds).
 			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
-			// Only applies to continuous mode. The period, in rendered frames, between scans. A lower scan period
-			// increases CPU usage but makes scan response faster. Default 1 (i.e. analyze every frame).
 			scanPeriod: 1 //两次扫描之间的周期
 		});
 		//      scanner1.addListener('scan', function (content) {
@@ -539,19 +503,51 @@
 		//			scanner1.stop();
 		//		} )
 		//		scanner1.addListener('active', function(){
-		//			scanner1.start(cameras1[camera_id]);
+		//			scanner1.start(cameras1[localStorage.camera_id]);
 		//		} )
+
+		//初始化第一次扫描摄像头
+		let scanner2 = new Instascan.Scanner({
+			video: document.getElementById('webcamera2'),
+			continuous: true, //持续扫描
+			mirror: false, //镜像,使用前置摄像头时使用
+			captureImage: false, //将图像数据作为结果的一部分
+			backgroundScan: false, //选项卡未激活时是否扫描
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			scanPeriod: 1 //两次扫描之间的周期
+		});
+
+		//初始化第二次扫描摄像头
+		let scanner3 = new Instascan.Scanner({
+			video: document.getElementById('webcamera3'),
+			continuous: true, //持续扫描
+			mirror: false, //镜像,使用前置摄像头时使用
+			captureImage: false, //将图像数据作为结果的一部分
+			backgroundScan: false, //选项卡未激活时是否扫描
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			scanPeriod: 1 //两次扫描之间的周期
+		});
+
+		//设置页, 摄像头列表
 		Instascan.Camera.getCameras().then(function(cameras) {
+
 			if (cameras.length > 0) {
-				//scanner.start(cameras[0]);//<----开始用这个摄像头扫描
-				//<----scanner.stop();停止扫描
-				//摄像头列表
-				cameras1 = cameras;
+				cameras1 = cameras; //取得摄像头列表
+				// 显示 "摄像头: BisonCam, NB Pro"
+				if (localStorage.camera_id) {
+					$('#cameraid_c').text(cameras1[localStorage.camera_id].name);
+				}
+				//列表开始
 				n_cameras = cameras.length;
 				for (var i = n_cameras; --i >= 0;) {
+					let checked = ""
+					if (localStorage.camera_id == i) {
+						checked = "checked"
+					}
+
 					$("#cameras-div").prepend(`
 						<div class="radio text-left">
-							<label><input type="radio" name="camera_op"  onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.stop();scanner1.start(cameras1[` + i + `]);   "> ` + cameras1[i].name + `</label>
+							<label><input type="radio" name="camera_op_c"  ` + checked + `  onclick="localStorage.camera_id=` + i + `;$('#cameraid_c').text(cameras1[` + i + `].name);scanner1.stop();scanner1.start(cameras1[` + i + `]);   "> ` + cameras1[i].name + `</label>
 						</div>`);
 				};
 			} else {
@@ -560,7 +556,7 @@
 		}).catch(function(e) {
 			alert(e);
 		});
-				
+
 		///////2,///////
 		window.onpagehide = function() {
 			console.log("pagehide");
@@ -593,6 +589,11 @@
 <!-------
 <script>
 	//0,初始化时的基本属性设置----------------------------
+
+
+	$("#slide1").hide();
+
+
 	var mySwiper = new Swiper('.swiper-container', {
 
 		initialSlide :2,		//1,设置为2后，画面初始停在第三个Slide
@@ -650,15 +651,15 @@
 						//<-----默认false，不开启，可以使用update()方法更新。
 	})
 	$('#btn1').click(function(){
-	$(".swiper-wrapper .swiper-slide1").remove();
+		$(".swiper-wrapper .swiper-slide1").remove();
 	})
 
 	//3,删除页后更新显示----------------------------------
 	var mySwiper = new Swiper('.swiper-container',{
-	  pagination : '.swiper-pagination',//分页器,就是几个点点
+		pagination : '.swiper-pagination',//分页器,就是几个点点
 	})
 	$('#btn1').click(function(){
-	  $(".swiper-wrapper .swiper-slide1").remove(); 
+		$(".swiper-wrapper .swiper-slide1").remove(); 
 	  mySwiper.update()	//<------更新显示(不然会有一个空白页)
 	})
 
