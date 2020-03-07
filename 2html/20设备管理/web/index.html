@@ -413,7 +413,7 @@
 			<!-- Swiper-slide 7 -->
 			<div class="swiper-slide">页面 7
 			
-			
+	<!--		
 	<h3 class="txt-cntr mar-top-2">简单二维码扫描</h3>
 
 	<article class="pad-2">
@@ -422,7 +422,7 @@
 				<label class="disp-blck">选择摄像头:</label>
 				<select id="webcameraChanger" onchange="cameraChange($(this).val());" class="frm-ctrl mar-btm-2"></select>
 			</div>
-			<!-- webcamera view component -->
+
 			<video id="webcameraPreview" playsinline autoplay controls muted loop style="width: 100%;"></video>
 		</section>
 	</article>			
@@ -476,7 +476,7 @@
 */
 	</script>		
 			
-			
+-->			
 			
 			
 			
@@ -508,7 +508,6 @@
 		//		};
 
 		//////////  1,初始化第一个摄像头
-		{
 		let scanner1 = new Instascan.Scanner({
 			video: document.getElementById('webcamera1'),
 			// The HTML element to use for the camera's video preview. Must be a <video> element.
@@ -552,7 +551,7 @@
 				for (var i = n_cameras; --i >= 0;) {
 					$("#cameras-div").prepend(`
 						<div class="radio text-left">
-							<label><input type="radio"   onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.start(cameras1[` + i + `]);   "> ` + cameras1[i].name + `</label>
+							<label><input type="radio" name="camera_op"  onclick="camera_id=` + i + `;$('#cameraid_c').text(camera_id);scanner1.stop();scanner1.start(cameras1[` + i + `]);   "> ` + cameras1[i].name + `</label>
 						</div>`);
 				};
 			} else {
@@ -561,7 +560,7 @@
 		}).catch(function(e) {
 			alert(e);
 		});
-		}		
+				
 		///////2,///////
 		window.onpagehide = function() {
 			console.log("pagehide");
