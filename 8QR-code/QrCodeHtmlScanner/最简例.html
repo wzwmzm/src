@@ -15,7 +15,8 @@
       Instascan.Camera.getCameras().then(function (cameras) {
         if (cameras.length > 0) {
           scanner.start(cameras[0]);//<----开始用这个摄像头扫描
-                                    //<----scanner.stop();停止扫描
+                                    //<----scanner.stop()停止
+									//注意!!!当一个摄像头关联多个扫描页时,一定要使用scanner.stop(),否则摄像头无法自行关闭!!!
         } else {
           console.error('No cameras found.');
         }
