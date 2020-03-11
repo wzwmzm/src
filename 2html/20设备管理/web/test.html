@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 基本表单</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<SCRIPT>
+//////与服务器交换数据的例子
+ $.ajax({
+        type:"POST",
+        url:"http://localhost:8101/getusers",
+        dataType:"json",
+        data:{						//发送给服务器的数据
+            message:"吴志伟",
+            nick:"wzw",
+        },
+        success:function(data){		//从服务器收到的数据
+            alert("访问成功" + JSON.stringify(data));
+        },
+        error:function(jqXHR){
+            //alert("发生错误" + jqXHR.status);
+        }
+    });
+	</SCRIPT>
+</body>
+</html>

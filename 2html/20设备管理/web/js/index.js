@@ -8,6 +8,29 @@ localStorage.status =0; //0:设置页
 						//3:扫描变更地址码<-----状态变更
 						//4:确认地址变更提交<---状态变更
 						//5:显示扫描地址信息
+
+/*
+//////与服务器交换数据的例子
+//////与服务器交换数据的例子
+ $.ajax({
+        type:"POST",
+        url:"http://localhost:8101/getusers",
+        dataType:"json",
+        data:{						//发送给服务器的数据
+            message:"吴志伟",
+            nick:"wzw",
+        },
+        success:function(data){		//从服务器收到的数据
+            alert("访问成功" + JSON.stringify(data));
+        },
+        error:function(jqXHR){
+            alert("发生错误" + jqXHR.status);
+        }
+    });
+*/
+
+
+
 //状态机
 function status0(){
 	$("#slide1").hide();

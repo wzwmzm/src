@@ -4,7 +4,25 @@ import (
 	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
+	"github.com/go-xorm/xorm"
+	_ "github.com/mattn/go-sqlite3"
 )
+
+
+type User struct {
+	ID		int64	// auto-increment by-default by xorm
+	JH		string	//警号
+	XM		string	//姓名
+	MM		string	//密码
+//	Version   string `xorm:"varchar(200)"`
+//	Salt      string
+//	Username  string
+//	Password  string    `xorm:"varchar(200)"`
+//	Languages string    `xorm:"varchar(200)"`
+//	CreatedAt time.Time `xorm:"created"`
+//	UpdatedAt time.Time `xorm:"updated"`
+}
+
 
 func main() {
 	app := iris.Default()
@@ -14,6 +32,76 @@ func main() {
 			"message": "pong吴志伟",
 		})
 	})
+	
+	/////////////////////////////////////////////////////////////////
+	///////////这里是真正的代码, 后面是参考代码 //////////////////////////
+	/////////////////////////////////////////////////////////////////
+	orm, err := xorm.NewEngine("sqlite3", "./test.db")
+	if err != nil {
+		app.Logger().Fatalf("orm failed to initialized: %v", err)
+	}
+
+	iris.RegisterOnInterrupt(func() {
+		orm.Close()
+	})
+
+	err = orm.Sync2(new(User))
+	//* 自动检测和创建表，这个检测是根据表的名字
+
+	if err != nil {
+		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
+	}	
+	
+	
+	app.Get("/getusers", func(ctx iris.Context) {
+		user := User{ID: 1}
+		if has, _ := orm.Get(&user); has { //<--------查询
+			ctx.Writef("<H1><H1>")			//没有这一行,下面的<H3>格式显示错误
+			ctx.Writef("<H3>%#v</H3>", user)
+		}
+		
+		users:= make([]User, 0)
+		err := orm.Find(&users)
+		if err != nil{
+			ctx.Writef("<H3>%#v</H3>", err)
+		}else{
+			ctx.Writef("<H3>%#v</H3>", users)
+		}
+	})
+	
+	app.Post("/getusers", func(ctx iris.Context) {
+		users:= make([]User, 0)
+		err := orm.Find(&users)
+		if err != nil{
+			ctx.Writef("%#v", err)
+		}else{
+			//ctx.Writef("%#v", users)
+			ctx.JSON(users)
+		}
+		
+//		ctx.JSON(iris.Map{
+//			"status":  "posted",
+//			"message": "message",
+//			"nick":    "nick",
+//		})
+	})
+	
+	app.Get("/adduser/{jh:string}/{xm:string}", func(ctx iris.Context) {
+		jh := ctx.Params().Get("jh")
+		xm := ctx.Params().Get("xm")
+		
+		user := &User{
+			JH: jh,
+			XM: xm,
+			MM: jh}
+		orm.Insert(user) //<--------插入		
+		
+		ctx.Writef("<H1><H1>")			//没有这一行,下面的<H3>格式显示错误
+		ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
+	})
+	/////////////////////////////////////////////////////////////////
+	///////////上面是真正的代码, 后面是参考代码 //////////////////////////
+	/////////////////////////////////////////////////////////////////
 	// http://localhost:8080/pong
 
 	//Parameters in path

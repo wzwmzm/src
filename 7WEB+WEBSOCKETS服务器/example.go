@@ -100,6 +100,29 @@ func main() {
 	})
 	//http://localhost:8080/testpost
 	//或者 curl -X POST "http://localhost:8080/form_post" -F message=吴志伟 -F nick=wzw
+/*
+//////客户端与服务器交换JSON数据的例子<--------重要!!!
+//客户端代码
+ $.ajax({
+        type:"POST",
+        url:"http://localhost:8101/form_post",
+        dataType:"json",
+        data:{						//发送给服务器的数据
+            message:"吴志伟",
+            nick:"wzw",
+        },
+        success:function(data){		//从服务器收到的数据
+            alert("访问成功" + JSON.stringify(data));
+        },
+        error:function(jqXHR){
+            alert("发生错误" + jqXHR.status);
+        }
+    });
+*/		
+	
+	
+	
+	
 
 	//Another example: query + post form
 	app.Get("/testpostquery", func(ctx iris.Context) {
