@@ -6,14 +6,17 @@ import (
 	"github.com/kataras/iris/websocket"
 	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3"
+    //"encoding/json"
 )
 
 
 type User struct {
-	ID		int64	// auto-increment by-default by xorm
-	JH		string	//警号
-	XM		string	//姓名
-	MM		string	//密码
+	ID		int64	`xorm:"not null pk autoincr INT(10)"`
+    JH		string	`json:"警号" xorm:"not null unique"`
+	XM		string	`json:"姓名" xorm:"not null"`
+	MM		string	`json:"密码" xorm:"not null"`
+    Version string  `xorm:"varchar(200)"`
+// 	ID		int64	`json:"id" xorm:"not null pk autoincr INT(10)"`
 //	Version   string `xorm:"varchar(200)"`
 //	Salt      string
 //	Username  string
@@ -54,19 +57,13 @@ func main() {
 	
 	
 	app.Get("/getusers", func(ctx iris.Context) {
-		user := User{ID: 1}
-		if has, _ := orm.Get(&user); has { //<--------查询
-			ctx.Writef("<H1><H1>")			//没有这一行,下面的<H3>格式显示错误
-			ctx.Writef("<H3>%#v</H3>", user)
-		}
-		
-		users:= make([]User, 0)
-		err := orm.Find(&users)
-		if err != nil{
-			ctx.Writef("<H3>%#v</H3>", err)
-		}else{
-			ctx.Writef("<H3>%#v</H3>", users)
-		}
+        orm.Iterate(new(User), func(i int, bean interface{})error{
+            user := bean.(*User)
+            ctx.Writef("<H1></H1><H3>")
+            ctx.JSON(user)
+            ctx.Writef("</H3>")
+            return nil
+        })
 	})
 	
 	app.Post("/getusers", func(ctx iris.Context) {
@@ -94,10 +91,14 @@ func main() {
 			JH: jh,
 			XM: xm,
 			MM: jh}
-		orm.Insert(user) //<--------插入		
-		
-		ctx.Writef("<H1><H1>")			//没有这一行,下面的<H3>格式显示错误
-		ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
+        _,err := orm.Insert(user) //<--------插入
+        if err != nil {
+            ctx.Writef("<H1></H1>")
+            ctx.Writef("<H3>%#v</H3>", err)
+        }else{		
+            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
+            ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
+        }
 	})
 	/////////////////////////////////////////////////////////////////
 	///////////上面是真正的代码, 后面是参考代码 //////////////////////////

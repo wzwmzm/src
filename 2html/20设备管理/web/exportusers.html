@@ -6,6 +6,9 @@
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
 	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+    <script src="./js/alasql.js"></script>
+<script src="./js/xlsx.core.min.js"></script>
 </head>
 <body>
 <SCRIPT>
@@ -20,6 +23,19 @@
         },
         success:function(data){		//从服务器收到的数据
             alert("访问成功" + JSON.stringify(data));
+            
+        //excel文件导出
+//        var arr = [
+//              {
+//                "姓名":"喵喵喵",
+//                "年龄":1,
+//              },
+//              {
+//                "姓名":"喵喵",
+//                "年龄":2,
+//              }
+//        ];
+    alasql('SELECT * INTO XLS("用户表.xls",{headers:true}) FROM ?',[data]);
         },
         error:function(jqXHR){
             //alert("发生错误" + jqXHR.status);

@@ -106,7 +106,8 @@ func main() {
  $.ajax({
         type:"POST",
         url:"http://localhost:8101/form_post",
-        dataType:"json",
+        dataType:"json",            //服务器预期返回的数据格式，
+                                    //如(xml,json,html)
         data:{						//发送给服务器的数据
             message:"吴志伟",
             nick:"wzw",
