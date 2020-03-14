@@ -2,13 +2,9 @@
 <html>
 <head>
 	<meta charset="utf-8"> 
-	<title>Bootstrap 实例 - 基本表单</title>
-	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    
-    <script src="./js/alasql.js"></script>
-<script src="./js/xlsx.core.min.js"></script>
+	<title>Bootstrap 实例 - 基本表单</title> 
+	<script src="./js/jquery-3.4.1.min.js"></script>
+	<script src="./js/xlsx.core.min.js"></script>
 </head>
 <body>
 <SCRIPT>
@@ -35,12 +31,23 @@
 //                "年龄":2,
 //              }
 //        ];
-    alasql('SELECT * INTO XLS("用户表.xls",{headers:true}) FROM ?',[data]);
-        },
-        error:function(jqXHR){
-            //alert("发生错误" + jqXHR.status);
-        }
-    });
-	</SCRIPT>
+			var wopts = {
+			  bookType: 'xlsx',
+			  bookSST: false,
+			  type: 'binary'
+			};
+			var workBook = {
+			  SheetNames: ['Sheet1'],
+			  Sheets: {},
+			  Props: {}
+			};
+			//var ws_name = "SheetJS";
+			//var workbook;
+			workBook.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(data)
+			//XLSX.utils.book_append_sheet(workBook, sheet, ws_name);
+			XLSX.writeFile(workBook, '资管用户表.xlsx');
+		}
+ })
+</SCRIPT>
 </body>
 </html>

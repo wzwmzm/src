@@ -11,11 +11,11 @@ import (
 
 
 type User struct {
-	ID		int64	`xorm:"not null pk autoincr INT(10)"`
-    JH		string	`json:"警号" xorm:"not null unique"`
-	XM		string	`json:"姓名" xorm:"not null"`
-	MM		string	`json:"密码" xorm:"not null"`
-    Version string  `xorm:"varchar(200)"`
+	id		int64	`xorm:"not null pk autoincr INT(10)"`
+    JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
+	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
+	MM		string	`json:"密码" xorm:"varchar(50) not null"`
+    //Version string  `xorm:"varchar(200)"`
 // 	ID		int64	`json:"id" xorm:"not null pk autoincr INT(10)"`
 //	Version   string `xorm:"varchar(200)"`
 //	Salt      string
@@ -47,6 +47,9 @@ func main() {
 	iris.RegisterOnInterrupt(func() {
 		orm.Close()
 	})
+	
+	//在控制台打印sql语句，默认为false
+    orm.ShowSQL(true)
 
 	err = orm.Sync2(new(User))
 	//* 自动检测和创建表，这个检测是根据表的名字
@@ -55,7 +58,7 @@ func main() {
 		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
 	}	
 	
-	
+	//网页上显示用户信息
 	app.Get("/getusers", func(ctx iris.Context) {
         orm.Iterate(new(User), func(i int, bean interface{})error{
             user := bean.(*User)
@@ -66,7 +69,9 @@ func main() {
         })
 	})
 	
+	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getusers", func(ctx iris.Context) {
+		//ctx.Gzip(true)               // enable gzip for big files
 		users:= make([]User, 0)
 		err := orm.Find(&users)
 		if err != nil{
@@ -83,6 +88,38 @@ func main() {
 //		})
 	})
 	
+	//重定向到exportusers.html网页, 以便提供一致的用户体验
+	app.Get("/exportusers", func(ctx iris.Context) {
+		ctx.ServeFile("./web/exportusers.html", true) // true for gzip.
+        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
+	
+	//重定向到importusers.html网页, 以便提供一致的用户体验
+	app.Get("/importusers", func(ctx iris.Context) {
+		ctx.ServeFile("./web/importusers.html", true) // true for gzip.
+        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
+	
+	//接收JSON格式的用户信息,导入数据库
+	app.Post("/importusers", func(ctx iris.Context) {
+		//ctx.Gzip(true)               // enable gzip for big files
+		users:= ctx.FormValue("msg")
+		fmt.Printf("%v\n", users)
+		
+//		var users []User
+//		err := ctx.ReadJSON(&users)
+//		if err != nil {
+//			ctx.StatusCode(iris.StatusBadRequest)
+//			ctx.WriteString(err.Error())
+//			return
+//		}
+//		ctx.Writef("Received: %#+v\n", users)
+
+	})
+	
+	//添加用户
 	app.Get("/adduser/{jh:string}/{xm:string}", func(ctx iris.Context) {
 		jh := ctx.Params().Get("jh")
 		xm := ctx.Params().Get("xm")
@@ -98,6 +135,30 @@ func main() {
         }else{		
             ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
             ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
+        }
+	})
+	
+	//删除用户
+	app.Get("/deluser/{jh:string}", func(ctx iris.Context) {
+		jh := ctx.Params().Get("jh")
+		//xm := ctx.Params().Get("xm")
+		
+		user := &User{
+			JH: jh,
+			//XM: xm,
+			//MM: jh
+		}
+		
+		n, err := orm.Delete(user)	//<--------删除
+        if err != nil {
+            ctx.Writef("<H1></H1>")
+            ctx.Writef("<H3>%#v</H3>", err)
+		}else if n==0 {
+            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
+            ctx.Writef("<h3>没有找到!</h3>")			
+		}else{		
+            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
+            ctx.Writef("<h3>删除成功!</h3>")
         }
 	})
 	/////////////////////////////////////////////////////////////////

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible">
+</head>
+<body>
+</body>
+
+<script src="./xlsx.core.min.js"></script>
+<script>
+	var arr = [
+      {
+        "姓名":"吴志伟",
+        "年龄":1,
+      },
+      {
+        "姓名":"张三",
+        "年龄":2,
+      }
+    ];
+	
+	
+	
+	var wopts = {
+      bookType: 'xlsx',
+      bookSST: false,
+      type: 'binary'
+    };
+    var workBook = {
+      SheetNames: ['Sheet1'],
+      Sheets: {},
+      Props: {}
+    };
+	//var ws_name = "SheetJS";
+	//var workbook;
+    workBook.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(arr)
+	//XLSX.utils.book_append_sheet(workBook, sheet, ws_name);
+    XLSX.writeFile(workBook, 'export.xlsx');
+</script>
+</html>
