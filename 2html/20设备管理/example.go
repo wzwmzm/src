@@ -6,12 +6,12 @@ import (
 	"github.com/kataras/iris/websocket"
 	"github.com/go-xorm/xorm"
 	_ "github.com/mattn/go-sqlite3"
-    //"encoding/json"
+    "encoding/json"
 )
 
 
 type User struct {
-	id		int64	`xorm:"not null pk autoincr INT(10)"`
+	ID		int64	`xorm:"not null pk autoincr INT(10)"`
     JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
 	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
 	MM		string	`json:"密码" xorm:"varchar(50) not null"`
@@ -25,7 +25,13 @@ type User struct {
 //	CreatedAt time.Time `xorm:"created"`
 //	UpdatedAt time.Time `xorm:"updated"`
 }
-
+//
+//type User1 struct {
+//	//id		int64	`xorm:"not null pk autoincr INT(10)"`
+//    JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
+//	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
+//	MM		string	`json:"密码" xorm:"varchar(50) not null"`
+//}
 
 func main() {
 	app := iris.Default()
@@ -60,6 +66,7 @@ func main() {
 	
 	//网页上显示用户信息
 	app.Get("/getusers", func(ctx iris.Context) {
+        //users:= make([]User, 0)
         orm.Iterate(new(User), func(i int, bean interface{})error{
             user := bean.(*User)
             ctx.Writef("<H1></H1><H3>")
@@ -105,17 +112,39 @@ func main() {
 	//接收JSON格式的用户信息,导入数据库
 	app.Post("/importusers", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
-		users:= ctx.FormValue("msg")
-		fmt.Printf("%v\n", users)
+        
+		msg := ctx.FormValue("msg")
+		fmt.Printf("%v\n", msg)
+        
+        //str := `{"page": 1, "fruits": ["apple", "peach"]}`
+        users := &[]User{}
+        if err := json.Unmarshal([]byte(msg), &users); err != nil {
+            //s,_ := json.Marshal(err)
+            //fmt.Printf("=====%v\n", string(s))
+            ctx.JSON( err )
+            fmt.Printf("%v\n", err)
+            //panic(err)
+        }
+        fmt.Println(users)
+        fmt.Printf("%v\n", (*users)[0].XM  )
+        
+
+//        for i, v := range users {
+//            _ = i
+//            fmt.Printf("%v\n", v)
+//        }
 		
 //		var users []User
 //		err := ctx.ReadJSON(&users)
+//        fmt.Printf("%v\n", users)
 //		if err != nil {
+//            fmt.Printf("err\n")
 //			ctx.StatusCode(iris.StatusBadRequest)
 //			ctx.WriteString(err.Error())
 //			return
 //		}
-//		ctx.Writef("Received: %#+v\n", users)
+        fmt.Printf("ok\n")
+		ctx.Writef("导入成功!%#+v\n","")
 
 	})
 	
