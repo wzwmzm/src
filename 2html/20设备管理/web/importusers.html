@@ -21,7 +21,7 @@
                 }) // 以二进制流方式读取得到整份excel表格对象
                 var DATA = []; // 存储获取到的数据
             } catch (e) {
-                console.log('文件类型不正确');
+                alert('文件类型不正确');
                 return;
             }
             // 表格的表格范围，可用于判断表头是否数量是否正确
@@ -36,7 +36,7 @@
                 }
             }
             //在控制台打印出来表格中的数据
-            console.log(DATA);//<------DATA就是取到的数据
+            //console.log(DATA);//<------DATA就是取到的数据
 			console.log(JSON.stringify(DATA));
 			
 			//将DATA数据发给服务器
@@ -49,9 +49,20 @@
 						//nick:"wzw",
 					},
 					success:function(data){		//从服务器收到的数据
-						console.log(data);
+						console.log(data.msg);
+						alert(data.msg);
+						//alert(data);
 
+					},
+					//下面这段代码对调试很有帮助
+					error: function (XMLHttpResponse, textStatus, errorThrown) {
+						let errstr = "1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState + "\n";
+						errstr += "2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status + "\n";
+						errstr += "3 异步调用返回失败,textStatus:"+textStatus + "\n";
+						errstr += "4 异步调用返回失败,errorThrown:"+errorThrown + "\n";
+						alert(errstr);
 					}
+
 			})
 			
 			
@@ -59,7 +70,7 @@
 			
 			
         };
-        // 以二进制方式打开文件
+        // 以二进制方式打开文件readAsArrayBuffer
         fileReader.readAsBinaryString(files[0]);
     });
 </script>

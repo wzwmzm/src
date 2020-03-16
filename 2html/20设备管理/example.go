@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
-	"github.com/go-xorm/xorm"
+	//"github.com/go-xorm/xorm"
+	"xorm.io/xorm"
 	_ "github.com/mattn/go-sqlite3"
     "encoding/json"
 )
@@ -82,7 +83,7 @@ func main() {
 		users:= make([]User, 0)
 		err := orm.Find(&users)
 		if err != nil{
-			ctx.Writef("%#v", err)
+			ctx.JSON(err)
 		}else{
 			//ctx.Writef("%#v", users)
 			ctx.JSON(users)
@@ -97,14 +98,14 @@ func main() {
 	
 	//重定向到exportusers.html网页, 以便提供一致的用户体验
 	app.Get("/exportusers", func(ctx iris.Context) {
-		ctx.ServeFile("./web/exportusers.html", true) // true for gzip.
+		ctx.ServeFile("./web/exportusers.html", false) // true for gzip.
         //        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	
 	//重定向到importusers.html网页, 以便提供一致的用户体验
 	app.Get("/importusers", func(ctx iris.Context) {
-		ctx.ServeFile("./web/importusers.html", true) // true for gzip.
+		ctx.ServeFile("./web/importusers.html", false) // true for gzip.
         //        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
@@ -114,19 +115,50 @@ func main() {
 		//ctx.Gzip(true)               // enable gzip for big files
         
 		msg := ctx.FormValue("msg")
-		fmt.Printf("%v\n", msg)
+		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
         
         //str := `{"page": 1, "fruits": ["apple", "peach"]}`
         users := &[]User{}
         if err := json.Unmarshal([]byte(msg), &users); err != nil {
-            //s,_ := json.Marshal(err)
-            //fmt.Printf("=====%v\n", string(s))
-            ctx.JSON( err )
-            fmt.Printf("%v\n", err)
-            //panic(err)
+			
+			msg := fmt.Sprintf("%v", err) 
+			msg = "解析错误:" + msg
+			fmt.Printf("%v\n", msg)
+			ctx.JSON(iris.Map{
+				"msg": msg,	//这也是在$ajax.success中的
+			})
+			//ctx.JSON(msg)	//这样也可以, 只要接收端对应即可
+			
+			return
         }
-        fmt.Println(users)
-        fmt.Printf("%v\n", (*users)[0].XM  )
+        //fmt.Println(users)
+		fmt.Printf("导入用户EXCEL表解析结果: %v\n", *users  )
+		
+		for _, v := range *users {
+			//fmt.Println(v)
+			user := &User{
+				ID: v.ID,
+				JH: v.JH,
+				XM: v.XM,
+				MM: v.MM}
+			_,err := orm.Insert(user) //<--------插入
+			if err != nil {
+				msg := fmt.Sprintf("导入失败: %v", err) 
+				fmt.Println( msg)			
+				ctx.JSON(iris.Map{		
+					"msg": msg,
+				})					
+				return
+			}
+		}
+		
+		
+		
+		
+		
+		ctx.JSON(iris.Map{		
+			"msg": "导入成功",
+		})		
         
 
 //        for i, v := range users {
@@ -144,7 +176,7 @@ func main() {
 //			return
 //		}
         fmt.Printf("ok\n")
-		ctx.Writef("导入成功!%#+v\n","")
+		//ctx.Writef("导入成功!%#+v\n",users)
 
 	})
 	
@@ -167,7 +199,7 @@ func main() {
         }
 	})
 	
-	//删除用户
+	//删除某个用户
 	app.Get("/deluser/{jh:string}", func(ctx iris.Context) {
 		jh := ctx.Params().Get("jh")
 		//xm := ctx.Params().Get("xm")
@@ -189,6 +221,40 @@ func main() {
             ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
             ctx.Writef("<h3>删除成功!</h3>")
         }
+	})
+	
+	//删除全部用户
+	app.Get("/delallusers", func(ctx iris.Context) {
+            ctx.ServeFile("./web/delallusers.html", false)//不压缩
+        
+	})
+	
+	app.Post("/delallusers", func(ctx iris.Context) {
+		msg := ctx.FormValue("msg")
+		fmt.Printf("接收到msg: %v\n", msg)   
+		
+		err := orm.DropTables(new(User))
+		fmt.Println(err)
+		err = orm.Sync2(new(User))
+		if err != nil {
+			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
+		}	
+		
+//		orm.Iterate(new(User), func(i int, bean interface{})error{
+//            user := bean.(*User)
+//			fmt.Println(user.JH)
+//			deluser := &User{
+//				JH: "000000",
+//			}
+//			affected, err := orm.Delete(deluser)
+//			msg := fmt.Sprintf("删除了: %v 个, err: %v", affected, err) 
+//			fmt.Println(msg)
+//            return nil
+//        })
+		
+	
+		ctx.JSON("全部删除成功")
+        
 	})
 	/////////////////////////////////////////////////////////////////
 	///////////上面是真正的代码, 后面是参考代码 //////////////////////////
