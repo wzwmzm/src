@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	//"time"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
 	//"github.com/go-xorm/xorm"
@@ -26,13 +27,25 @@ type User struct {
 //	CreatedAt time.Time `xorm:"created"`
 //	UpdatedAt time.Time `xorm:"updated"`
 }
-//
-//type User1 struct {
-//	//id		int64	`xorm:"not null pk autoincr INT(10)"`
-//    JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
-//	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
-//	MM		string	`json:"密码" xorm:"varchar(50) not null"`
-//}
+
+type Asset struct{
+	ID		int64		`xorm:"not null pk autoincr`
+	XH		string		`json:"序号" xorm:"varchar(50)`
+	BM		string		`json:"部门"`	//string 对应 Varchar(255)
+	ZCBH	string		`json:"资产编号"`	
+	ZCMC	string		`json:"资产名称" xorm:"not null"`
+	PP		string		`json:"品牌"`
+	GGXH	string		`json:"规格型号"`
+	QDRQ	int64		`json:"取得日期"`
+	SL		float64		`json:"数量"`
+	DJ		float64		`json:"单价"`
+	JE		float64		`json:"金额"`
+	SYR		string		`json:"使用人"`
+	CFDD	string		`json:"存放地点" xorm:"not null"`
+	BZ		string		`json:"备注"`
+	Version int 		`xorm:"version"`    // 乐观锁
+	
+}
 
 func main() {
 	app := iris.Default()
@@ -63,6 +76,13 @@ func main() {
 
 	if err != nil {
 		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
+	}	
+	
+	err = orm.Sync2(new(Asset))
+	//* 自动检测和创建表，这个检测是根据表的名字
+
+	if err != nil {
+		app.Logger().Fatalf("orm failed to initialized Asset table: %v", err)
 	}	
 	
 	//网页上显示用户信息
@@ -134,16 +154,16 @@ func main() {
         //fmt.Println(users)
 		fmt.Printf("导入用户EXCEL表解析结果: %v\n", *users  )
 		
-		for _, v := range *users {
+		for i, v := range *users {
 			//fmt.Println(v)
 			user := &User{
-				ID: v.ID,
+				//ID: v.ID,			//不用管
 				JH: v.JH,
 				XM: v.XM,
 				MM: v.MM}
 			_,err := orm.Insert(user) //<--------插入
 			if err != nil {
-				msg := fmt.Sprintf("导入失败: %v", err) 
+				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i) 
 				fmt.Println( msg)			
 				ctx.JSON(iris.Map{		
 					"msg": msg,
@@ -151,32 +171,12 @@ func main() {
 				return
 			}
 		}
-		
-		
-		
-		
-		
+	
 		ctx.JSON(iris.Map{		
 			"msg": "导入成功",
 		})		
-        
-
-//        for i, v := range users {
-//            _ = i
-//            fmt.Printf("%v\n", v)
-//        }
-		
-//		var users []User
-//		err := ctx.ReadJSON(&users)
-//        fmt.Printf("%v\n", users)
-//		if err != nil {
-//            fmt.Printf("err\n")
-//			ctx.StatusCode(iris.StatusBadRequest)
-//			ctx.WriteString(err.Error())
-//			return
-//		}
+ 
         fmt.Printf("ok\n")
-		//ctx.Writef("导入成功!%#+v\n",users)
 
 	})
 	
@@ -255,6 +255,74 @@ func main() {
 	
 		ctx.JSON("全部删除成功")
         
+	})
+	
+	
+		//重定向到importassets.html网页, 以便提供一致的用户体验
+	app.Get("/importassets", func(ctx iris.Context) {
+		ctx.ServeFile("./web/importassets.html", false) // true for gzip.
+        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
+	
+	//接收JSON格式的资产信息,导入数据库
+	app.Post("/importassets", func(ctx iris.Context) {
+		//ctx.Gzip(true)               // enable gzip for big files
+        
+		msg := ctx.FormValue("msg")
+		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
+        
+        //str := `{"page": 1, "fruits": ["apple", "peach"]}`
+        assets := &[]Asset{}
+        if err := json.Unmarshal([]byte(msg), &assets); err != nil {
+			
+			msg := fmt.Sprintf("%v", err) 
+			msg = "解析错误:" + msg
+			fmt.Printf("%v\n", msg)
+			ctx.JSON(iris.Map{
+				"msg": msg,	//这也是在$ajax.success中的
+			})
+			//ctx.JSON(msg)	//这样也可以, 只要接收端对应即可
+			
+			return
+        }
+        //fmt.Println(users)
+		fmt.Printf("导入资产EXCEL表解析结果: %v\n", *assets  )
+		
+		for i, v := range *assets {
+			//fmt.Println(v)
+			asset := &Asset{
+				XH:		v.XH,
+				BM:		v.BM,
+				ZCBH:	v.ZCBH,
+				ZCMC:	v.ZCMC,
+				PP:		v.PP,
+				GGXH:	v.GGXH,
+				QDRQ:	v.QDRQ,
+				SL:		v.SL,
+				DJ:		v.DJ,
+				JE:		v.JE,
+				SYR:	v.SYR,
+				CFDD:	v.CFDD,
+				BZ:		v.BZ,
+			}
+			_,err := orm.Insert(asset) //<--------插入
+			if err != nil {
+				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i) 
+				fmt.Println( msg)			
+				ctx.JSON(iris.Map{		
+					"msg": msg,
+				})					
+				return
+			}
+		}
+	
+		ctx.JSON(iris.Map{		
+			"msg": "导入成功",
+		})		
+ 
+        fmt.Printf("ok\n")
+
 	})
 	/////////////////////////////////////////////////////////////////
 	///////////上面是真正的代码, 后面是参考代码 //////////////////////////
