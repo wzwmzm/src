@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>移动资管</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>管理员手册(仅限管理员)</h2>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">添加用户:</div>
+    <div class="card-body">/adduser/191536/吴志伟</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">删除某个用户: </div>
+    <div class="card-body">/deluser/191536</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">删除全部用户:</div>
+    <div class="card-body">/delallusers</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">查询全部用户: </div>
+    <div class="card-body">/getusers</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">Excel文件导出用户表:</div>
+    <div class="card-body">/exportusers</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">Excel文件导入用户表:</div>
+    <div class="card-body">/importusers<br/><br/>
+      注意事项:<br/>
+        1,警号必须唯一;<br/>
+        2,ID项必须是数字(查看"设置单元格格式");<br/>
+		3,其它项必须是文本(查看"设置单元格格式");<br/>
+		4,导入成功后会有"导入成功"的提示(也可以使用"查询全部用户"来检查确认),如果没有,可以刷新网页后再次尝试.<br/>
+		5,只取EXCEL文件的第一张表格.</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">Excel文件导入固定资产表:</div>
+    <div class="card-body">/importassets<br/><br/>
+        注意事项:<br/>
+        1,除ID,取得日期,数量,单价,金额,version外其它都是文本类型;<br/>
+        2,用我手机作服务器时,导入5000条数据约需时间10分钟, 请耐心等待. 导入成功后会有"导入成功"的提示. 如果表格太大, 建议拆分成多张表格后再导入.(建议一张表格1000条数据)<br/>
+		3,每次导入时只取EXCEL文件的第一张表格.<br/>
+        4,存放地点和二维码栏目不得为空.<br/>
+        5,二维码不得重复.<br/>
+     </div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">删除全部资产表数据: </div>
+    <div class="card-body">/delallassets</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">Excel文件导出固定资产表:</div>
+    <div class="card-body">/exportassets <br/><br/>
+        注意事项:<br/>
+        有些栏目的格式需要重新设定. 比如:"取得日期"应该设置为"日期""1999-12-31"
+    </div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+    
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+    
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+    
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+    
+  <div class="card  bg-secondary text-white">
+    <div class="card-header  bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+    
+  <div class="card  bg-secondary text-white">
+    <div class="card-header   bg-dark text-white">头部</div>
+    <div class="card-body">内容</div>     
+  </div>
+</div>
+</body>
+</html>

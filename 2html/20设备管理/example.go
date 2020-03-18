@@ -13,36 +13,30 @@ import (
 
 
 type User struct {
-	ID		int64	`xorm:"not null pk autoincr INT(10)"`
+	ID		int64	`xorm:"not null pk autoincr unique INT(10)"`
     JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
 	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
 	MM		string	`json:"密码" xorm:"varchar(50) not null"`
-    //Version string  `xorm:"varchar(200)"`
-// 	ID		int64	`json:"id" xorm:"not null pk autoincr INT(10)"`
-//	Version   string `xorm:"varchar(200)"`
-//	Salt      string
-//	Username  string
-//	Password  string    `xorm:"varchar(200)"`
-//	Languages string    `xorm:"varchar(200)"`
-//	CreatedAt time.Time `xorm:"created"`
-//	UpdatedAt time.Time `xorm:"updated"`
+    //json标签实现的是外部数据与struct之间的映射关系
+    //xorm标签实现的是数据库与struct之间的映射关系
 }
 
 type Asset struct{
-	ID		int64		`xorm:"not null pk autoincr`
-	XH		string		`json:"序号" xorm:"varchar(50)`
+	ID		int64		`xorm:"not null pk autoincr unique INT(10)"`
+	XH		string		`json:"序号" xorm:"varchar(50)"`
 	BM		string		`json:"部门"`	//string 对应 Varchar(255)
 	ZCBH	string		`json:"资产编号"`	
-	ZCMC	string		`json:"资产名称" xorm:"not null"`
+	ZCMC	string		`json:"资产名称"`
 	PP		string		`json:"品牌"`
 	GGXH	string		`json:"规格型号"`
 	QDRQ	int64		`json:"取得日期"`
-	SL		float64		`json:"数量"`
-	DJ		float64		`json:"单价"`
-	JE		float64		`json:"金额"`
+	SL		float64		`json:"数量" xorm:"Numeric"`    //float64精度太高,不便于定位和查找
+	DJ		float64		`json:"单价" xorm:"Numeric"`
+	JE		float64		`json:"金额" xorm:"Numeric"`
 	SYR		string		`json:"使用人"`
 	CFDD	string		`json:"存放地点" xorm:"not null"`
 	BZ		string		`json:"备注"`
+    QRCODE  string      `json:"二维码" xorm:"not null unique"`
 	Version int 		`xorm:"version"`    // 乐观锁
 	
 }
@@ -97,6 +91,12 @@ func main() {
         })
 	})
 	
+    
+	app.Get("/admin", func(ctx iris.Context) {
+		ctx.ServeFile("./web/admin.html", false) // true for gzip.
+        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getusers", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
@@ -233,9 +233,9 @@ func main() {
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到msg: %v\n", msg)   
 		
-		err := orm.DropTables(new(User))
+		err := orm.DropTables(new(User))  //删除数据及表结构
 		fmt.Println(err)
-		err = orm.Sync2(new(User))
+		err = orm.Sync2(new(User))        //重建表结构
 		if err != nil {
 			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
 		}	
@@ -258,7 +258,7 @@ func main() {
 	})
 	
 	
-		//重定向到importassets.html网页, 以便提供一致的用户体验
+    //重定向到importassets.html网页, 以便提供一致的用户体验
 	app.Get("/importassets", func(ctx iris.Context) {
 		ctx.ServeFile("./web/importassets.html", false) // true for gzip.
         //        ctx.ServeFile("./html/index.html", true) // true for gzip.
@@ -305,6 +305,7 @@ func main() {
 				SYR:	v.SYR,
 				CFDD:	v.CFDD,
 				BZ:		v.BZ,
+                QRCODE: v.QRCODE,
 			}
 			_,err := orm.Insert(asset) //<--------插入
 			if err != nil {
@@ -323,6 +324,53 @@ func main() {
  
         fmt.Printf("ok\n")
 
+	})
+    
+	//删除全部资产表
+	app.Get("/delallassets", func(ctx iris.Context) {
+            ctx.ServeFile("./web/delallassets.html", false)//不压缩
+        
+	})
+	
+	app.Post("/delallassets", func(ctx iris.Context) {
+		msg := ctx.FormValue("msg")
+		fmt.Printf("接收到msg: %v\n", msg)   
+		
+		err := orm.DropTables(new(Asset)) //删除数据及表结构
+		fmt.Println(err)
+		err = orm.Sync2(new(Asset))       //重建表结构
+		if err != nil {
+			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
+		}
+        ctx.JSON("全部删除成功")
+
+    })
+    
+	//重定向到exportassets.html网页, 以便提供一致的用户体验
+	app.Get("/exportassets", func(ctx iris.Context) {
+		ctx.ServeFile("./web/exportassets.html", true) // true for gzip.
+        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
+    
+	
+	//发送JSON格式的用户信息,以便EXCEL文件导出
+	app.Post("/getassets", func(ctx iris.Context) {
+		//ctx.Gzip(true)               // enable gzip for big files
+		assets:= make([]Asset, 0)
+		err := orm.Find(&assets)
+		if err != nil{
+			ctx.JSON(err)
+		}else{
+			//ctx.Writef("%#v", users)
+			ctx.JSON(assets)
+		}
+		
+//		ctx.JSON(iris.Map{
+//			"status":  "posted",
+//			"message": "message",
+//			"nick":    "nick",
+//		})
 	})
 	/////////////////////////////////////////////////////////////////
 	///////////上面是真正的代码, 后面是参考代码 //////////////////////////

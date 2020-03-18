@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"> 
+	<title>移动资管</title>
+	<script src="./js/jquery-3.4.1.min.js"></script>
+	<script src="./js/xlsx.core.min.js"></script>
+</head>
+<body>
+<SCRIPT>
+//////与服务器交换数据的例子
+ $.ajax({
+        type:"POST",
+        url:"http://localhost:8101/getassets",
+        dataType:"json",
+        data:{						//发送给服务器的数据
+            message:"吴志伟",
+            nick:"wzw",
+        },
+        success:function(data){		//从服务器收到的数据
+            console.log(JSON.stringify(data));
+
+			var wopts = {
+			  bookType: 'xlsx',
+			  bookSST: false,
+			  type: 'binary'
+			};
+			var workBook = {
+			  SheetNames: ['Sheet1'],
+			  Sheets: {},
+			  Props: {}
+			};
+			workBook.Sheets['Sheet1'] = XLSX.utils.json_to_sheet(data)
+			//XLSX.utils.book_append_sheet(workBook, sheet, ws_name);
+			XLSX.writeFile(workBook, '固定资产表.xlsx');
+		},
+	 	//下面这段代码对调试很有帮助
+		error: function (XMLHttpResponse, textStatus, errorThrown) {
+			let errstr = "1 异步调用返回失败,XMLHttpResponse.readyState:"+XMLHttpResponse.readyState + "\n";
+			errstr += "2 异步调用返回失败,XMLHttpResponse.status:"+XMLHttpResponse.status + "\n";
+			errstr += "3 异步调用返回失败,textStatus:"+textStatus + "\n";
+			errstr += "4 异步调用返回失败,errorThrown:"+errorThrown + "\n";
+			alert(errstr);
+		}
+ })
+</SCRIPT>
+</body>
+</html>
