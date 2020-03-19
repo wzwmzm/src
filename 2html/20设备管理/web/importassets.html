@@ -42,7 +42,7 @@
 			//将DATA数据发给服务器
 			$.ajax({
 					type:"POST",
-					url:"http://localhost:8101/importassets",
+					url:document.location.origin + "/importassets",
 					dataType:"json",			//返回的数据类型
 					data:{						//发送给服务器的数据
 						msg:JSON.stringify(DATA)

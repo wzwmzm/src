@@ -17,7 +17,7 @@ $("button").click(function(){
 	
 	 $.ajax({
         type:"POST",
-        url:"http://localhost:8101/delallusers",
+        url: document.location.origin + "/delallusers",
         dataType:"json",
         data:{						//发送给服务器的数据
             msg:"del",

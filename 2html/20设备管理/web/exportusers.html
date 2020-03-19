@@ -11,7 +11,7 @@
 //////与服务器交换数据的例子
  $.ajax({
         type:"POST",
-        url:"http://localhost:8101/getusers",
+        url:document.location.origin + "/getusers",
         dataType:"json",
         data:{						//发送给服务器的数据
             message:"吴志伟",
