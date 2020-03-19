@@ -6,7 +6,7 @@ tmp/
 *.arm
 *.exe
 *.x86
-*.db
+*.db*
 .bak
 *.mp4
 *.log
