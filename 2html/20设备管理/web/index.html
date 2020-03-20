@@ -16,6 +16,7 @@
 
 	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
 	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+
 	<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
@@ -25,7 +26,7 @@
 	<!-- Link Swiper's CSS -->
 	<link rel="stylesheet" href="./css/swiper.min.css">
 	<script type="text/javascript" src="./js/instascan.js"></script>
-
+	<script type="text/javascript" src="./js/QrCodeScanner.js"></script>
 	<!-- Demo styles -->
 	<style>
 		html,
@@ -96,21 +97,34 @@
 					<div id="accordion">
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseOne">
-								<a class="card-link" href="#collapseOne">用户名: 191536</a>
+								<a class="card-link" href="#collapseOne">用户名:  <span id="name_xs">  </span> </a>
 							</div>
 							<div id="collapseOne" class="collapse" data-parent="#accordion">
 								<div class="card-body">
 									<form>
 										<div class="form-group">
-											<label for="usr">用户名:</label>
-											<input type="text" class="form-control" id="usr">
+											<label for="jh">警号:</label>
+											<input type="text" class="form-control" id="jh"  required>
 										</div>
 										<div class="form-group">
 											<label for="pwd">密码:</label>
-											<input type="password" class="form-control" id="pwd">
+											<input type="text" class="form-control" id="pwd"  required>
 										</div>
 										<div class="d-flex flex-row-reverse">
-											<button type="submit" class="btn btn-primary">Submit</button>
+											<button type="submit" class="btn btn-primary" id="loginbtm">登 录</button>
+										</div>
+									</form>
+									<form id="changepw">
+										<div class="form-group">
+											<label for="pw1">修改密码:</label>
+											<input type="text" class="form-control" id="pw1"  required>
+										</div>
+										<div class="form-group">
+											<label for="pw2">请再次输入修改后的密码:</label>
+											<input type="text" class="form-control" id="pw2" required>
+										</div>
+										<div class="d-flex flex-row-reverse">
+											<button type="submit" class="btn btn-primary"  id="changepwdbtm">提  交</button>
 										</div>
 									</form>
 								</div>
@@ -118,7 +132,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
-								<a class="collapsed card-link" href="#collapseTwo">摄像头: <span id="cameraid_c">Camera#1</span></a>
+								<a class="collapsed card-link" href="#collapseTwo">摄像头: <span id="cameraid_c"><b style="color:MediumVioletRed ">请选择摄像头</b></span></a>
 							</div>
 							<div id="collapseTwo" class="collapse" data-parent="#accordion" onblur="console.log('blur-1')" onfocus="console.log('focus-1')">
 								<div class="card-body" id="cameras-div">

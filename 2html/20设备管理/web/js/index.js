@@ -1,79 +1,134 @@
 //if (!(localStorage.camera_id)) localStorage.camera_id=0;
 //选用哪个摄像头,  注意:  不初始化!!!
-let n_cameras = 0; 		//一共有几个摄像头
-let cameraslist = null; 	//取得的摄像头组, 对于scanner是通用的
-localStorage.status =0; //0:设置页
-						//1:第一次扫码<--------状态变更
-						//2:显示扫描设备信息
-						//3:扫描变更地址码<-----状态变更
-						//4:确认地址变更提交<---状态变更
-						//5:显示扫描地址信息
+let n_cameras = 0; //一共有几个摄像头
+let cameraslist = null; //取得的摄像头组, 对于scanner是通用的
 
-/*
-//////与服务器交换数据的例子
-//////与服务器交换数据的例子
- $.ajax({
-        type:"POST",
-        url:"http://localhost:8101/getusers",
-        dataType:"json",
-        data:{						//发送给服务器的数据
-            message:"吴志伟",
-            nick:"wzw",
-        },
-        success:function(data){		//从服务器收到的数据
-            alert("访问成功" + JSON.stringify(data));
-        },
-        error:function(jqXHR){
-            alert("发生错误" + jqXHR.status);
-        }
-    });
-*/
+if (localStorage.status == undefined)localStorage.status = "0";//0:设置页
+
+//请登录提示
+if (localStorage.usr == undefined) {
+	$("#name_xs").html('<b style="color:MediumVioletRed ">请先登录</b>');
+}else{
+	usr = JSON.parse(localStorage.usr)
+	$("#name_xs").text(usr["姓名"]);
+}
+////请选择摄像头提示
+//if (localStorage.camera_id == undefined) {
+//	$("#cameraid_c").html('<b style="color:MediumVioletRed ">请选择摄像头</b>');
+//}else{
+//	usr = JSON.parse(localStorage.usr)
+//	$("#name_xs").text(usr["姓名"]);
+//}
+//1:第一次扫码<--------状态变更
+//2:显示扫描设备信息
+//3:扫描变更地址码<-----状态变更
+//4:确认地址变更提交<---状态变更
+//5:显示扫描地址信息
+
+
+
+//修改密码
+$("#changepwdbtm").click(function () {
+	if (localStorage.usr == undefined) {
+		alert("请先登录!");
+		return;
+	} else {
+		console.log(JSON.parse(localStorage.usr).ID);
+	}
+	var word1 = document.getElementById("pw1").value;
+	var word2 = document.getElementById("pw2").value;
+	if (word1 == "" || word2 == "") {
+		return;
+	}
+	//校验两次输入一致
+	if (word1 != word2) {
+		window.alert("两次输入的新密码不一致！");
+		return;
+	}
+
+	$.post("/changepwd", {
+			jh: JSON.parse(localStorage.usr)["警号"],
+			pwd: word2
+		},
+		function (data, status) {
+			alert(data.msg);
+		});
+})
+
+//login
+$("#loginbtm").click(function () {
+	let jh = $("#jh").val();
+	let pwd = $("#pwd").val();
+	if (jh == "" || pwd == "") {
+		return;
+	}
+
+	//alert("login begin")
+	$.post("/login", {
+			jh: jh,
+			pwd: pwd
+		},
+		function (data, status) {
+			if (data.status != "0") {
+				alert(data.msg);
+			} else {
+				//alert(JSON.stringify(data.msg));
+				//alert(data.msg["姓名"]);
+				$("#name_xs").text(data.msg["姓名"]);
+				usr = data.msg;
+				localStorage.usr = JSON.stringify(data.msg);
+				allow_1();
+			}
+		});
+
+});
 
 
 
 //状态机
-function status0(){
+function switchto0() {
 	$("#slide1").hide();
 	$("#slide2").hide();
 	$("#slide3").hide();
 	$("#slide4").hide();
-	$("#slide5").hide();	
+	$("#slide5").hide();
+	swiper.allowTouchMove = false;
 }
 
-function status1(){
+function switchto1() {
 	$("#slide1").show();
 	$("#slide2").hide();
 	$("#slide3").hide();
 	$("#slide4").hide();
-	$("#slide5").hide();	
+	$("#slide5").hide();
+	swiper.allowTouchMove = true;
 }
-
-function switchstatus(){
-	switch(localStorage.status){
-		case 0:
-			status0();
+//切换到指定状态
+function switchstatus() {
+	switch (localStorage.status) {
+		case "0":
+			switchto0();
 			break;
-		case 1:
-			status1();
+		case "1":
+			switchto1();
 			break;
 	};
 }
+//switchstatus();
 
-switchstatus();
-	
 var swiper = new Swiper('.swiper-container', {
 	on: {
-		touchMove: function (event) {	//在滑动的过程中连续发出
-			console.log("event: touchMove");
-			//swiper.allowTouchMove= false;
-
-		},
-
-		sliderMove: function (event) {	//在滑动的过程中连续发出
-			console.log("event: sliderMove");
-			//swiper.allowTouchMove= false;
-
-		},
+//		touchMove: function (event) { //在滑动的过程中连续发出
+//			console.log("event: touchMove");
+//			//swiper.allowTouchMove= false;
+//
+//		},
+//
+//		sliderMove: function (event) { //在滑动的过程中连续发出
+//			console.log("event: sliderMove");
+//			//swiper.allowTouchMove= false;
+//
+//		},
 
 		slideChange: function () {
 			console.log("event: slideChange");
@@ -129,24 +184,19 @@ var swiper = new Swiper('.swiper-container', {
 	},
 });
 
-//用户名及摄像头设定前禁止滑动
+//判断是否进入第1页.  用户名及摄像头设定前禁止滑动
 function allow_1() {
-	if (!(localStorage.camera_id) || !(localStorage.username)) {
-		swiper.allowTouchMove = false;
-		console.log("allowTouchMove: false");
-		localStorage.status = 0;
-		status0();
+	if (!(localStorage.camera_id) || !(localStorage.usr)) {
+		localStorage.status = "0";
+		switchstatus();
 	} else {
-		swiper.allowTouchMove = true;
-		console.log("allowTouchMove: true");
-		localStorage.status =1;
-		status1();
+		localStorage.status = "1";
+		switchstatus();
 	};
 }
 
-allow_1();
-localStorage.username = "wzw";
-allow_1();
+//allow_1();
+
 
 //////////  1,初始化第一个摄像头(设置页)
 //			与<vedio>图像输出硬关联(初始化后不能更改), 
@@ -182,8 +232,8 @@ let scanner2 = new Instascan.Scanner({
 	scanPeriod: 1 //两次扫描之间的周期
 });
 scanner2.addListener('scan', function (content) {
-	console.log(content);       //<----扫描结果
-							//<----可以调用scanner.stop()结束扫描
+	alert(content); //<----扫描结果
+	//<----可以调用scanner.stop()结束扫描
 });
 
 //初始化第二次扫描摄像头
@@ -197,8 +247,8 @@ let scanner3 = new Instascan.Scanner({
 	scanPeriod: 1 //两次扫描之间的周期
 });
 scanner3.addListener('scan', function (content) {
-	console.log(content);       //<----扫描结果
-							//<----可以调用scanner.stop()结束扫描
+	alert(content); //<----扫描结果
+	//<----可以调用scanner.stop()结束扫描
 });
 
 //设置页, 摄像头列表
@@ -217,7 +267,10 @@ Instascan.Camera.getCameras().then(function (cameras) {
 			if (localStorage.camera_id == i) {
 				checked = "checked"
 			}
-
+			//onclick实现:
+			//	1,设定localStorage.camera_id
+			//	2,关闭并重新打开指定摄像头
+			//	3,判断是否能进入第1页
 			$("#cameras-div").prepend(`
 				<div class="radio text-left">
 					<label><input type="radio" name="camera_op_c"  ` + checked + `  onclick="localStorage.camera_id=` + i + `;$('#cameraid_c').text(cameraslist[` + i + `].name);scanner1.stop();scanner1.start(cameraslist[` + i + `]);  allow_1(); "> ` + cameraslist[i].name + `</label>
@@ -229,6 +282,9 @@ Instascan.Camera.getCameras().then(function (cameras) {
 }).catch(function (e) {
 	alert(e);
 });
+
+
+switchstatus();		//进入指定状态
 
 ///////备用代码//////////////////////////////////
 /*

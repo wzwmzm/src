@@ -6,39 +6,39 @@ import (
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
 	//"github.com/go-xorm/xorm"
-	"xorm.io/xorm"
+	"encoding/json"
+
 	_ "github.com/mattn/go-sqlite3"
-    "encoding/json"
+	"xorm.io/xorm"
 )
 
-
 type User struct {
-	ID		int64	`xorm:"not null pk autoincr unique INT(10)"`
-    JH		string	`json:"警号" xorm:"varchar(50) not null unique"`
-	XM		string	`json:"姓名" xorm:"varchar(50) not null"`
-	MM		string	`json:"密码" xorm:"varchar(50) not null"`
-    //json标签实现的是外部数据与struct之间的映射关系
-    //xorm标签实现的是数据库与struct之间的映射关系
+	ID int64  `xorm:"not null pk autoincr unique INT(10)"`
+	JH string `json:"警号" xorm:"varchar(50) not null unique"`
+	XM string `json:"姓名" xorm:"varchar(50) not null"`
+	MM string `json:"密码" xorm:"varchar(50) not null"`
+	//json标签实现的是外部数据与struct之间的映射关系
+	//xorm标签实现的是数据库与struct之间的映射关系
 }
 
-type Asset struct{
-	ID		int64		`xorm:"not null pk autoincr unique INT(10)"`
-	XH		string		`json:"序号" xorm:"varchar(50)"`
-	BM		string		`json:"部门"`	//string 对应 Varchar(255)
-	ZCBH	string		`json:"资产编号"`	
-	ZCMC	string		`json:"资产名称"`
-	PP		string		`json:"品牌"`
-	GGXH	string		`json:"规格型号"`
-	QDRQ	int64		`json:"取得日期"`
-	SL		float64		`json:"数量" xorm:"Numeric"`    //float64精度太高,不便于定位和查找
-	DJ		float64		`json:"单价" xorm:"Numeric"`
-	JE		float64		`json:"金额" xorm:"Numeric"`
-	SYR		string		`json:"使用人"`
-	CFDD	string		`json:"存放地点" xorm:"not null"`
-	BZ		string		`json:"备注"`
-    QRCODE  string      `json:"二维码" xorm:"not null unique"`
-	Version int 		`xorm:"version"`    // 乐观锁
-	
+type Asset struct {
+	ID      int64   `xorm:"not null pk autoincr unique INT(10)"`
+	XH      string  `json:"序号" xorm:"varchar(50)"`
+	BM      string  `json:"部门"` //string 对应 Varchar(255)
+	ZCBH    string  `json:"资产编号"`
+	ZCMC    string  `json:"资产名称"`
+	PP      string  `json:"品牌"`
+	GGXH    string  `json:"规格型号"`
+	QDRQ    int64   `json:"取得日期"`
+	SL      float64 `json:"数量" xorm:"Numeric"` //float64精度太高,不便于定位和查找
+	DJ      float64 `json:"单价" xorm:"Numeric"`
+	JE      float64 `json:"金额" xorm:"Numeric"`
+	SYR     string  `json:"使用人"`
+	CFDD    string  `json:"存放地点" xorm:"not null"`
+	BZ      string  `json:"备注"`
+	QRCODE  string  `json:"二维码" xorm:"not null unique"`
+	Version int     `xorm:"version"` // 乐观锁
+
 }
 
 func main() {
@@ -49,7 +49,7 @@ func main() {
 			"message": "pong吴志伟",
 		})
 	})
-	
+
 	/////////////////////////////////////////////////////////////////
 	///////////这里是真正的代码, 后面是参考代码 //////////////////////////
 	/////////////////////////////////////////////////////////////////
@@ -61,99 +61,154 @@ func main() {
 	iris.RegisterOnInterrupt(func() {
 		orm.Close()
 	})
-	
+
 	//在控制台打印sql语句，默认为false
-    orm.ShowSQL(true)
+	orm.ShowSQL(true)
 
 	err = orm.Sync2(new(User))
 	//* 自动检测和创建表，这个检测是根据表的名字
 
 	if err != nil {
 		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
-	}	
-	
+	}
+
 	err = orm.Sync2(new(Asset))
 	//* 自动检测和创建表，这个检测是根据表的名字
 
 	if err != nil {
 		app.Logger().Fatalf("orm failed to initialized Asset table: %v", err)
-	}	
-	
-	//网页上显示用户信息
-	app.Get("/getusers", func(ctx iris.Context) {
-        //users:= make([]User, 0)
-        orm.Iterate(new(User), func(i int, bean interface{})error{
-            user := bean.(*User)
-            ctx.Writef("<H1></H1><H3>")
-            ctx.JSON(user)
-            ctx.Writef("</H3>")
-            return nil
-        })
+	}
+
+	// Post: login
+	app.Post("/login", func(ctx iris.Context) {
+		jh := ctx.FormValue("jh")
+		pwd := ctx.FormValue("pwd")
+
+		user := &User{JH: jh}
+		has, _ := orm.Get(user)
+		//fmt.Printf("找到:%v",has)
+		if !has {
+			fmt.Printf("用户不存在!\n")
+			ctx.JSON(iris.Map{
+				"status": "1",
+				"msg":    "用户不存在",
+			})
+			return
+		}
+		if user.MM != pwd {
+			fmt.Printf("密码错误!\n")
+			ctx.JSON(iris.Map{
+				"status": "2",
+				"msg":    "密码错误!",
+			})
+			return
+		}
+		ctx.JSON(iris.Map{
+			"status": "0",
+			"msg":    user,
+		})
+
 	})
 	
-    
+	// Post: changepwd
+	app.Post("/changepwd", func(ctx iris.Context) {
+		jh := ctx.FormValue("jh")
+		pwd := ctx.FormValue("pwd")
+		
+		user := &User{JH: jh}
+		has, _ := orm.Get(user)
+		if !has {
+			fmt.Printf("用户不存在!\n")
+			ctx.JSON(iris.Map{
+				"status": "1",
+				"msg":    "用户不存在",
+			})
+			return
+		}
+		user.MM = pwd
+		orm.ID(user.ID).Update(user)
+		ctx.JSON(iris.Map{
+			"status": "0",
+			"msg":    "密码修改成功!",
+		})
+		
+		
+	})		
+
+	//网页上显示用户信息
+	app.Get("/getusers", func(ctx iris.Context) {
+		//users:= make([]User, 0)
+		orm.Iterate(new(User), func(i int, bean interface{}) error {
+			user := bean.(*User)
+			ctx.Writef("<H1></H1><H3>")
+			ctx.JSON(user)
+			ctx.Writef("</H3>")
+			return nil
+		})
+	})
+
 	app.Get("/admin", func(ctx iris.Context) {
 		ctx.ServeFile("./web/admin.html", false) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getusers", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
-		users:= make([]User, 0)
+		users := make([]User, 0)
 		err := orm.Find(&users)
-		if err != nil{
+		if err != nil {
 			ctx.JSON(err)
-		}else{
+		} else {
 			//ctx.Writef("%#v", users)
 			ctx.JSON(users)
 		}
-		
-//		ctx.JSON(iris.Map{
-//			"status":  "posted",
-//			"message": "message",
-//			"nick":    "nick",
-//		})
+
+		//		ctx.JSON(iris.Map{
+		//			"status":  "posted",
+		//			"message": "message",
+		//			"nick":    "nick",
+		//		})
 	})
-	
+
 	//重定向到exportusers.html网页, 以便提供一致的用户体验
 	app.Get("/exportusers", func(ctx iris.Context) {
 		ctx.ServeFile("./web/exportusers.html", false) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
-	
+
 	//重定向到importusers.html网页, 以便提供一致的用户体验
 	app.Get("/importusers", func(ctx iris.Context) {
 		ctx.ServeFile("./web/importusers.html", false) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
-	
+
 	//接收JSON格式的用户信息,导入数据库
 	app.Post("/importusers", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
-        
+
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
-        
-        //str := `{"page": 1, "fruits": ["apple", "peach"]}`
-        users := &[]User{}
-        if err := json.Unmarshal([]byte(msg), &users); err != nil {
-			
-			msg := fmt.Sprintf("%v", err) 
+
+		//str := `{"page": 1, "fruits": ["apple", "peach"]}`
+		users := &[]User{}
+		if err := json.Unmarshal([]byte(msg), &users); err != nil {
+
+			msg := fmt.Sprintf("%v", err)
 			msg = "解析错误:" + msg
 			fmt.Printf("%v\n", msg)
 			ctx.JSON(iris.Map{
-				"msg": msg,	//这也是在$ajax.success中的
+				"msg": msg, //这也是在$ajax.success中的
 			})
 			//ctx.JSON(msg)	//这样也可以, 只要接收端对应即可
-			
+
 			return
-        }
-        //fmt.Println(users)
-		fmt.Printf("导入用户EXCEL表解析结果: %v\n", *users  )
-		
+		}
+		//fmt.Println(users)
+		fmt.Printf("导入用户EXCEL表解析结果: %v\n", *users)
+
 		for i, v := range *users {
 			//fmt.Println(v)
 			user := &User{
@@ -161,216 +216,213 @@ func main() {
 				JH: v.JH,
 				XM: v.XM,
 				MM: v.MM}
-			_,err := orm.Insert(user) //<--------插入
+			_, err := orm.Insert(user) //<--------插入
 			if err != nil {
-				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i) 
-				fmt.Println( msg)			
-				ctx.JSON(iris.Map{		
+				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i)
+				fmt.Println(msg)
+				ctx.JSON(iris.Map{
 					"msg": msg,
-				})					
+				})
 				return
 			}
 		}
-	
-		ctx.JSON(iris.Map{		
+
+		ctx.JSON(iris.Map{
 			"msg": "导入成功",
-		})		
- 
-        fmt.Printf("ok\n")
+		})
+
+		fmt.Printf("ok\n")
 
 	})
-	
+
 	//添加用户
 	app.Get("/adduser/{jh:string}/{xm:string}", func(ctx iris.Context) {
 		jh := ctx.Params().Get("jh")
 		xm := ctx.Params().Get("xm")
-		
+
 		user := &User{
 			JH: jh,
 			XM: xm,
 			MM: jh}
-        _,err := orm.Insert(user) //<--------插入
-        if err != nil {
-            ctx.Writef("<H1></H1>")
-            ctx.Writef("<H3>%#v</H3>", err)
-        }else{		
-            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
-            ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
-        }
+		_, err := orm.Insert(user) //<--------插入
+		if err != nil {
+			ctx.Writef("<H1></H1>")
+			ctx.Writef("<H3>%#v</H3>", err)
+		} else {
+			ctx.Writef("<H1></H1>") //没有这一行,下面的<H3>格式显示错误
+			ctx.Writef("<h3>添加用户成功, 请使用警号登录,初始密码即警号!</h3>")
+		}
 	})
-	
+
 	//删除某个用户
 	app.Get("/deluser/{jh:string}", func(ctx iris.Context) {
 		jh := ctx.Params().Get("jh")
 		//xm := ctx.Params().Get("xm")
-		
+
 		user := &User{
 			JH: jh,
 			//XM: xm,
 			//MM: jh
 		}
-		
-		n, err := orm.Delete(user)	//<--------删除
-        if err != nil {
-            ctx.Writef("<H1></H1>")
-            ctx.Writef("<H3>%#v</H3>", err)
-		}else if n==0 {
-            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
-            ctx.Writef("<h3>没有找到!</h3>")			
-		}else{		
-            ctx.Writef("<H1></H1>")			//没有这一行,下面的<H3>格式显示错误
-            ctx.Writef("<h3>删除成功!</h3>")
-        }
+
+		n, err := orm.Delete(user) //<--------删除
+		if err != nil {
+			ctx.Writef("<H1></H1>")
+			ctx.Writef("<H3>%#v</H3>", err)
+		} else if n == 0 {
+			ctx.Writef("<H1></H1>") //没有这一行,下面的<H3>格式显示错误
+			ctx.Writef("<h3>没有找到!</h3>")
+		} else {
+			ctx.Writef("<H1></H1>") //没有这一行,下面的<H3>格式显示错误
+			ctx.Writef("<h3>删除成功!</h3>")
+		}
 	})
-	
+
 	//删除全部用户
 	app.Get("/delallusers", func(ctx iris.Context) {
-            ctx.ServeFile("./web/delallusers.html", false)//不压缩
-        
-	})
-	
-	app.Post("/delallusers", func(ctx iris.Context) {
-		msg := ctx.FormValue("msg")
-		fmt.Printf("接收到msg: %v\n", msg)   
-		
-		err := orm.DropTables(new(User))  //删除数据及表结构
-		fmt.Println(err)
-		err = orm.Sync2(new(User))        //重建表结构
-		if err != nil {
-			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
-		}	
-		
-//		orm.Iterate(new(User), func(i int, bean interface{})error{
-//            user := bean.(*User)
-//			fmt.Println(user.JH)
-//			deluser := &User{
-//				JH: "000000",
-//			}
-//			affected, err := orm.Delete(deluser)
-//			msg := fmt.Sprintf("删除了: %v 个, err: %v", affected, err) 
-//			fmt.Println(msg)
-//            return nil
-//        })
-		
-	
-		ctx.JSON("全部删除成功")
-        
-	})
-	
-	
-    //重定向到importassets.html网页, 以便提供一致的用户体验
-	app.Get("/importassets", func(ctx iris.Context) {
-		ctx.ServeFile("./web/importassets.html", false) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		ctx.ServeFile("./web/delallusers.html", false) //不压缩
 
 	})
-	
+
+	app.Post("/delallusers", func(ctx iris.Context) {
+		msg := ctx.FormValue("msg")
+		fmt.Printf("接收到msg: %v\n", msg)
+
+		err := orm.DropTables(new(User)) //删除数据及表结构
+		fmt.Println(err)
+		err = orm.Sync2(new(User)) //重建表结构
+		if err != nil {
+			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
+		}
+
+		//		orm.Iterate(new(User), func(i int, bean interface{})error{
+		//            user := bean.(*User)
+		//			fmt.Println(user.JH)
+		//			deluser := &User{
+		//				JH: "000000",
+		//			}
+		//			affected, err := orm.Delete(deluser)
+		//			msg := fmt.Sprintf("删除了: %v 个, err: %v", affected, err)
+		//			fmt.Println(msg)
+		//            return nil
+		//        })
+
+		ctx.JSON("全部删除成功")
+
+	})
+
+	//重定向到importassets.html网页, 以便提供一致的用户体验
+	app.Get("/importassets", func(ctx iris.Context) {
+		ctx.ServeFile("./web/importassets.html", false) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
+
 	//接收JSON格式的资产信息,导入数据库
 	app.Post("/importassets", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
-        
+
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
-        
-        //str := `{"page": 1, "fruits": ["apple", "peach"]}`
-        assets := &[]Asset{}
-        if err := json.Unmarshal([]byte(msg), &assets); err != nil {
-			
-			msg := fmt.Sprintf("%v", err) 
+
+		//str := `{"page": 1, "fruits": ["apple", "peach"]}`
+		assets := &[]Asset{}
+		if err := json.Unmarshal([]byte(msg), &assets); err != nil {
+
+			msg := fmt.Sprintf("%v", err)
 			msg = "解析错误:" + msg
 			fmt.Printf("%v\n", msg)
 			ctx.JSON(iris.Map{
-				"msg": msg,	//这也是在$ajax.success中的
+				"msg": msg, //这也是在$ajax.success中的
 			})
 			//ctx.JSON(msg)	//这样也可以, 只要接收端对应即可
-			
+
 			return
-        }
-        //fmt.Println(users)
-		fmt.Printf("导入资产EXCEL表解析结果: %v\n", *assets  )
-		
+		}
+		//fmt.Println(users)
+		fmt.Printf("导入资产EXCEL表解析结果: %v\n", *assets)
+
 		for i, v := range *assets {
 			//fmt.Println(v)
 			asset := &Asset{
-				XH:		v.XH,
-				BM:		v.BM,
-				ZCBH:	v.ZCBH,
-				ZCMC:	v.ZCMC,
-				PP:		v.PP,
-				GGXH:	v.GGXH,
-				QDRQ:	v.QDRQ,
-				SL:		v.SL,
-				DJ:		v.DJ,
-				JE:		v.JE,
-				SYR:	v.SYR,
-				CFDD:	v.CFDD,
-				BZ:		v.BZ,
-                QRCODE: v.QRCODE,
+				XH:     v.XH,
+				BM:     v.BM,
+				ZCBH:   v.ZCBH,
+				ZCMC:   v.ZCMC,
+				PP:     v.PP,
+				GGXH:   v.GGXH,
+				QDRQ:   v.QDRQ,
+				SL:     v.SL,
+				DJ:     v.DJ,
+				JE:     v.JE,
+				SYR:    v.SYR,
+				CFDD:   v.CFDD,
+				BZ:     v.BZ,
+				QRCODE: v.QRCODE,
 			}
-			_,err := orm.Insert(asset) //<--------插入
+			_, err := orm.Insert(asset) //<--------插入
 			if err != nil {
-				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i) 
-				fmt.Println( msg)			
-				ctx.JSON(iris.Map{		
+				msg := fmt.Sprintf("导入失败: %v,  第 %v 行", err, i)
+				fmt.Println(msg)
+				ctx.JSON(iris.Map{
 					"msg": msg,
-				})					
+				})
 				return
 			}
 		}
-	
-		ctx.JSON(iris.Map{		
+
+		ctx.JSON(iris.Map{
 			"msg": "导入成功",
-		})		
- 
-        fmt.Printf("ok\n")
+		})
+
+		fmt.Printf("ok\n")
 
 	})
-    
+
 	//删除全部资产表
 	app.Get("/delallassets", func(ctx iris.Context) {
-            ctx.ServeFile("./web/delallassets.html", false)//不压缩
-        
+		ctx.ServeFile("./web/delallassets.html", false) //不压缩
+
 	})
-	
+
 	app.Post("/delallassets", func(ctx iris.Context) {
 		msg := ctx.FormValue("msg")
-		fmt.Printf("接收到msg: %v\n", msg)   
-		
+		fmt.Printf("接收到msg: %v\n", msg)
+
 		err := orm.DropTables(new(Asset)) //删除数据及表结构
 		fmt.Println(err)
-		err = orm.Sync2(new(Asset))       //重建表结构
+		err = orm.Sync2(new(Asset)) //重建表结构
 		if err != nil {
 			app.Logger().Fatalf("orm failed to initialized User table: %v", err)
 		}
-        ctx.JSON("全部删除成功")
+		ctx.JSON("全部删除成功")
 
-    })
-    
+	})
+
 	//重定向到exportassets.html网页, 以便提供一致的用户体验
 	app.Get("/exportassets", func(ctx iris.Context) {
 		ctx.ServeFile("./web/exportassets.html", true) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
-    
-	
+
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getassets", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files
-		assets:= make([]Asset, 0)
+		assets := make([]Asset, 0)
 		err := orm.Find(&assets)
-		if err != nil{
+		if err != nil {
 			ctx.JSON(err)
-		}else{
+		} else {
 			//ctx.Writef("%#v", users)
 			ctx.JSON(assets)
 		}
-		
-//		ctx.JSON(iris.Map{
-//			"status":  "posted",
-//			"message": "message",
-//			"nick":    "nick",
-//		})
+
+		//		ctx.JSON(iris.Map{
+		//			"status":  "posted",
+		//			"message": "message",
+		//			"nick":    "nick",
+		//		})
 	})
 	/////////////////////////////////////////////////////////////////
 	///////////上面是真正的代码, 后面是参考代码 //////////////////////////
@@ -506,26 +558,24 @@ func main() {
 	})
 	//http://localhost:8080/mb
 
-/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
-/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
-/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
+	/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
+	/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
+	/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
 	app.StaticWeb("/", "./web") //<-----------------------设定网站根目录
-        //app.StaticWeb("/", "./html") //<-----------------------设定网站根目录
-
+	//app.StaticWeb("/", "./html") //<-----------------------设定网站根目录
 
 	app.Get("/", func(ctx iris.Context) {
 		ctx.ServeFile("./web/index.html", true) // true for gzip.
-        //        ctx.ServeFile("./html/index.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	//http://localhost:8080                 (含有js子目录)
 	//http://localhost:8080/index.html      (效果同上)
 	//http://localhost:8080/hello.html
 
-
-/////////////websockets 服务器/////////////////////////////////////////////
-/////////////websockets 服务器/////////////////////////////////////////////
-/////////////websockets 服务器/////////////////////////////////////////////
+	/////////////websockets 服务器/////////////////////////////////////////////
+	/////////////websockets 服务器/////////////////////////////////////////////
+	/////////////websockets 服务器/////////////////////////////////////////////
 	app.Get("/ws", func(ctx iris.Context) {
 		ctx.ServeFile("./html/websockets.html", false) // second parameter: enable gzip?
 	})
@@ -537,12 +587,9 @@ func main() {
 	// http://localhost:8080
 	// write something, press submit, see the result.
 
-
-	fmt.Println("http://localhost:8101");
-	fmt.Println("http://localhost:8101/ws");
-	app.Run(iris.Addr(":8101"))//<--------------------------------------
-
-
+	fmt.Println("http://localhost:8101")
+	fmt.Println("http://localhost:8101/ws")
+	app.Run(iris.Addr(":8101")) //<--------------------------------------
 
 }
 
@@ -575,11 +622,3 @@ func handleConnection(c websocket.Connection) {
 		c.To(websocket.Broadcast).Emit("chat", msg) //发给所有客户端除了当前客户端
 	})
 }
-
-
-
-
-
-
-
-
