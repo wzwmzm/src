@@ -272,7 +272,7 @@ scanner2.addListener('scan', function (content) {
 	//<----可以调用scanner.stop()结束扫描
 	localStorage.status = 2;
 	switchstatus();
-	swiper.allowSlideNext();
+	swiper.slideNext();
 });
 
 //初始化第二次扫描摄像头
