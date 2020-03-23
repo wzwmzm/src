@@ -141,7 +141,7 @@ func main() {
 		
 		ctx.JSON(iris.Map{
 			"status": 	"2",
-			"msg":		"二维码错误, 请返回上页重新扫描!",  				
+			"msg":		"二维码错误, 请重新扫描!",  				
 		})		
 
 	})

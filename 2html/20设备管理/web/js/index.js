@@ -232,8 +232,10 @@ let scanner2 = new Instascan.Scanner({
 	refractoryPeriod: 5000, //连续识别相同QR码之前的时间
 	scanPeriod: 1 //两次扫描之间的周期
 });
-scanner2.addListener('scan', function (content) {
+scanner2.addListener('scan', function (data) {
+	let content = String.fromCharCode(data);
 	alert(content); //<----扫描结果
+	
 	//<----可以调用scanner.stop()结束扫描
 
 	$.post("/query", {
