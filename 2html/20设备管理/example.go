@@ -125,10 +125,10 @@ func main() {
 			return
 		}		
 		
-		asset := &Asset{CFDD: query}
-		isaddr, _ := orm.Exist(asset)		
+		asset1 := &Asset{CFDD: query}
+		isaddr, _ := orm.Exist(asset1)		
 		assets := make([]Asset, 0)
-		err := orm.Find(&assets, asset)
+		err := orm.Find(&assets, asset1)
 		_ = err
 		if isaddr {
 			ctx.JSON(iris.Map{
