@@ -233,39 +233,10 @@ let scanner2 = new Instascan.Scanner({
 	scanPeriod: 1 //两次扫描之间的周期
 });
 
-function str2utf8(str)
-{
-	// UCS-2和UTF8都是unicode的一种编码方式
-	// js代码中使用的是UCS-2编码
 
-	var code;
-	var utf = "";
-
-	for (var i = 0; i < str.length; i++)
-	{
-		code = str.charCodeAt(i);//返回每个字符的Unicode 编码
-
-		if (code < 0x0080) {
-			utf += str.charAt(i);//返回指定位置的字符
-		}
-		else if (code < 0x0800) {
-			utf += String.fromCharCode(0xC0 | ((code >> 6) & 0x1F));
-			utf += String.fromCharCode(0x80 | ((code >> 0) & 0x3F));
-		}
-		else if (code < 0x10000) {
-			utf += String.fromCharCode(0xE0 | ((code >> 12) & 0x0F));
-			utf += String.fromCharCode(0x80 | ((code >>  6) & 0x3F));
-			utf += String.fromCharCode(0x80 | ((code >>  0) & 0x3F));
-		}
-		else
-		{
-			throw "不是UCS-2字符集"
-		}
-
-	}
-	return utf;
-}
-
+// UCS-2和UTF8都是unicode的一种编码方式
+// js代码中使用的是UCS-2编码
+//这里将扫描得到的UTF8码转成UCS-2码
 function utf82str(utf) {
 	var str = "";
 	var tmp;
@@ -315,9 +286,7 @@ function utf82str(utf) {
 
 
 scanner2.addListener('scan', function (data) {
-	let content = str2utf8(data);
-	alert("str2utf8(str):"+content); //<----扫描结果
-	content = utf82str(data);
+	let content = utf82str(data);
 	alert("utf82str(data)"+content);
 	
 	//<----可以调用scanner.stop()结束扫描
@@ -344,7 +313,7 @@ scanner2.addListener('scan', function (data) {
 					assets = data.data;
 					localStorage.assets = JSON.stringify(data.data);
 
-					$("#asset").text(localStorage.asset);
+					$("#assets").text(localStorage.assets);
 
 					localStorage.status = 5; //可以进入第5页显示地址上设备信息
 					switchstatus();
