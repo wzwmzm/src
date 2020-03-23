@@ -78,7 +78,15 @@ func main() {
 	if err != nil {
 		app.Logger().Fatalf("orm failed to initialized Asset table: %v", err)
 	}
-
+/////////////////////////
+//		asset1 := &Asset{CFDD: "311仓库"}
+//		isaddr, _ := orm.Exist(asset1)		
+//		assets := make([]Asset, 0)
+//		err1 := orm.Find(&assets, asset1)
+//		_ = err1
+//		//fmt.Println("isaddr",isaddr,"assets",assets,"err",err1)	
+//////////////////////////	
+	
 	// Post: login
 	app.Post("/login", func(ctx iris.Context) {
 		jh := ctx.FormValue("jh")
@@ -130,6 +138,8 @@ func main() {
 		assets := make([]Asset, 0)
 		err := orm.Find(&assets, asset1)
 		_ = err
+		fmt.Println("isaddr",isaddr,"assets",assets,"err",err)
+		
 		if isaddr {
 			ctx.JSON(iris.Map{
 				"status": 	"1",
