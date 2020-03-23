@@ -316,9 +316,9 @@ function utf82str(utf) {
 
 scanner2.addListener('scan', function (data) {
 	let content = str2utf8(data);
-	alert("str2utf8(str)",content); //<----扫描结果
+	alert("str2utf8(str):"+content); //<----扫描结果
 	content = utf82str(data);
-	alert("utf82str(data)",content);
+	alert("utf82str(data)"+content);
 	
 	//<----可以调用scanner.stop()结束扫描
 
