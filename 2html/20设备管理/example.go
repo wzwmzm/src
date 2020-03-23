@@ -105,7 +105,7 @@ func main() {
 		}
 		ctx.JSON(iris.Map{
 			"status": "0",
-			"msg":    user,
+			"data":    user,
 		})
 
 	})

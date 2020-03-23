@@ -74,9 +74,9 @@ $("#loginbtm").click(function () {
 			} else {
 				//alert(JSON.stringify(data.msg));
 				//alert(data.msg["姓名"]);
-				$("#name_xs").text(data.msg["姓名"]);
-				usr = data.msg;
-				localStorage.usr = JSON.stringify(data.msg);
+				$("#name_xs").text(data.data["姓名"]);
+				usr = data.data;
+				localStorage.usr = JSON.stringify(data.data);
 				allow_1();
 			}
 		});
@@ -86,33 +86,39 @@ $("#loginbtm").click(function () {
 
 
 //状态机
-function switchto0() {
-	$("#slide1").hide();
-	$("#slide2").hide();
-	$("#slide3").hide();
-	$("#slide4").hide();
-	$("#slide5").hide();
-	swiper.allowTouchMove = false;
-}
-
-function switchto1() {
-	$("#slide1").show();
-	$("#slide2").hide();
-	$("#slide3").hide();
-	$("#slide4").hide();
-	$("#slide5").hide();
-	swiper.allowTouchMove = true;
-}
+//function switchto0() {
+//	$("#slide1").hide();
+//	$("#slide2").hide();
+//	$("#slide3").hide();
+//	$("#slide4").hide();
+//	$("#slide5").hide();
+//	swiper.allowTouchMove = false;
+//}
+//
+//function switchto1() {
+//	$("#slide1").show();
+//	$("#slide2").hide();
+//	$("#slide3").hide();
+//	$("#slide4").hide();
+//	$("#slide5").hide();
+//	swiper.allowTouchMove = true;
+//}
 //切换到指定状态
 function switchstatus() {
-	switch (localStorage.status) {
-		case "0":
-			switchto0();
-			break;
-		case "1":
-			switchto1();
-			break;
-	};
+	if ((swiper.activeIndex).toString() == localStorage.status){
+		swiper.allowSlideNext = false;
+	}else{
+		swiper.allowSlideNext = true;
+	}	
+	console.log("swiper.allowSlideNext = %v",swiper.allowSlideNext);
+//	switch (localStorage.status) {
+//		case "0":
+//			switchto0();
+//			break;
+//		case "1":
+//			switchto1();
+//			break;
+//	};
 }
 //switchstatus();
 
@@ -140,6 +146,11 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 				case 1:
 					x = "1 页 : 第一次扫码";
@@ -149,24 +160,44 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.start(cameraslist[localStorage.camera_id]);
 					scanner3.stop();
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 				case 2:
 					x = "2 页 : 显示扫描设备信息 ";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 				case 3:
 					x = "3 页 : 扫描设备更换地址码";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.start(cameraslist[localStorage.camera_id]);
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 				case 4:
 					x = "4 页 : 设备地址变更提交确认";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 				case 5:
 					x = "5 页 : 显示地址上设备信息";
@@ -174,6 +205,11 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
+					if ((this.activeIndex).toString() == localStorage.status){
+						swiper.allowSlideNext = false;
+					}else{
+						swiper.allowSlideNext = true;
+					}
 					break;
 
 			}
@@ -234,6 +270,9 @@ let scanner2 = new Instascan.Scanner({
 scanner2.addListener('scan', function (content) {
 	alert(content); //<----扫描结果
 	//<----可以调用scanner.stop()结束扫描
+	localStorage.status = 2;
+	switchstatus();
+	swiper.allowSlideNext();
 });
 
 //初始化第二次扫描摄像头
@@ -283,8 +322,8 @@ Instascan.Camera.getCameras().then(function (cameras) {
 	alert(e);
 });
 
-
 switchstatus();		//进入指定状态
+
 
 ///////备用代码//////////////////////////////////
 /*
