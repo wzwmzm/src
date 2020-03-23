@@ -110,6 +110,42 @@ func main() {
 
 	})
 	
+	// Post: query
+	app.Post("/query", func(ctx iris.Context) {
+		query := ctx.FormValue("dat")
+
+		asset := &Asset{QRCODE: query}
+		isasset, _ := orm.Get(asset)		
+		if isasset {
+			ctx.JSON(iris.Map{
+				"status": 	"0",
+				"msg":		"扫描的是资产二维码",
+				"data":    	asset,
+			})			
+			return
+		}		
+		
+		asset := &Asset{CFDD: query}
+		isaddr, _ := orm.Exist(asset)		
+		assets := make([]Asset, 0)
+		err := orm.Find(&assets, asset)
+		_ = err
+		if isaddr {
+			ctx.JSON(iris.Map{
+				"status": 	"1",
+				"msg":		"扫描的是地点二维码",
+				"data":    assets,				
+			})
+			return
+		}
+		
+		ctx.JSON(iris.Map{
+			"status": 	"2",
+			"msg":		"二维码错误, 请返回上页重新扫描!",  				
+		})		
+
+	})
+	
 	// Post: changepwd
 	app.Post("/changepwd", func(ctx iris.Context) {
 		jh := ctx.FormValue("jh")

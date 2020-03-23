@@ -2,13 +2,15 @@
 //选用哪个摄像头,  注意:  不初始化!!!
 let n_cameras = 0; //一共有几个摄像头
 let cameraslist = null; //取得的摄像头组, 对于scanner是通用的
-
-if (localStorage.status == undefined)localStorage.status = "0";//0:设置页
+let usr; //存放当前用户对象JSON.parse(localStorage.usr)
+let asset; //存放当前二维码扫描的资产
+let assets; //存放当前地址二维码的资产列表
+if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
 
 //请登录提示
 if (localStorage.usr == undefined) {
 	$("#name_xs").html('<b style="color:MediumVioletRed ">请先登录</b>');
-}else{
+} else {
 	usr = JSON.parse(localStorage.usr)
 	$("#name_xs").text(usr["姓名"]);
 }
@@ -105,36 +107,35 @@ $("#loginbtm").click(function () {
 //}
 //切换到指定状态
 function switchstatus() {
-	if ((swiper.activeIndex).toString() == localStorage.status){
+	if ((swiper.activeIndex).toString() == localStorage.status) {
 		swiper.allowSlideNext = false;
-	}else{
+	} else {
 		swiper.allowSlideNext = true;
-	}	
-	console.log("swiper.allowSlideNext = %v",swiper.allowSlideNext);
-//	switch (localStorage.status) {
-//		case "0":
-//			switchto0();
-//			break;
-//		case "1":
-//			switchto1();
-//			break;
-//	};
+	}
+	console.log("swiper.allowSlideNext = ", swiper.allowSlideNext);
 }
 //switchstatus();
 
 var swiper = new Swiper('.swiper-container', {
 	on: {
-//		touchMove: function (event) { //在滑动的过程中连续发出
-//			console.log("event: touchMove");
-//			//swiper.allowTouchMove= false;
-//
-//		},
-//
-//		sliderMove: function (event) { //在滑动的过程中连续发出
-//			console.log("event: sliderMove");
-//			//swiper.allowTouchMove= false;
-//
-//		},
+		//		touchMove: function (event) { //在滑动的过程中连续发出
+		//			console.log("event: touchMove");
+		//			//swiper.allowTouchMove= false;
+		//
+		//		},
+		//
+		//		sliderMove: function (event) { //在滑动的过程中连续发出
+		//			console.log("event: sliderMove");
+		//			//swiper.allowTouchMove= false;
+		//
+		//		},
+		slideNextTransitionStart: function () {
+			if (swiper.activeIndex==2 && localStorage.status=="5") swiper.slideTo(5);
+		},
+
+		slidePrevTransitionStart: function () {
+			if (swiper.activeIndex==4 && localStorage.status=="5") swiper.slideTo(1);
+		},
 
 		slideChange: function () {
 			console.log("event: slideChange");
@@ -146,11 +147,7 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 				case 1:
 					x = "1 页 : 第一次扫码";
@@ -160,44 +157,28 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.start(cameraslist[localStorage.camera_id]);
 					scanner3.stop();
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 				case 2:
 					x = "2 页 : 显示扫描设备信息 ";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 				case 3:
 					x = "3 页 : 扫描设备更换地址码";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.start(cameraslist[localStorage.camera_id]);
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 				case 4:
 					x = "4 页 : 设备地址变更提交确认";
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 				case 5:
 					x = "5 页 : 显示地址上设备信息";
@@ -205,11 +186,7 @@ var swiper = new Swiper('.swiper-container', {
 					scanner1.stop();
 					scanner2.stop();
 					scanner3.stop();
-					if ((this.activeIndex).toString() == localStorage.status){
-						swiper.allowSlideNext = false;
-					}else{
-						swiper.allowSlideNext = true;
-					}
+					switchstatus();
 					break;
 
 			}
@@ -224,11 +201,10 @@ var swiper = new Swiper('.swiper-container', {
 function allow_1() {
 	if (!(localStorage.camera_id) || !(localStorage.usr)) {
 		localStorage.status = "0";
-		switchstatus();
 	} else {
 		localStorage.status = "1";
-		switchstatus();
 	};
+	switchstatus();
 }
 
 //allow_1();
@@ -246,18 +222,7 @@ let scanner1 = new Instascan.Scanner({
 	refractoryPeriod: 5000, //连续识别相同QR码之前的时间
 	scanPeriod: 1 //两次扫描之间的周期
 });
-//      scanner1.addListener('scan', function (content) {
-//        console.log(content);       //<----扫描结果
-//                                    //<----可以调用scanner.stop()结束扫描
-//      });
-//		scanner1.addListener('inactive', function(){
-//			scanner1.stop();
-//		} )
-//		scanner1.addListener('active', function(){
-//			scanner1.start(cameraslist[localStorage.camera_id]);
-//		} )
 
-//初始化第一次扫描摄像头
 let scanner2 = new Instascan.Scanner({
 	video: document.getElementById('webcamera2'),
 	continuous: true, //持续扫描
@@ -270,9 +235,42 @@ let scanner2 = new Instascan.Scanner({
 scanner2.addListener('scan', function (content) {
 	alert(content); //<----扫描结果
 	//<----可以调用scanner.stop()结束扫描
-	localStorage.status = 2;
-	switchstatus();
-	swiper.slideNext();
+
+	$.post("/query", {
+			dat: content
+		},
+		function (data, status) {
+			switch (data.status) {
+				case "0": //扫描的是资产二维码	
+					//alert(JSON.stringify(data.msg));
+					//alert(data.msg["姓名"]);
+					//$("#name_xs").text(data.data["姓名"]);
+					asset = data.data;
+					localStorage.asset = JSON.stringify(data.data);
+
+					$("#asset").text(localStorage.asset);
+
+					localStorage.status = 3; //可以进入第3页扫描设备更换地址码"
+					switchstatus();
+					swiper.slideNext();
+					break;
+				case "1": //扫描的是地点二维码
+					assets = data.data;
+					localStorage.assets = JSON.stringify(data.data);
+
+					$("#asset").text(localStorage.asset);
+
+					localStorage.status = 5; //可以进入第5页显示地址上设备信息
+					switchstatus();
+					swiper.slideTo(5);
+					break;
+				case "2": //错误的二维码
+					alert(data.msg);
+					break;
+			}
+		});
+
+
 });
 
 //初始化第二次扫描摄像头
@@ -322,7 +320,7 @@ Instascan.Camera.getCameras().then(function (cameras) {
 	alert(e);
 });
 
-switchstatus();		//进入指定状态
+switchstatus(); //进入指定状态
 
 
 ///////备用代码//////////////////////////////////
