@@ -229,7 +229,11 @@ function allow_1() {
 	switchstatus();
 }
 
-//allow_1();
+
+//等待DOM加载完成
+$(function() {
+    console.log("DOM加载完成!");
+});
 
 
 //////////  1,初始化第一个摄像头(设置页)
