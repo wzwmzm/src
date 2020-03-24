@@ -97,18 +97,18 @@
 					<div id="accordion">
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseOne">
-								<a class="card-link" href="#collapseOne">用户名: <span id="name_xs"> </span> </a>
+								<a class="card-link" href="#collapseOne">用户名:  <span id="name_xs">  </span> </a>
 							</div>
 							<div id="collapseOne" class="collapse" data-parent="#accordion">
 								<div class="card-body">
 									<form>
 										<div class="form-group">
 											<label for="jh">警号:</label>
-											<input type="text" class="form-control" id="jh" required>
+											<input type="text" class="form-control" id="jh"  required>
 										</div>
 										<div class="form-group">
 											<label for="pwd">密码:</label>
-											<input type="text" class="form-control" id="pwd" required>
+											<input type="text" class="form-control" id="pwd"  required>
 										</div>
 										<div class="d-flex flex-row-reverse">
 											<button type="submit" class="btn btn-primary" id="loginbtm">登 录</button>
@@ -117,14 +117,14 @@
 									<form id="changepw">
 										<div class="form-group">
 											<label for="pw1">修改密码:</label>
-											<input type="text" class="form-control" id="pw1" required>
+											<input type="text" class="form-control" id="pw1"  required>
 										</div>
 										<div class="form-group">
 											<label for="pw2">请再次输入修改后的密码:</label>
 											<input type="text" class="form-control" id="pw2" required>
 										</div>
 										<div class="d-flex flex-row-reverse">
-											<button type="submit" class="btn btn-primary" id="changepwdbtm">提 交</button>
+											<button type="submit" class="btn btn-primary"  id="changepwdbtm">提  交</button>
 										</div>
 									</form>
 								</div>
@@ -152,19 +152,19 @@
 							</div>
 							<div id="collapseThree" class="collapse" data-parent="#accordion">
 								<div class="card-body">
-									** 向右滑动进入下一页.<br /><br />
-									** 安卓手机无法连接网站. 原因:本网站使用了IPV6网址, 而你处于IPV4网络. 解决对策:关闭WIFI连接, 使用电话网络连接.<br /><br />
-									** APPLE手机无法访问. 原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳. 解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.<br /><br />
-									** 管理员手册: /admin
-
-
-
-
-
-
-
-
-
+									** 向右滑动进入下一页.<br /><br/>
+									** 安卓手机无法连接网站. 原因:本网站使用了IPV6网址, 而你处于IPV4网络. 解决对策:关闭WIFI连接, 使用电话网络连接.<br/><br/>
+									** APPLE手机无法访问. 原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳. 解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.<br/><br/>
+                                    ** 管理员手册: /admin
+									 
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+									
 
 								</div>
 							</div>
@@ -189,30 +189,22 @@
 			<!-- Swiper-slide 3  扫描设备结果页 -->
 			<div class="swiper-slide" id="slide2">第2页:显示扫描设备信息
 				<div class="container">
-					<br /><br />
-					<h4 id="p0">
-						设备名称 :
-					</h4>
-					<div class="card  bg-secondary text-white">
-						<div class="card-header  bg-dark text-white">
-							<h6 id="p1">地址</h6>
+					<br /><br /><h2>设备信息:</h2>
+
+					<div class="card bg-light mb-3" style="max-width: 18rem;">
+						<div class="card-header">
+							<h5 class="card-title">
+								刷卡机15
+							</h5>
 						</div>
 						<div class="card-body">
-							<p id="p2">头部2</p>
-							<p id="p3">头部3</p>
-							<p id="p4">头部4</p>
-							<p id="p5">头部5</p>
-							<p id="p6">头部6</p>
-							<p id="p7">头部7</p>
-							<p id="p8">头部8</p>
-							<p id="p9">头部9</p>
-							<p id="p10">头部0</p>
-							<p id="p11">头部1</p>
-							<p id="p12">头部2</p>
-							<p id="p13">头部3</p>
 
+							<p class="card-text">位置: T1出境15号验证台</p>
+							<p class="card-text">型号: PM300</p>
+							<p class="card-text">序列号:42523452345345</p>
+							<p class="card-text">资产编号:42535235235</p>
+							<p class="card-text" id="asset">资产编号:42535235235</p>
 						</div>
-
 					</div>
 				</div>
 
@@ -290,12 +282,12 @@
 							<p class="card-text">型号: PM300</p>
 							<p class="card-text">序列号:42523452345345</p>
 							<p class="card-text">资产编号:42535235235</p>
-
+							
 							<p class="card-text" id="assets">资产编号:42535235235</p>
 						</div>
 					</div>
 
-
+					
 
 					<div class="card bg-light mb-3" style="max-width: 18rem;">
 						<div class="card-header">

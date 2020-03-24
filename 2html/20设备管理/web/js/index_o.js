@@ -165,10 +165,6 @@ var swiper = new Swiper('.swiper-container', {
 					scanner2.stop();
 					scanner3.stop();
 					switchstatus();
-					
-					asset = JSON.parse(localStorage.asset);
-					$("#p0").text(asset.资产名称);
-					$("#p1").text("存放地点: " + asset.存放地点);
 					break;
 				case 3:
 					x = "3 页 : 扫描设备更换地址码";
