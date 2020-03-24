@@ -130,11 +130,11 @@ var swiper = new Swiper('.swiper-container', {
 		//
 		//		},
 		slideNextTransitionStart: function () {
-			if (swiper.activeIndex==2 && localStorage.status=="5") swiper.slideTo(5);
+			if (swiper.activeIndex == 2 && localStorage.status == "5") swiper.slideTo(5);
 		},
 
 		slidePrevTransitionStart: function () {
-			if (swiper.activeIndex==4 && localStorage.status=="5") swiper.slideTo(1);
+			if (swiper.activeIndex == 4 && localStorage.status == "5") swiper.slideTo(1);
 		},
 
 		slideChange: function () {
@@ -155,61 +155,35 @@ var swiper = new Swiper('.swiper-container', {
 					//swiper.allowTouchMove= false;//设置
 					//console.log(swiper.allowTouchMove); //提示
 					scanner1.stop();
-/////////////////////////////////////////////////
-scanner2.addListener('scan', function (data) {
-	let content = utf82str(data);	//解决中文乱码
-	alert("scanner2: "+content);
-	
-	//<----可以调用scanner.stop()结束扫描
-
-	$.post("/query", {
-			dat: content
-		},
-		function (data, status) {
-			switch (data.status) {
-				case "0": //扫描的是资产二维码	
-					//alert(JSON.stringify(data.msg));
-					//alert(data.msg["姓名"]);
-					//$("#name_xs").text(data.data["姓名"]);
-					asset = data.data;
-					localStorage.asset = JSON.stringify(data.data);
-
-					$("#asset").text(localStorage.asset);
-
-					localStorage.status = 3; //可以进入第3页扫描设备更换地址码"
-					switchstatus();
-					swiper.slideNext();
-					break;
-				case "1": //扫描的是地点二维码
-					assets = data.data;
-					localStorage.assets = JSON.stringify(data.data);
-
-					$("#assets").text(localStorage.assets);
-
-					localStorage.status = 5; //可以进入第5页显示地址上设备信息
-					switchstatus();
-					swiper.slideTo(5);
-					break;
-				case "2": //错误的二维码
-					alert(data.msg);
-					break;
-			}
-		});
-
-
-});					
-/////////////////////////////////////////////////					
-					scanner2.start(cameraslist[localStorage.camera_id]);
-					scanner3.stop();
+					scanner2.start(cameraslist[localStorage.camera_id])
+						.then(function () {
+							console.log("scanner2 is active!!!");
+						})
+						.catch(function (err) {
+							console.log(err.name + ": " + err.message);
+						});
+					scanner3.stop()
+						.then(function () {
+							console.log("scanner3 is stoped");
+						});
 					switchstatus();
 					break;
 				case 2:
 					x = "2 页 : 显示扫描设备信息 ";
-					scanner1.stop();
-					scanner2.stop();
-					scanner3.stop();
+					scanner1.stop()
+						.then(function () {
+							console.log("scanner1 is stoped");
+						});
+					scanner2.stop()
+						.then(function () {
+							console.log("scanner2 is stoped");
+						});
+					scanner3.stop()
+						.then(function () {
+							console.log("scanner3 is stoped");
+						});
 					switchstatus();
-					
+
 					asset = JSON.parse(localStorage.asset);
 					$("#p0").text(asset.资产名称);
 					$("#p1").text("存放地点: " + asset.存放地点);
@@ -334,9 +308,9 @@ function utf82str(utf) {
 
 
 scanner2.addListener('scan', function (data) {
-	let content = utf82str(data);	//解决中文乱码
-	alert("scanner2: "+content);
-	
+	let content = utf82str(data); //解决中文乱码
+	alert("scanner2: " + content);
+
 	//<----可以调用scanner.stop()结束扫描
 
 	$.post("/query", {
@@ -387,8 +361,8 @@ let scanner3 = new Instascan.Scanner({
 	scanPeriod: 1 //两次扫描之间的周期
 });
 scanner3.addListener('scan', function (data) {
-	let content = utf82str(data);	//解决中文乱码
-	alert("scanner3: "+content);
+	let content = utf82str(data); //解决中文乱码
+	alert("scanner3: " + content);
 	//<----可以调用scanner.stop()结束扫描
 });
 
