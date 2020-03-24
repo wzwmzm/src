@@ -1,11 +1,5 @@
 //等待DOM加载完成
-$(function () {
-	//console.log("DOM加载完成!");
-
-
-
-	//if (!(localStorage.camera_id)) localStorage.camera_id=0;
-	//选用哪个摄像头,  注意:  不初始化!!!
+$(document).ready(function() {
 	let n_cameras = 0; //一共有几个摄像头
 	let cameraslist = null; //取得的摄像头组, 对于scanner是通用的
 	let usr; //存放当前用户对象JSON.parse(localStorage.usr)
