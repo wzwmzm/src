@@ -3,6 +3,8 @@ let cameraslist = null; //取得的摄像头组, 对于scanner是通用的
 let usr; //存放当前用户对象JSON.parse(localStorage.usr)
 let asset; //存放当前二维码扫描的资产
 let assets; //存放当前地址二维码的资产列表
+let myscanner; //通用扫描仪, 多页共用这一个扫描仪
+//let cameralock = false;
 if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
 
 //请登录提示
@@ -12,20 +14,6 @@ if (localStorage.usr == undefined) {
 	usr = JSON.parse(localStorage.usr)
 	$("#name_xs").text(usr["姓名"]);
 }
-////请选择摄像头提示
-//if (localStorage.camera_id == undefined) {
-//	$("#cameraid_c").html('<b style="color:MediumVioletRed ">请选择摄像头</b>');
-//}else{
-//	usr = JSON.parse(localStorage.usr)
-//	$("#name_xs").text(usr["姓名"]);
-//}
-//1:第一次扫码<--------状态变更
-//2:显示扫描设备信息
-//3:扫描变更地址码<-----状态变更
-//4:确认地址变更提交<---状态变更
-//5:显示扫描地址信息
-
-
 
 //修改密码
 $("#changepwdbtm").click(function () {
@@ -83,50 +71,8 @@ $("#loginbtm").click(function () {
 
 });
 
-
-
-//状态机
-//function switchto0() {
-//	$("#slide1").hide();
-//	$("#slide2").hide();
-//	$("#slide3").hide();
-//	$("#slide4").hide();
-//	$("#slide5").hide();
-//	swiper.allowTouchMove = false;
-//}
-//
-//function switchto1() {
-//	$("#slide1").show();
-//	$("#slide2").hide();
-//	$("#slide3").hide();
-//	$("#slide4").hide();
-//	$("#slide5").hide();
-//	swiper.allowTouchMove = true;
-//}
-//切换到指定状态
-function switchstatus() {
-	if ((swiper.activeIndex).toString() == localStorage.status) {
-		swiper.allowSlideNext = false;
-	} else {
-		swiper.allowSlideNext = true;
-	}
-	console.log("swiper.allowSlideNext = ", swiper.allowSlideNext);
-}
-//switchstatus();
-
 var swiper = new Swiper('.swiper-container', {
 	on: {
-		//		touchMove: function (event) { //在滑动的过程中连续发出
-		//			console.log("event: touchMove");
-		//			//swiper.allowTouchMove= false;
-		//
-		//		},
-		//
-		//		sliderMove: function (event) { //在滑动的过程中连续发出
-		//			console.log("event: sliderMove");
-		//			//swiper.allowTouchMove= false;
-		//
-		//		},
 		slideNextTransitionStart: function () {
 			if (swiper.activeIndex == 2 && localStorage.status == "5") swiper.slideTo(5);
 		},
@@ -136,77 +82,102 @@ var swiper = new Swiper('.swiper-container', {
 		},
 
 		slideChange: function () {
-			console.log("event: slideChange");
-			console.log('改变了，activeIndex为' + this.activeIndex);
+			//console.log("event: slideChange");
+			//console.log('改变了，activeIndex为' + this.activeIndex);
 
 			switch (this.activeIndex) {
 				case 0:
 					x = "0 页 : 设置";
-					scanner1.stop();
-					scanner2.stop();
-					scanner3.stop();
+					myscanner.stop().then(function () {
+						console.log("myscanner0 stop.");
+						try {
+							scan1();
+						} catch (err) {
+							console.log("scan1()---错误:" + err.name + ":" + err.message);
+						};
+					});
 					switchstatus();
 					break;
 				case 1:
 					x = "1 页 : 第一次扫码";
-					//$("#slide2").hide();
-					//swiper.allowTouchMove= false;//设置
-					//console.log(swiper.allowTouchMove); //提示
-					scanner1.stop();
-					scanner2.start(cameraslist[localStorage.camera_id])
-						.then(function () {
-							console.log("scanner2 is active!!!");
-						})
-						.catch(function (err) {
-							console.log(err.name + ": " + err.message);
-						});
-					scanner3.stop()
-						.then(function () {
-							console.log("scanner3 is stoped");
-						});
+					myscanner.stop().then(function () {
+						console.log("myscanner1 stop.");
+						try {
+							scan2();
+						} catch (err) {
+							console.log("scan2()---错误:" + err.name + ":" + err.message);
+						}
+					});
 					switchstatus();
 					break;
 				case 2:
 					x = "2 页 : 显示扫描设备信息 ";
-					scanner1.stop()
-						.then(function () {
-							console.log("scanner1 is stoped");
-						});
-					scanner2.stop()
-						.then(function () {
-							console.log("scanner2 is stoped");
-						});
-					scanner3.stop()
-						.then(function () {
-							console.log("scanner3 is stoped");
-						});
+					myscanner.stop();
 					switchstatus();
 
 					asset = JSON.parse(localStorage.asset);
 					$("#p0").text(asset.资产名称);
 					$("#p1").text("存放地点: " + asset.存放地点);
+					$("#p2").text("资产编号: " + asset.资产编号);
+					$("#p3").text("规格型号: " + asset.规格型号);
+					$("#p4").text("取得日期: " + formatDate(asset.取得日期, '-'));
+					$("#p5").text("使 用 人: " + asset.使用人);
+					$("#p6").text("二 维 码: " + asset.二维码);
+					$("#p7").text("数   量: " + asset.数量);
+					$("#p8").text("单   价: " + asset.单价);
+					$("#p9").text("金   额: " + asset.金额);
+					$("#p10").text("序   号: " + asset.序号);
+					$("#p11").text("部   门: " + asset.部门);
+					$("#p12").text("品   牌: " + asset.品牌);
+					$("#p13").text("备   注: " + asset.备注);
+
 					break;
 				case 3:
 					x = "3 页 : 扫描设备更换地址码";
-					scanner1.stop();
-					scanner2.stop();
-					scanner3.start(cameraslist[localStorage.camera_id]);
+					myscanner.stop().then(function () {
+						console.log("myscanner2 stop.");
+						try {
+							scan3();
+						} catch (err) {
+							console.log("scan3()---错误:" + err.name + ":" + err.message);
+						}
+					});
 					switchstatus();
 					break;
 				case 4:
 					x = "4 页 : 设备地址变更提交确认";
-					scanner1.stop();
-					scanner2.stop();
-					scanner3.stop();
+					myscanner.stop();
 					switchstatus();
 					break;
 				case 5:
 					x = "5 页 : 显示地址上设备信息";
-					//$("#slide2").show();
-					scanner1.stop();
-					scanner2.stop();
-					scanner3.stop();
+					myscanner.stop();
 					switchstatus();
+					assets = JSON.parse(localStorage.assets);
+					
+					$("#assetslist").remove();
+					$("#d0").text(" " + assets[0].存放地点);
+					for (let key in assets) {
+						let val = assets[key];
+						let t1 = '<div class="card  bg-secondary text-white" id="assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:'+ val.资产名称 +'</h6> </div> <div class = "card-body" > ';
+						let t2 = '<p>资产编号:' + val.资产编号+'</p>';
+						let t3 = '<p>规格型号:' + val.规格型号+'</p>';
+						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-')+'</p>';
+						let t5 = '<p>使 用 人:' + val.使用人+'</p>';
+						let t6 = '<p>二 维 码:' + val.二维码+'</p>';
+						let t7 = '<p>数   量:' + val.数量 +'</p>';
+						let t8 = '<p>单   价:' + val.单价+'</p>';
+						let t9 = '<p>金   额:' + val.金额+'</p>';
+						let t10 = '<p>序   号:' + val.序号+'</p>';
+						let t11 = '<p>部   门:' + val.部门+'</p>';
+						let t12 = '<p>品   牌:' + val.品牌+'</p>';
+						let t13 = '<p>备   注:' + val.备注+'</p>';
+						let ttt = t1+t2+t3+t4+t5+t6+t7+t8+t9+t10+t11+t12+t13+'</div></div>';
+						$("#d0").after(ttt);
+					};
+
+
+
 					break;
 
 			}
@@ -217,41 +188,207 @@ var swiper = new Swiper('.swiper-container', {
 	},
 });
 
+//根据当前所在页和状态,调整页面的翻页开关
+function switchstatus() {
+	if ((swiper.activeIndex).toString() == localStorage.status) {
+		swiper.allowSlideNext = false;
+	} else {
+		swiper.allowSlideNext = true;
+	}
+	//console.log("swiper.allowSlideNext = ", swiper.allowSlideNext);
+}
+
 //判断是否进入第1页.  用户名及摄像头设定前禁止滑动
 function allow_1() {
-	if (!(localStorage.camera_id) || !(localStorage.usr)) {
-		localStorage.status = "0";
-	} else {
+	if (localStorage.status === "0" && localStorage.camera_id && localStorage.usr) {
 		localStorage.status = "1";
+		switchstatus();
 	};
-	switchstatus();
+}
+
+//////////  1,初始化第一个摄像头(设置页)
+function scan1() {
+	//	while (cameralock) { console.log(" cameralock, please wait")};
+	//	cameralock = true;
+	try {
+		myscanner = new Instascan.Scanner({
+			video: document.getElementById('webcamera1'),
+			continuous: true, //持续扫描
+			mirror: false, //镜像,使用前置摄像头时使用
+			captureImage: false, //将图像数据作为结果的一部分
+			backgroundScan: false, //选项卡未激活时是否扫描
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			scanPeriod: 1 //两次扫描之间的周期
+		});
+	} catch (err) {
+		console.log("scan3()中, new Instascan.Scanner 出错");
+		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+	};
+
+	myscanner.addListener('scan', function (data) {
+
+	});
+	myscanner.addListener('active', function () {
+		console.log("scanner1 is active.");
+	});
+
+	myscanner.addListener('inactive', function () {
+		console.log("scanner1 is inactive.");
+	});
+
+
+}
+
+function scan2() {
+	//	while (cameralock) { console.log(" cameralock, please wait")};
+	//	cameralock = true;
+	try {
+		myscanner = new Instascan.Scanner({
+			video: document.getElementById('webcamera2'),
+			continuous: true, //持续扫描
+			mirror: false, //镜像,使用前置摄像头时使用
+			captureImage: false, //将图像数据作为结果的一部分
+			backgroundScan: false, //选项卡未激活时是否扫描
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			scanPeriod: 1 //两次扫描之间的周期
+		});
+	} catch (err) {
+		console.log("scan2()中, new Instascan.Scanner 出错");
+		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+	};
+
+	myscanner.addListener('scan', function (data) {
+		let content = utf82str(data); //解决中文乱码
+		//alert("scanner3: " + content);
+		console.log("scan: " + content);
+		$.post("/query", {
+				dat: content
+			},
+			function (data, status) {
+				switch (data.status) {
+					case "0": //扫描的是资产二维码	
+						//alert(JSON.stringify(data.msg));
+						//alert(data.msg["姓名"]);
+						//$("#name_xs").text(data.data["姓名"]);
+						asset = data.data;
+						localStorage.asset = JSON.stringify(data.data);
+
+						$("#asset").text(localStorage.asset);
+
+						localStorage.status = 3; //可以进入第3页扫描设备更换地址码"
+						switchstatus();
+						swiper.slideNext();
+						break;
+					case "1": //扫描的是地点二维码
+						assets = data.data;
+						localStorage.assets = JSON.stringify(data.data);
+
+						//$("#assets").text(localStorage.assets);
+
+						localStorage.status = 5; //可以进入第5页显示地址上设备信息
+						switchstatus();
+						swiper.slideTo(5);
+						break;
+					case "2": //错误的二维码
+						alert(data.msg);
+						break;
+				}
+			}); //$.post("/query",
+	}); //myscanner.addListener
+
+	myscanner.addListener('active', function () {
+		console.log("scanner2 is active.");
+	});
+
+	myscanner.addListener('inactive', function () {
+		console.log("scanner2 is inactive.");
+	});
+
+	myscanner.start(cameraslist[localStorage.camera_id])
+		.then(function () {
+			console.log("现在是scan2();");
+		})
+		.catch(function (err) {
+			console.log("scan2()错误:" + err.name + ":" + err.message);
+		});
+}
+
+function scan3() {
+	//	while (cameralock) { console.log(" cameralock, please wait")};
+	//	cameralock = true;
+	try {
+		myscanner = new Instascan.Scanner({
+			video: document.getElementById('webcamera3'),
+			continuous: true, //持续扫描
+			mirror: false, //镜像,使用前置摄像头时使用
+			captureImage: false, //将图像数据作为结果的一部分
+			backgroundScan: false, //选项卡未激活时是否扫描
+			refractoryPeriod: 5000, //连续识别相同QR码之前的时间
+			scanPeriod: 1 //两次扫描之间的周期
+		});
+	} catch (err) {
+		console.log("scan3()中, new Instascan.Scanner 出错");
+		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+	};
+
+	//console.log ("myscanner3:"+myscanner);
+
+	myscanner.addListener('scan', function (data) {
+		let content = utf82str(data); //解决中文乱码
+		//alert("scanner3: " + content);
+		console.log("scan: " + content);
+		//	scanner3.stop();	//结束扫描
+	});
+
+	myscanner.addListener('active', function () {
+		console.log("scanner3 is active.");
+	});
+
+	myscanner.addListener('inactive', function () {
+		console.log("scanner3 is inactive.");
+	});
+
+	myscanner.start(cameraslist[localStorage.camera_id])
+		.then(function () {
+			console.log("现在是scan3();");
+		})
+		.catch(function (err) {
+			console.log("scan3()错误:" + err.name + ":" + err.message);
+		});
 }
 
 
-
-//////////  1,初始化第一个摄像头(设置页)
-//			与<vedio>图像输出硬关联(初始化后不能更改), 
-//			与摄像头软关联
-let scanner1 = new Instascan.Scanner({
-	video: document.getElementById('webcamera1'),
-	continuous: true, //持续扫描
-	mirror: false, //镜像,使用前置摄像头时使用
-	captureImage: false, //将图像数据作为结果的一部分
-	backgroundScan: false, //选项卡未激活时是否扫描
-	refractoryPeriod: 5000, //连续识别相同QR码之前的时间
-	scanPeriod: 1 //两次扫描之间的周期
+//设置页, 摄像头列表
+Instascan.Camera.getCameras().then(function (cameras) {
+	switchstatus(); //摄像头初始化完成,可以开始了
+	if (cameras.length > 0) {
+		cameraslist = cameras; //取得摄像头列表
+		// 显示 "摄像头: BisonCam, NB Pro"
+		if (localStorage.camera_id) {
+			$('#cameraid_c').text(cameraslist[localStorage.camera_id].name);
+		}
+		//列表开始
+		n_cameras = cameras.length;
+		for (var i = n_cameras; --i >= 0;) {
+			let checked = ""
+			if (localStorage.camera_id == i) {
+				checked = "checked"
+			}
+			//onclick实现:
+			//	1,设定localStorage.camera_id
+			//	2,关闭并重新打开指定摄像头
+			//	3,判断是否能进入第1页
+			$("#cameras-div").prepend(`
+			<div class="radio text-left">
+				<label><input type="radio" name="camera_op_c"  ` + checked + `  onclick="localStorage.camera_id=` + i + `;$('#cameraid_c').text(cameraslist[` + i + `].name);myscanner.stop();myscanner.start(cameraslist[` + i + `]);  allow_1(); "> ` + cameraslist[i].name + `</label>
+			</div>`);
+		};
+	} else {
+		alert('No cameras found.');
+	}
+}).catch(function (e) {
+	alert(e);
 });
-
-let scanner2 = new Instascan.Scanner({
-	video: document.getElementById('webcamera2'),
-	continuous: true, //持续扫描
-	mirror: false, //镜像,使用前置摄像头时使用
-	captureImage: false, //将图像数据作为结果的一部分
-	backgroundScan: false, //选项卡未激活时是否扫描
-	refractoryPeriod: 5000, //连续识别相同QR码之前的时间
-	scanPeriod: 1 //两次扫描之间的周期
-});
-
 
 // UCS-2和UTF8都是unicode的一种编码方式
 // js代码中使用的是UCS-2编码
@@ -302,101 +439,22 @@ function utf82str(utf) {
 	return str;
 }
 
-
-
-scanner2.addListener('scan', function (data) {
-	let content = utf82str(data); //解决中文乱码
-	alert("scanner2: " + content);
-
-	//<----可以调用scanner.stop()结束扫描
-
-	$.post("/query", {
-			dat: content
-		},
-		function (data, status) {
-			switch (data.status) {
-				case "0": //扫描的是资产二维码	
-					//alert(JSON.stringify(data.msg));
-					//alert(data.msg["姓名"]);
-					//$("#name_xs").text(data.data["姓名"]);
-					asset = data.data;
-					localStorage.asset = JSON.stringify(data.data);
-
-					$("#asset").text(localStorage.asset);
-
-					localStorage.status = 3; //可以进入第3页扫描设备更换地址码"
-					switchstatus();
-					swiper.slideNext();
-					break;
-				case "1": //扫描的是地点二维码
-					assets = data.data;
-					localStorage.assets = JSON.stringify(data.data);
-
-					$("#assets").text(localStorage.assets);
-
-					localStorage.status = 5; //可以进入第5页显示地址上设备信息
-					switchstatus();
-					swiper.slideTo(5);
-					break;
-				case "2": //错误的二维码
-					alert(data.msg);
-					break;
-			}
-		});
-
-
-});
-
-//初始化第二次扫描摄像头
-let scanner3 = new Instascan.Scanner({
-	video: document.getElementById('webcamera3'),
-	continuous: true, //持续扫描
-	mirror: false, //镜像,使用前置摄像头时使用
-	captureImage: false, //将图像数据作为结果的一部分
-	backgroundScan: false, //选项卡未激活时是否扫描
-	refractoryPeriod: 5000, //连续识别相同QR码之前的时间
-	scanPeriod: 1 //两次扫描之间的周期
-});
-scanner3.addListener('scan', function (data) {
-	let content = utf82str(data); //解决中文乱码
-	alert("scanner3: " + content);
-	//<----可以调用scanner.stop()结束扫描
-});
-
-//设置页, 摄像头列表
-Instascan.Camera.getCameras().then(function (cameras) {
-
-	if (cameras.length > 0) {
-		cameraslist = cameras; //取得摄像头列表
-		// 显示 "摄像头: BisonCam, NB Pro"
-		if (localStorage.camera_id) {
-			$('#cameraid_c').text(cameraslist[localStorage.camera_id].name);
-		}
-		//列表开始
-		n_cameras = cameras.length;
-		for (var i = n_cameras; --i >= 0;) {
-			let checked = ""
-			if (localStorage.camera_id == i) {
-				checked = "checked"
-			}
-			//onclick实现:
-			//	1,设定localStorage.camera_id
-			//	2,关闭并重新打开指定摄像头
-			//	3,判断是否能进入第1页
-			$("#cameras-div").prepend(`
-			<div class="radio text-left">
-				<label><input type="radio" name="camera_op_c"  ` + checked + `  onclick="localStorage.camera_id=` + i + `;$('#cameraid_c').text(cameraslist[` + i + `].name);scanner1.stop();scanner1.start(cameraslist[` + i + `]);  allow_1(); "> ` + cameraslist[i].name + `</label>
-			</div>`);
-		};
-	} else {
-		alert('No cameras found.');
+//整数转日期, 如formatDate(42333,'-')
+function formatDate(numb, format) {
+	const time = new Date((numb - 1) * 24 * 3600000 + 1)
+	time.setYear(time.getFullYear() - 70)
+	const year = time.getFullYear() + ''
+	const month = time.getMonth() + 1 + ''
+	const date = time.getDate() - 1 + ''
+	if (format && format.length === 1) {
+		return year + format + month + format + date
 	}
-}).catch(function (e) {
-	alert(e);
-});
+	return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
+}
 
-switchstatus(); //进入指定状态
-
+//switchstatus(); //进入指定状态
+swiper.allowSlideNext = false; //等待摄像头初始化完成
+scan1();
 
 ///////备用代码//////////////////////////////////
 /*
