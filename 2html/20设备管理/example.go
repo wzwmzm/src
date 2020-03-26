@@ -37,7 +37,7 @@ type Asset struct {
 	CFDD    string  `json:"存放地点" xorm:"not null"`
 	BZ      string  `json:"备注"`
 	QRCODE  string  `json:"二维码" xorm:"not null unique"`
-	Version int     `xorm:"version"` // 乐观锁
+	//Version int     `xorm:"version"` // 乐观锁
 
 }
 
@@ -155,6 +155,69 @@ func main() {
 		})		
 
 	})
+	
+	// Post: /verifyaddr
+	app.Post("/verifyaddr", func(ctx iris.Context) {
+		query := ctx.FormValue("dat")
+		
+		asset1 := &Asset{CFDD: query}
+		isaddr, _ := orm.Exist(asset1)		
+		fmt.Println("isaddr",isaddr)
+		
+		if isaddr {
+			ctx.JSON(iris.Map{
+				"status": 	"1",
+				"msg":		"完成设备存放地点改变!",				
+			})
+			return
+		}
+		
+		ctx.JSON(iris.Map{
+			"status": 	"2",
+			"msg":		"二维码错误, 请重新扫描!",  				
+		})		
+
+	})
+	
+	// Post: /changeaddr
+	app.Post("/changeaddr", func(ctx iris.Context) {
+		asset_str:= ctx.FormValue("asset")
+		addr_new := ctx.FormValue("addr")
+		user_str := ctx.FormValue("user")
+		comment  := ctx.FormValue("comment")
+		fmt.Println(asset_str,addr_new,user_str,comment)
+		
+		user := &User{}
+		asset:= &Asset{}
+		json.Unmarshal([]byte(user_str), user)
+		json.Unmarshal([]byte(asset_str), asset)
+		fmt.Println(user,asset)
+		
+		if len(comment)==0{ //备注为空时强制更新
+			comment = " "
+		}
+		
+		affected, err := orm.Id(asset.ID).Update(
+			&Asset{CFDD:addr_new,
+				  BZ:comment})
+		fmt.Println(affected,"---",err)
+		fmt.Println(len(comment))
+
+		//orm.Id(asset.ID).Cols("BZ").Update(&Asset{BZ:""})
+
+
+		if affected == 1 {
+			ctx.JSON(iris.Map{
+				"status": 	"1",
+				"msg":		"成功!",				
+			})
+		}else{		
+			ctx.JSON(iris.Map{
+				"status": 	"2",
+				"msg":		"变更地址失败,请重试!", 			
+		})}		
+
+	})	
 	
 	// Post: changepwd
 	app.Post("/changepwd", func(ctx iris.Context) {

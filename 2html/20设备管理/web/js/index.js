@@ -71,6 +71,33 @@ $("#loginbtm").click(function () {
 
 });
 
+//changeaddr
+$("#submitbtn").click(function () {
+//	let id = asset.ID;
+//	let addr_old = asset.存放地点;
+//	let addr_new = localStorage.txt;
+//	let comment = $("#comment").val();
+//	console.log(id," : ",addr_old," : ",addr_new," : ",comment);
+
+	$.post("/changeaddr", {
+			asset: 	localStorage.asset,
+			addr: 	localStorage.newaddr,
+			user:	localStorage.usr,
+			comment:$("#comment").val(),
+		},
+		function (data, status) {
+			if (data.status != "1") {	//失败
+				alert(data.msg);
+			} else {					//成功
+				alert(data.msg);
+				localStorage.status = 1;
+				swiper.slideTo(1);
+				$("#comment").val("");
+			}
+		});
+
+});
+
 var swiper = new Swiper('.swiper-container', {
 	on: {
 		slideNextTransitionStart: function () {
@@ -148,6 +175,11 @@ var swiper = new Swiper('.swiper-container', {
 					x = "4 页 : 设备地址变更提交确认";
 					myscanner.stop();
 					switchstatus();
+					
+					asset = JSON.parse(localStorage.asset);
+					$("#c0").text(asset.资产名称);
+					$("#c1").text(asset.存放地点);
+					$("#c2").text(localStorage.newaddr);
 					break;
 				case 5:
 					x = "5 页 : 显示地址上设备信息";
@@ -155,11 +187,11 @@ var swiper = new Swiper('.swiper-container', {
 					switchstatus();
 					assets = JSON.parse(localStorage.assets);
 					
-					$("#assetslist").remove();
+					$(".assetslist").remove();
 					$("#d0").text(" " + assets[0].存放地点);
 					for (let key in assets) {
 						let val = assets[key];
-						let t1 = '<div class="card  bg-secondary text-white" id="assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:'+ val.资产名称 +'</h6> </div> <div class = "card-body" > ';
+						let t1 = '<div class="card  bg-secondary text-white  assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:'+ val.资产名称 +'</h6> </div> <div class = "card-body" > ';
 						let t2 = '<p>资产编号:' + val.资产编号+'</p>';
 						let t3 = '<p>规格型号:' + val.规格型号+'</p>';
 						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-')+'</p>';
@@ -223,6 +255,7 @@ function scan1() {
 	} catch (err) {
 		console.log("scan3()中, new Instascan.Scanner 出错");
 		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+		location.reload();
 	};
 
 	myscanner.addListener('scan', function (data) {
@@ -255,6 +288,7 @@ function scan2() {
 	} catch (err) {
 		console.log("scan2()中, new Instascan.Scanner 出错");
 		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+		location.reload();
 	};
 
 	myscanner.addListener('scan', function (data) {
@@ -290,7 +324,9 @@ function scan2() {
 						swiper.slideTo(5);
 						break;
 					case "2": //错误的二维码
-						alert(data.msg);
+						alert(data.msg+"\n扫描内容: "+content);
+						localStorage.status = 1; //退回到第一次扫描
+						switchstatus();
 						break;
 				}
 			}); //$.post("/query",
@@ -310,6 +346,7 @@ function scan2() {
 		})
 		.catch(function (err) {
 			console.log("scan2()错误:" + err.name + ":" + err.message);
+			location.reload();
 		});
 }
 
@@ -329,6 +366,7 @@ function scan3() {
 	} catch (err) {
 		console.log("scan3()中, new Instascan.Scanner 出错");
 		alert("大哥! 你太快了, 我受不了了... 我们重新来!!!");
+		location.reload();
 	};
 
 	//console.log ("myscanner3:"+myscanner);
@@ -338,6 +376,28 @@ function scan3() {
 		//alert("scanner3: " + content);
 		console.log("scan: " + content);
 		//	scanner3.stop();	//结束扫描
+		localStorage.newaddr = content
+		
+		$.post("/verifyaddr", {
+				dat: content
+			},
+			function (data, status) {
+				switch (data.status) {
+					case "1": //完成地址校验,进入确认地址变更提交页,第4页
+						localStorage.status = 4; 
+						switchstatus();
+						swiper.slideNext();	//进入确认提交页,第4页		
+						break;
+					case "2": //错误的二维码
+						alert(data.msg+"\n扫描内容: "+content);
+						localStorage.status = 3; //退回到第二次扫描
+						switchstatus();
+						break;
+				}
+			}); //$.post("/query",		
+		
+		
+		
 	});
 
 	myscanner.addListener('active', function () {
@@ -354,6 +414,7 @@ function scan3() {
 		})
 		.catch(function (err) {
 			console.log("scan3()错误:" + err.name + ":" + err.message);
+			location.reload();
 		});
 }
 

@@ -51,25 +51,6 @@
 
         .swiper-slide {
             overflow: auto;
-            /*		text-align: center;
- 			font-size: 5rem; 
-			background: #fff;
-			overflow: auto;*/
-            /* Center slide text vertically 
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: -webkit-flex;
-			display: flex;*/
-            /*
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
-			-webkit-justify-content: center;
-			justify-content: center;
-			-webkit-box-align: center;
-			-ms-flex-align: center;
-			-webkit-align-items: center;
-			align-items: center;
-			*/
         }
     </style>
 	<script>
@@ -157,15 +138,6 @@
 									** APPLE手机无法访问. 原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳. 解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.<br /><br />
 									** 管理员手册: /admin
 
-
-
-
-
-
-
-
-
-
 								</div>
 							</div>
 						</div>
@@ -173,12 +145,13 @@
 				</div>
 
 			</div>
+
 			<!-- Swiper-slide 2  第一次扫描页 -->
 			<div class="swiper-slide" id="slide1">第1页:第一次扫码
 
 				<div class="container">
 					<br /><br /><br />
-					<h2> 请扫码:</h2>
+					<h2> 请扫码:(第一次扫描)</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
 						<video id="webcamera2" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
@@ -186,6 +159,7 @@
 				</div>
 
 			</div>
+
 			<!-- Swiper-slide 3  扫描设备结果页 -->
 			<div class="swiper-slide" id="slide2">第2页:显示扫描设备信息
 				<div class="container">
@@ -216,55 +190,49 @@
 					</div>
 				</div>
 			</div>
+
 			<!-- Swiper-slide 4  扫描地址码-->
 			<div class="swiper-slide" id="slide3">第3页:扫描变更地址码
 
 				<div class="container">
 					<br /><br /><br />
-					<h2> 请地址扫码:</h2>
+					<h2> 请扫地址码:(第二次扫描)</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
 						<video id="webcamera3" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
 					</div>
 				</div>
-
-
-
-
-
-
 			</div>
+
 			<!-- Swiper-slide 5  确认地址变更页-->
 			<div class="swiper-slide" id="slide4">第4页: 确认地址变更提交
 				<div class="container">
 
 					<h2>确认地址变更页:<br /><br /></h2>
 
-					<div class="card bg-light mb-3" style="max-width: 18rem;">
+					<div class="card bg-light mb-3">
 						<div class="card-header">
-							<h5 class="card-title">
+							<h5 class="card-title" id="c0">
 								刷卡机15
 							</h5>
 						</div>
 						<div class="card-body">
 
 							<p class="card-text">原位置:</p>
-							<p class="card-text">T1出境15号验证台</p>
+							<p class="card-text text-center"><b id="c1">T1出境15号验证台</b></p>
 							<p class="card-text">变更为:</p>
-							<p class="card-text">T1主机房备品备件库</p>
-							<p class="card-text">备注: </p>
+							<p class="card-text text-center"><b id="c2">T1主机房备品备件库</b></p>
+							<br />
+							<p class="card-text"><b>备注: </b></p>
 							<p class="card-text">
 								<textarea class="form-control" rows="5" id="comment"></textarea>
 							</p>
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button type="submit" class="btn btn-primary" id="submitbtn">确认提交</button>
 						</div>
 					</div>
 				</div>
-
-
-
-
 			</div>
+
 			<!-- Swiper-slide 6  第一次扫描地址结果页-->
 			<div class="swiper-slide" id="slide5">第5页: 显示扫描地址信息
 				<div class="container">
@@ -272,14 +240,7 @@
 					<h3 id="d0">
 						在此地址设备列表:
 					</h3>
-
-					
-					
-					
-					
 				</div>
-
-
 
 			</div>
 
@@ -288,25 +249,10 @@
 
 			<div class="swiper-slide" id="slide7">页面 7</div>
 
-			<div class="swiper-slide" id="slide8">页面 8</div>
-
-			<div class="swiper-slide" id="slide9">页面 9</div>
 -->
-
 		</div>
 
-
-
-
 	</div>
-
-
-
-
-
-
-
-
 
 
 	<!-- Swiper JS -->
