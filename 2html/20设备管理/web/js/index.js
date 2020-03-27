@@ -5,6 +5,7 @@ let asset; //存放当前二维码扫描的资产
 let assets; //存放当前地址二维码的资产列表
 let myscanner; //通用扫描仪, 多页共用这一个扫描仪
 //let cameralock = false;
+let recorders; //存放设备的流转记录
 if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
 
 //请登录提示
@@ -157,6 +158,28 @@ var swiper = new Swiper('.swiper-container', {
 					$("#p11").text("部   门: " + asset.部门);
 					$("#p12").text("品   牌: " + asset.品牌);
 					$("#p13").text("备   注: " + asset.备注);
+                    
+ 					recorders = JSON.parse(localStorage.recorders);					
+					$(".recorderslist").remove();
+					//$("#s0").text(" " + recorders[0].存放地点);
+					for (let key in recorders) {
+						let val = recorders[key];
+						let t1 = `
+                            <div class="card  bg-secondary text-white recorderslist">
+                                <div class="card-header  cardhead text-white">
+                                    <h6>时间: `+val.记录时间+`</h6>
+                                </div>
+                                <div class="card-body cardbody">
+                                    <p>人员: `+val.姓名 +`</p>
+                                    <p>地址: `+val.存放地点+`</p>
+                                    <p>备注: `+val.备注+`</p>
+                                </div>
+
+                            </div>`;
+						$("#liuzhuan").after(t1);
+					};                   
+                    scrollTo(0,0);
+                    
 
 					break;
 				case 3:
@@ -271,7 +294,7 @@ function scan1() {
 
 
 }
-
+//第一次扫描的摄像头
 function scan2() {
 	//	while (cameralock) { console.log(" cameralock, please wait")};
 	//	cameralock = true;
@@ -306,8 +329,10 @@ function scan2() {
 						//$("#name_xs").text(data.data["姓名"]);
 						asset = data.data;
 						localStorage.asset = JSON.stringify(data.data);
+                        recorders = data.recorders;
+                        localStorage.recorders = JSON.stringify(data.recorders);
 
-						$("#asset").text(localStorage.asset);
+						//$("#asset").text(localStorage.asset);
 
 						localStorage.status = 3; //可以进入第3页扫描设备更换地址码"
 						switchstatus();
@@ -350,6 +375,7 @@ function scan2() {
 		});
 }
 
+//第二次扫描的摄像头
 function scan3() {
 	//	while (cameralock) { console.log(" cameralock, please wait")};
 	//	cameralock = true;

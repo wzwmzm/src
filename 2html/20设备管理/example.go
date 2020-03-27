@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	//"time"
+	"time"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
 	//"github.com/go-xorm/xorm"
@@ -38,7 +38,18 @@ type Asset struct {
 	BZ      string  `json:"备注"`
 	QRCODE  string  `json:"二维码" xorm:"not null unique"`
 	//Version int     `xorm:"version"` // 乐观锁
+}
 
+type Recorder struct{
+    ID          int64   `xorm:"not null pk autoincr unique INT(10)"`
+    QRCODE      string  `json:"二维码" xorm:"not null"`
+    ZCMC        string  `json:"资产名称"`
+    CFDD        string  `json:"存放地点" xorm:"not null"`
+    JH          string  `json:"警号" xorm:"varchar(50) not null"`
+    XM          string  `json:"姓名" xorm:"varchar(50) not null"`
+    BZ          string  `json:"备注"`
+    CreatedAt   time.Time `json:"记录时间" xorm:"created"`
+    
 }
 
 func main() {
@@ -65,18 +76,17 @@ func main() {
 	//在控制台打印sql语句，默认为false
 	orm.ShowSQL(true)
 
-	err = orm.Sync2(new(User))
-	//* 自动检测和创建表，这个检测是根据表的名字
-
-	if err != nil {
+    //打开 User 数据表
+	if err = orm.Sync2(new(User)); err != nil {
 		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
 	}
-
-	err = orm.Sync2(new(Asset))
-	//* 自动检测和创建表，这个检测是根据表的名字
-
-	if err != nil {
+    //打开 Asset 数据表 
+	if err = orm.Sync2(new(Asset)); err != nil {
 		app.Logger().Fatalf("orm failed to initialized Asset table: %v", err)
+	}
+    //打开 Recorder 数据表 
+	if err = orm.Sync2(new(Recorder)); err != nil {
+		app.Logger().Fatalf("orm failed to initialized User table: %v", err)
 	}
 /////////////////////////
 //		asset1 := &Asset{CFDD: "311仓库"}
@@ -125,10 +135,17 @@ func main() {
 		asset := &Asset{QRCODE: query}
 		isasset, _ := orm.Get(asset)		
 		if isasset {
+            //如果是资产设备还需要查询流转记录		
+            recorders := make([]Recorder, 0)
+            err := orm.Find(&recorders, &Recorder{QRCODE: query})
+            //_ = err  
+            fmt.Println("err: ",err,"  recorders: ", recorders)
+            //数据回传
 			ctx.JSON(iris.Map{
 				"status": 	"0",
 				"msg":		"扫描的是资产二维码",
 				"data":    	asset,
+                "recorders":recorders,
 			})			
 			return
 		}		
@@ -197,27 +214,43 @@ func main() {
 			comment = " "
 		}
 		
+        //写Asset表
 		affected, err := orm.Id(asset.ID).Update(
 			&Asset{CFDD:addr_new,
 				  BZ:comment})
-		fmt.Println(affected,"---",err)
-		fmt.Println(len(comment))
-
-		//orm.Id(asset.ID).Cols("BZ").Update(&Asset{BZ:""})
-
-
-		if affected == 1 {
-			ctx.JSON(iris.Map{
-				"status": 	"1",
-				"msg":		"成功!",				
-			})
-		}else{		
+        fmt.Println("Update Asset affected: ",affected,"  err:",err)
+		if affected != 1 {	//失败
 			ctx.JSON(iris.Map{
 				"status": 	"2",
 				"msg":		"变更地址失败,请重试!", 			
-		})}		
-
-	})	
+		      })
+            return
+        }	
+                 
+        //写Recorder表
+        affected, err = orm.Insert(&Recorder{
+            QRCODE: asset.QRCODE,
+            ZCMC:   asset.ZCMC,
+            CFDD:   addr_new,
+            JH:     user.JH,
+            XM:     user.XM,
+            BZ:     comment,            
+        }) 
+        fmt.Println("Update Recorder affected: ",affected,"  err:",err)
+		if affected != 1 {	//失败
+			ctx.JSON(iris.Map{
+				"status": 	"2",
+				"msg":		"变更地址失败,请重试!", 			
+		      })
+            return
+        }
+        
+        //成功!!!
+        ctx.JSON(iris.Map{
+            "status": 	"1",
+            "msg":		"成功!",				
+        })
+    })
 	
 	// Post: changepwd
 	app.Post("/changepwd", func(ctx iris.Context) {
