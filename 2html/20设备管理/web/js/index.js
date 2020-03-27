@@ -4,9 +4,14 @@ let usr; //存放当前用户对象JSON.parse(localStorage.usr)
 let asset; //存放当前二维码扫描的资产
 let assets; //存放当前地址二维码的资产列表
 let myscanner; //通用扫描仪, 多页共用这一个扫描仪
-//let cameralock = false;
 let recorders; //存放设备的流转记录
 if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
+
+//1,admin 权限管理
+//2,流转记录EXCEL文件导出
+//3,流转记录按警号查询输出
+//4,配色整理
+//5,PWA调整
 
 //请登录提示
 if (localStorage.usr == undefined) {
