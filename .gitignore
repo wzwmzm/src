@@ -9,6 +9,7 @@ tmp/
 .bak
 *.mp4
 *.log
+*.db
 node_modules/
 github.com/
 gopkg.in/

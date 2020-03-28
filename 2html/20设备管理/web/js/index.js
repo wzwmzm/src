@@ -8,10 +8,11 @@ let recorders; //存放设备的流转记录
 if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
 
 //1,admin 权限管理
-//2,流转记录EXCEL文件导出
-//3,流转记录按警号查询输出
+//2,流转记录EXCEL文件导出(完成)
+//3,流转记录按警号查询输出(完成)
 //4,配色整理
 //5,PWA调整
+//6,事务管理调整
 
 //请登录提示
 if (localStorage.usr == undefined) {
@@ -20,6 +21,44 @@ if (localStorage.usr == undefined) {
 	usr = JSON.parse(localStorage.usr)
 	$("#name_xs").text(usr["姓名"]);
 }
+
+//本人流转记录查询
+$("#queryrecorders").click(function () {
+	if (localStorage.usr == undefined) {
+		alert("请先登录!");
+	};
+
+	$.get("queryrecorders/" + usr.警号,
+		function (data, status) {
+			switch (data.status) {
+				case "0":
+					let recorders1 = data.recorders;
+					console.log("流转记录: ",recorders1);
+					$(".recorderslist1").remove();
+					let t1 =`<p class="recorderslist1"><br/><b>登记记录如下:</b>`
+					for (let key in recorders1) {
+						let val = recorders1[key];
+						console.log(val.记录时间);
+						t1 += `<br/><b style="color:Chartreuse ">时间: ` + val.记录时间+ `</b>`;
+						t1 += `<br/>资产名称: ` + val.资产名称;
+						t1 += `<br/>资产二维码: ` + val.二维码;
+						t1 += `<br/>变更地址: ` + val.存放地点;
+						t1 += `<br/>备注:` + val.备注;// + `<br/>`;
+					} //for (let key in recorders) {
+					$("#queryrecorders").after(t1);
+					break;
+				case "2": //读取流转记录时发生错误
+					alert("错误: ", data.msg );
+					break;
+			} //switch
+
+		}) //$.get("queryrecorders/XXX",
+
+
+
+
+
+}) //$("#queryrecorders").click(function(){
 
 //修改密码
 $("#changepwdbtm").click(function () {
@@ -79,22 +118,22 @@ $("#loginbtm").click(function () {
 
 //changeaddr
 $("#submitbtn").click(function () {
-//	let id = asset.ID;
-//	let addr_old = asset.存放地点;
-//	let addr_new = localStorage.txt;
-//	let comment = $("#comment").val();
-//	console.log(id," : ",addr_old," : ",addr_new," : ",comment);
+	//	let id = asset.ID;
+	//	let addr_old = asset.存放地点;
+	//	let addr_new = localStorage.txt;
+	//	let comment = $("#comment").val();
+	//	console.log(id," : ",addr_old," : ",addr_new," : ",comment);
 
 	$.post("/changeaddr", {
-			asset: 	localStorage.asset,
-			addr: 	localStorage.newaddr,
-			user:	localStorage.usr,
-			comment:$("#comment").val(),
+			asset: localStorage.asset,
+			addr: localStorage.newaddr,
+			user: localStorage.usr,
+			comment: $("#comment").val(),
 		},
 		function (data, status) {
-			if (data.status != "1") {	//失败
+			if (data.status != "1") { //失败
 				alert(data.msg);
-			} else {					//成功
+			} else { //成功
 				alert(data.msg);
 				localStorage.status = 1;
 				swiper.slideTo(1);
@@ -155,7 +194,7 @@ var swiper = new Swiper('.swiper-container', {
 					$("#p3").text("规格型号: " + asset.规格型号);
 					$("#p4").text("取得日期: " + formatDate(asset.取得日期, '-'));
 					$("#p5").text("使 用 人: " + asset.使用人);
-					$("#p6").text("二 维 码: " + asset.二维码);
+					$("#p6").text("资产二维码: " + asset.二维码);
 					$("#p7").text("数   量: " + asset.数量);
 					$("#p8").text("单   价: " + asset.单价);
 					$("#p9").text("金   额: " + asset.金额);
@@ -163,8 +202,8 @@ var swiper = new Swiper('.swiper-container', {
 					$("#p11").text("部   门: " + asset.部门);
 					$("#p12").text("品   牌: " + asset.品牌);
 					$("#p13").text("备   注: " + asset.备注);
-                    
- 					recorders = JSON.parse(localStorage.recorders);					
+
+					recorders = JSON.parse(localStorage.recorders);
 					$(".recorderslist").remove();
 					//$("#s0").text(" " + recorders[0].存放地点);
 					for (let key in recorders) {
@@ -172,19 +211,19 @@ var swiper = new Swiper('.swiper-container', {
 						let t1 = `
                             <div class="card  bg-secondary text-white recorderslist">
                                 <div class="card-header  cardhead text-white">
-                                    <h6>时间: `+val.记录时间+`</h6>
+                                    <h6>时间: ` + val.记录时间 + `</h6>
                                 </div>
                                 <div class="card-body cardbody">
-                                    <p>人员: `+val.姓名 +`</p>
-                                    <p>地址: `+val.存放地点+`</p>
-                                    <p>备注: `+val.备注+`</p>
+                                    <p>人员: ` + val.姓名 + `</p>
+                                    <p>地址: ` + val.存放地点 + `</p>
+                                    <p>备注: ` + val.备注 + `</p>
                                 </div>
 
                             </div>`;
 						$("#liuzhuan").after(t1);
-					};                   
-                    scrollTo(0,0);
-                    
+					};
+					scrollTo(0, 0);
+
 
 					break;
 				case 3:
@@ -203,7 +242,7 @@ var swiper = new Swiper('.swiper-container', {
 					x = "4 页 : 设备地址变更提交确认";
 					myscanner.stop();
 					switchstatus();
-					
+
 					asset = JSON.parse(localStorage.asset);
 					$("#c0").text(asset.资产名称);
 					$("#c1").text(asset.存放地点);
@@ -214,25 +253,25 @@ var swiper = new Swiper('.swiper-container', {
 					myscanner.stop();
 					switchstatus();
 					assets = JSON.parse(localStorage.assets);
-					
+
 					$(".assetslist").remove();
 					$("#d0").text(" " + assets[0].存放地点);
 					for (let key in assets) {
 						let val = assets[key];
-						let t1 = '<div class="card  bg-secondary text-white  assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:'+ val.资产名称 +'</h6> </div> <div class = "card-body" > ';
-						let t2 = '<p>资产编号:' + val.资产编号+'</p>';
-						let t3 = '<p>规格型号:' + val.规格型号+'</p>';
-						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-')+'</p>';
-						let t5 = '<p>使 用 人:' + val.使用人+'</p>';
-						let t6 = '<p>二 维 码:' + val.二维码+'</p>';
-						let t7 = '<p>数   量:' + val.数量 +'</p>';
-						let t8 = '<p>单   价:' + val.单价+'</p>';
-						let t9 = '<p>金   额:' + val.金额+'</p>';
-						let t10 = '<p>序   号:' + val.序号+'</p>';
-						let t11 = '<p>部   门:' + val.部门+'</p>';
-						let t12 = '<p>品   牌:' + val.品牌+'</p>';
-						let t13 = '<p>备   注:' + val.备注+'</p>';
-						let ttt = t1+t2+t3+t4+t5+t6+t7+t8+t9+t10+t11+t12+t13+'</div></div>';
+						let t1 = '<div class="card  bg-secondary text-white  assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:' + val.资产名称 + '</h6> </div> <div class = "card-body" > ';
+						let t2 = '<p>资产编号:' + val.资产编号 + '</p>';
+						let t3 = '<p>规格型号:' + val.规格型号 + '</p>';
+						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-') + '</p>';
+						let t5 = '<p>使 用 人:' + val.使用人 + '</p>';
+						let t6 = '<p>资产二维码:' + val.二维码 + '</p>';
+						let t7 = '<p>数   量:' + val.数量 + '</p>';
+						let t8 = '<p>单   价:' + val.单价 + '</p>';
+						let t9 = '<p>金   额:' + val.金额 + '</p>';
+						let t10 = '<p>序   号:' + val.序号 + '</p>';
+						let t11 = '<p>部   门:' + val.部门 + '</p>';
+						let t12 = '<p>品   牌:' + val.品牌 + '</p>';
+						let t13 = '<p>备   注:' + val.备注 + '</p>';
+						let ttt = t1 + t2 + t3 + t4 + t5 + t6 + t7 + t8 + t9 + t10 + t11 + t12 + t13 + '</div></div>';
 						$("#d0").after(ttt);
 					};
 
@@ -334,8 +373,8 @@ function scan2() {
 						//$("#name_xs").text(data.data["姓名"]);
 						asset = data.data;
 						localStorage.asset = JSON.stringify(data.data);
-                        recorders = data.recorders;
-                        localStorage.recorders = JSON.stringify(data.recorders);
+						recorders = data.recorders;
+						localStorage.recorders = JSON.stringify(data.recorders);
 
 						//$("#asset").text(localStorage.asset);
 
@@ -354,7 +393,7 @@ function scan2() {
 						swiper.slideTo(5);
 						break;
 					case "2": //错误的二维码
-						alert(data.msg+"\n扫描内容: "+content);
+						alert(data.msg + "\n扫描内容: " + content);
 						localStorage.status = 1; //退回到第一次扫描
 						switchstatus();
 						break;
@@ -408,27 +447,27 @@ function scan3() {
 		console.log("scan: " + content);
 		//	scanner3.stop();	//结束扫描
 		localStorage.newaddr = content
-		
+
 		$.post("/verifyaddr", {
 				dat: content
 			},
 			function (data, status) {
 				switch (data.status) {
 					case "1": //完成地址校验,进入确认地址变更提交页,第4页
-						localStorage.status = 4; 
+						localStorage.status = 4;
 						switchstatus();
-						swiper.slideNext();	//进入确认提交页,第4页		
+						swiper.slideNext(); //进入确认提交页,第4页		
 						break;
 					case "2": //错误的二维码
-						alert(data.msg+"\n扫描内容: "+content);
+						alert(data.msg + "\n扫描内容: " + content);
 						localStorage.status = 3; //退回到第二次扫描
 						switchstatus();
 						break;
 				}
 			}); //$.post("/query",		
-		
-		
-		
+
+
+
 	});
 
 	myscanner.addListener('active', function () {

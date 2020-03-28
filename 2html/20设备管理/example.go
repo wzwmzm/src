@@ -306,11 +306,6 @@ func main() {
 			ctx.JSON(users)
 		}
 
-		//		ctx.JSON(iris.Map{
-		//			"status":  "posted",
-		//			"message": "message",
-		//			"nick":    "nick",
-		//		})
 	})
 
 	//重定向到exportusers.html网页, 以便提供一致的用户体验
@@ -376,6 +371,32 @@ func main() {
 		fmt.Printf("ok\n")
 
 	})
+	
+	//按警号查询流转记录
+	app.Get("/queryrecorders/{jh:string}", func(ctx iris.Context){
+		jh := ctx.Params().Get("jh")
+		
+		recorders := make([]Recorder, 0)
+		err := orm.Find(&recorders, &Recorder{JH: jh})
+        fmt.Println("err: ",err,"  recorders: ", recorders)
+		
+		if err != nil {
+			ctx.JSON(iris.Map{
+				"status": 	"2",
+				"msg":		err,  				
+			})	
+			return
+		} else {
+			ctx.JSON(iris.Map{
+				"status": 	"0",
+				//"msg":		"扫描的是资产二维码",
+				//"data":    	asset,
+                "recorders":recorders,
+			})			
+			return
+		}	
+		
+	})//app.Get("/queryrecorders/{jh:string}", func(ctx iris.Context){
 
 	//添加用户
 	app.Get("/adduser/{jh:string}/{xm:string}", func(ctx iris.Context) {
@@ -547,7 +568,38 @@ func main() {
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
+	
+	//重定向到exportrecorders.html网页, 以便提供一致的用户体验
+	app.Get("/exportrecorders", func(ctx iris.Context) {
+		ctx.ServeFile("./web/exportrecorders.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
+	})
+	//发送JSON格式的流转记录表,以便EXCEL文件导出
+	app.Post("/exportrecorders", func(ctx iris.Context) {
+		//ctx.Gzip(true)               // enable gzip for big files
+		recorders := make([]Recorder, 0)
+		err := orm.Find(&recorders)
+		if err != nil {
+			ctx.JSON(err)
+		} else {
+			//ctx.Writef("%#v", users)
+			ctx.JSON(recorders)
+		}
+
+		//		ctx.JSON(iris.Map{
+		//			"status":  "posted",
+		//			"message": "message",
+		//			"nick":    "nick",
+		//		})
+	})
+	
+	//重定向到admin.html网页, 以便提供一致的用户体验
+	app.Get("/admin", func(ctx iris.Context) {
+		ctx.ServeFile("./web/admin.html", true) // true for gzip.
+		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
+
+	})
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getassets", func(ctx iris.Context) {
 		//ctx.Gzip(true)               // enable gzip for big files

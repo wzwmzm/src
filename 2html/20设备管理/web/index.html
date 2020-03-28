@@ -140,13 +140,41 @@
 								<a class="collapsed card-link" href="#collapseThree">用户手册</a>
 							</div>
 							<div id="collapseThree" class="collapse" data-parent="#accordion">
-								<div class="card-body">
-									** 向右滑动进入下一页.<br /><br />
-									** 安卓手机无法连接网站. 原因:本网站使用了IPV6网址, 而你处于IPV4网络. 解决对策:关闭WIFI连接, 使用电话网络连接.<br /><br />
-									** APPLE手机无法访问. 原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳. 解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.<br /><br />
-									** 管理员手册: /admin
 
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">技巧:</div>
+									<div class="card-body">向右滑动进入下一页.</div>
 								</div>
+
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">安卓手机无法连接网站:</div>
+									<div class="card-body">原因:本网站使用了IPV6网址, 而你处于IPV4网络. <br /><br />
+										解决对策:关闭WIFI连接, 使用电话网络连接.</div>
+								</div>
+
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">APPLE手机无法访问:</div>
+									<div class="card-body">原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳.<br /><br />
+										解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.</div>
+								</div>
+
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">登记查询:</div>
+									<div class="card-body"><a  style="color:white" id="queryrecorders" href="javascript:;">/queryrecorders(仅查询本人登记的资产流转信息)</a></div>
+								</div>
+								
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">管理员手册:</div>
+									<div class="card-body"><a href="admin" style="color:white">/admin(仅限管理员)</a></div>
+								</div>
+								
+								<div class="card  bg-secondary text-white">
+									<div class="card-header  bg-dark text-white">开放的编程接口(API):</div>
+									<div class="card-body">1,按警号查询登记记录: /queryrecorders/191536</div>
+								</div>
+
+
+
 							</div>
 						</div>
 					</div>
@@ -159,7 +187,7 @@
 
 				<div class="container">
 					<br /><br /><br />
-					<h2> 请扫码:(第一次扫描)</h2>
+					<h2> 请扫描二维码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
 						<video id="webcamera2" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
@@ -196,10 +224,11 @@
 						</div>
 
 					</div>
-                    <br /><h4 id="liuzhuan">
-						流转记录 :
+					<br />
+					<h4 id="liuzhuan">
+						设备流转记录 :
 					</h4>
-                    
+
 				</div>
 			</div>
 
@@ -208,7 +237,7 @@
 
 				<div class="container">
 					<br /><br /><br />
-					<h2> 请扫地址码:(第二次扫描)</h2>
+					<h2> 请扫描地址码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
 						<video id="webcamera3" playsinline autoplay controls muted loop class="rounded" style="width: 60%; height: 50%;"></video>
