@@ -12,7 +12,7 @@ if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.
 //3,流转记录按警号查询输出(完成)
 //4,配色整理
 //5,PWA调整
-//6,事务管理调整
+//6,事务管理调整(完成)
 
 //请登录提示
 if (localStorage.usr == undefined) {
@@ -36,8 +36,9 @@ $("#queryrecorders").click(function () {
 					console.log("流转记录: ",recorders1);
 					$(".recorderslist1").remove();
 					let t1 =`<p class="recorderslist1"><br/><b>登记记录如下:</b>`
-					for (let key in recorders1) {
-						let val = recorders1[key];
+					//for (let key in recorders1) {
+					for(let key  =recorders1.length; (key-1) >= 0; key--) {
+						let val = recorders1[key-1];
 						console.log(val.记录时间);
 						t1 += `<br/><b style="color:Chartreuse ">时间: ` + val.记录时间+ `</b>`;
 						t1 += `<br/>资产名称: ` + val.资产名称;

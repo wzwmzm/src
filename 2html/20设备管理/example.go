@@ -214,21 +214,36 @@ func main() {
 			comment = " "
 		}
 		
-        //写Asset表
-		affected, err := orm.Id(asset.ID).Update(
+		//1,此处加入事务处理
+		session := orm.NewSession()
+		defer session.Close()
+		err := session.Begin()
+		msg := fmt.Sprintf("变更地址失败,请重试!\n%v", err)
+		if err != nil{
+			ctx.JSON(iris.Map{
+				"status": 	"2",
+				"msg":		msg, 			
+		      })
+			return
+		}		
+		
+        //2,写Asset表
+		affected, err := session.Id(asset.ID).Update(
 			&Asset{CFDD:addr_new,
 				  BZ:comment})
         fmt.Println("Update Asset affected: ",affected,"  err:",err)
-		if affected != 1 {	//失败
+		if affected != 1 || err != nil {	//失败
+			msg := fmt.Sprintf("变更地址失败,请重试!\n%v", err)
 			ctx.JSON(iris.Map{
 				"status": 	"2",
-				"msg":		"变更地址失败,请重试!", 			
+				"msg":		msg, 			
 		      })
+			session.Rollback()				//失败则回滚
             return
         }	
                  
-        //写Recorder表
-        affected, err = orm.Insert(&Recorder{
+        //3,写Recorder表
+        affected, err = session.Insert(&Recorder{
             QRCODE: asset.QRCODE,
             ZCMC:   asset.ZCMC,
             CFDD:   addr_new,
@@ -237,13 +252,27 @@ func main() {
             BZ:     comment,            
         }) 
         fmt.Println("Update Recorder affected: ",affected,"  err:",err)
-		if affected != 1 {	//失败
+		if affected != 1 || err != nil {	//失败
+			msg := fmt.Sprintf("变更地址失败,请重试!\n%v", err)
 			ctx.JSON(iris.Map{
 				"status": 	"2",
-				"msg":		"变更地址失败,请重试!", 			
+				"msg":		msg, 			
 		      })
+			session.Rollback()				//失败则回滚
             return
         }
+		
+		//4,事务提交
+		err = session.Commit()				//事务提交. 一个事务到此结束
+		if err != nil{
+			msg := fmt.Sprintf("变更地址失败,请重试!\n%v", err)
+			ctx.JSON(iris.Map{
+				"status": 	"2",
+				"msg":		msg, 			
+		      })
+			session.Rollback()				//失败则回滚
+			return
+		}
         
         //成功!!!
         ctx.JSON(iris.Map{
