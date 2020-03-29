@@ -101,13 +101,13 @@ func main() {
 	//定时生成随机数,用于设置 admin 的 cookie
 	//两小时换一个密码
 	rand.Seed(time.Now().UnixNano())
-    cookienum := rand.Intn(9999999999)
+    cookienum := rand.Intn(2000000000)
 	fmt.Println("随机数:  ",cookienum)
     ticker := time.NewTicker(time.Second * 60 * 60 * 2)
     go func() {
         for _ = range ticker.C {
 			rand.Seed(time.Now().UnixNano())
-			cookienum = rand.Intn(9999999999)
+			cookienum = rand.Intn(2000000000)
 			fmt.Println("随机数:  ",cookienum)
         }
     }()	
