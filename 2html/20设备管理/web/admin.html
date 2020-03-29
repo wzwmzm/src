@@ -15,6 +15,26 @@
 		}
 
 	</style>
+	
+	<script>
+	//读取cookies
+	function getCookie(name)
+	{
+		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+		if(arr=document.cookie.match(reg))
+
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+	//操作确权, 如果不是admin,则引导到主页
+	if (getCookie("cookienum")=="0000000000") {
+		window.location.replace("/");
+	}
+
+	</script>
+	
 </head>
 
 <body>
@@ -33,7 +53,7 @@
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">用户表数据全删除:</div>
-			<div class="card-body"><a href="delallusers">/delallusers</a></div>
+			<div class="card-body"><a href="delallusers.html">/delallusers</a></div>
 		</div>
 
 		<div class="card  bg-secondary text-white">
@@ -43,12 +63,12 @@
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">用户表的Excel文件导出:</div>
-			<div class="card-body"><a href="exportusers">/exportusers</a></div>
+			<div class="card-body"><a href="exportusers.html">/exportusers</a></div>
 		</div>
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">用户表的Excel文件导入:</div>
-			<div class="card-body"><a href="importusers">/importusers</a><br /><br />
+			<div class="card-body"><a href="importusers.html">/importusers</a><br /><br />
 				注意事项:<br />
 				1,警号必须唯一;<br />
 				2,ID项必须是数字(查看"设置单元格格式");<br />
@@ -69,7 +89,7 @@
 		
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">固定资产表的Excel文件导入:</div>
-			<div class="card-body"><a href="importassets">/importassets</a><br/><br/>
+			<div class="card-body"><a href="importassets.html">/importassets</a><br/><br/>
 				注意事项:<br />
 				1,除ID,取得日期,数量,单价,金额,version外其它都是文本类型;<br />
 				2,用我手机作服务器时,导入5000条数据约需时间10分钟, 请耐心等待. 导入成功后会有"导入成功"的提示. 如果表格太大, 建议拆分成多张表格后再导入.(建议一张表格1000条数据)<br />
@@ -81,13 +101,13 @@
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">资产表数据全删除: </div>
-			<div class="card-body"><a href="delallassets">/delallassets</a><br />
+			<div class="card-body"><a href="delallassets.html">/delallassets</a><br />
 			</div>
 		</div>
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">固定资产表的Excel文件导出:</div>
-			<div class="card-body"><a href="exportassets">/exportassets </a><br /><br />
+			<div class="card-body"><a href="exportassets.html">/exportassets </a><br /><br />
 				注意事项:<br />
 				有些栏目的格式需要重新设定. 比如:"取得日期"应该设置为"日期""1999-12-31"
 			</div>
@@ -116,7 +136,7 @@
 
 		<div class="card  bg-secondary text-white">
 			<div class="card-header  bg-dark text-white">流转记录表的Excel文件导出:</div>
-			<div class="card-body"><a href="exportrecorders">/exportrecorders</a></div>
+			<div class="card-body"><a href="exportrecorders.html">/exportrecorders</a></div>
 		</div>
 
 		<div class="card  bg-secondary text-white">

@@ -5,9 +5,14 @@ let asset; //存放当前二维码扫描的资产
 let assets; //存放当前地址二维码的资产列表
 let myscanner; //通用扫描仪, 多页共用这一个扫描仪
 let recorders; //存放设备的流转记录
-if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
+if (localStorage.status == undefined) localStorage.status = "0"; 	//localStorage.status设置的是允许进入的最大页号
+//创建COOKIE. cookie如果由服务器创建,缺省为HTTPONLY,客户端JS无法操作
+if (getCookie("cookienum")==null) {
+	document.cookie="cookienum=0000000000"
+}
 
-//1,admin 权限管理
+
+//1,admin 权限管理(完成)
 //2,流转记录EXCEL文件导出(完成)
 //3,流转记录按警号查询输出(完成)
 //4,配色整理
@@ -111,6 +116,7 @@ $("#loginbtm").click(function () {
 				$("#name_xs").text(data.data["姓名"]);
 				usr = data.data;
 				localStorage.usr = JSON.stringify(data.data);
+				document.cookie="cookienum="+data.cookienum;
 				allow_1();
 			}
 		});
@@ -582,6 +588,18 @@ function formatDate(numb, format) {
 		return year + format + month + format + date
 	}
 	return year + (month < 10 ? '0' + month : month) + (date < 10 ? '0' + date : date)
+}
+
+//读取cookies
+function getCookie(name)
+{
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+ 
+    if(arr=document.cookie.match(reg))
+ 
+        return unescape(arr[2]);
+    else
+        return null;
 }
 
 //switchstatus(); //进入指定状态

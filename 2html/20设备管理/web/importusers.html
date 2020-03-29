@@ -9,6 +9,22 @@
 <body>
 <input type="file" id="excel-file">
 <script>
+	//读取cookies
+	function getCookie(name)
+	{
+		var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+		if(arr=document.cookie.match(reg))
+
+			return unescape(arr[2]);
+		else
+			return null;
+	}
+	//操作确权, 如果不是admin,则引导到主页
+	if (getCookie("cookienum")=="0000000000") {
+		window.location.replace("/");
+	}
+		
     //给input标签绑定change事件，一上传选中的.xls文件就会触发该函数
     $('#excel-file').change(function(e) {
         var files = e.target.files;

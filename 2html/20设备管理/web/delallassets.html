@@ -11,6 +11,22 @@
 	确定要删除资产表全部数据吗? <button type="button" class="btn btn-danger">是 的</button>
 	
 <SCRIPT>
+//读取cookies
+function getCookie(name)
+{
+	var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+	if(arr=document.cookie.match(reg))
+
+		return unescape(arr[2]);
+	else
+		return null;
+}
+//操作确权, 如果不是admin,则引导到主页
+if (getCookie("cookienum")=="0000000000") {
+	window.location.replace("/");
+}
+		
 //////与服务器交换数据的例子
 $("button").click(function(){
 	//alert("按了");

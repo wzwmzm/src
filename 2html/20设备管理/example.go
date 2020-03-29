@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"time"
+	"math/rand"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/websocket"
 	//"github.com/go-xorm/xorm"
@@ -97,10 +98,30 @@ func main() {
 //		//fmt.Println("isaddr",isaddr,"assets",assets,"err",err1)	
 //////////////////////////	
 	
+	//定时生成随机数,用于设置 admin 的 cookie
+	//两小时换一个密码
+	rand.Seed(time.Now().UnixNano())
+    cookienum := rand.Intn(9999999999)
+	fmt.Println("随机数:  ",cookienum)
+    ticker := time.NewTicker(time.Second * 60 * 60 * 2)
+    go func() {
+        for _ = range ticker.C {
+			rand.Seed(time.Now().UnixNano())
+			cookienum = rand.Intn(9999999999)
+			fmt.Println("随机数:  ",cookienum)
+        }
+    }()	
+	
 	// Post: login
 	app.Post("/login", func(ctx iris.Context) {
 		jh := ctx.FormValue("jh")
 		pwd := ctx.FormValue("pwd")
+		
+		//cookie操作
+		//ctx.SetCookieKV(name, value)
+		//value := ctx.GetCookie(name)
+		//ctx.RemoveCookie(name)
+		//定制路径:ctx.SetCookieKV(name, value, iris.CookiePath("/custom/path/cookie/will/be/stored"))
 
 		user := &User{JH: jh}
 		has, _ := orm.Get(user)
@@ -121,14 +142,24 @@ func main() {
 			})
 			return
 		}
+
+		//如果是管理员则修改COOKIE
+		cookiestr :="0000000000"
+		fmt.Println("ctx.GetCookie(name)= ",  ctx.GetCookie("cookienum"))	
+		if jh == "000000" {
+			cookiestr = fmt.Sprintf("%v",cookienum)
+			fmt.Println("set cookienum: ",cookiestr)
+		}
+		
 		ctx.JSON(iris.Map{
 			"status": "0",
 			"data":    user,
+			"cookienum": cookiestr,
 		})
 
 	})
 	
-	// Post: query
+	// Post: query 扫描设备查询
 	app.Post("/query", func(ctx iris.Context) {
 		query := ctx.FormValue("dat")
 
@@ -308,6 +339,14 @@ func main() {
 
 	//网页上显示用户信息
 	app.Get("/getusers", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		//users:= make([]User, 0)
 		orm.Iterate(new(User), func(i int, bean interface{}) error {
 			user := bean.(*User)
@@ -319,13 +358,28 @@ func main() {
 	})
 
 	app.Get("/admin", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+				
 		ctx.ServeFile("./web/admin.html", false) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getusers", func(ctx iris.Context) {
-		//ctx.Gzip(true)               // enable gzip for big files
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		users := make([]User, 0)
 		err := orm.Find(&users)
 		if err != nil {
@@ -339,6 +393,14 @@ func main() {
 
 	//重定向到exportusers.html网页, 以便提供一致的用户体验
 	app.Get("/exportusers", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/exportusers.html", false) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
@@ -346,6 +408,14 @@ func main() {
 
 	//重定向到importusers.html网页, 以便提供一致的用户体验
 	app.Get("/importusers", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/importusers.html", false) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
@@ -353,7 +423,14 @@ func main() {
 
 	//接收JSON格式的用户信息,导入数据库
 	app.Post("/importusers", func(ctx iris.Context) {
-		//ctx.Gzip(true)               // enable gzip for big files
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
@@ -402,7 +479,7 @@ func main() {
 	})
 	
 	//按警号查询流转记录
-	app.Get("/queryrecorders/{jh:string}", func(ctx iris.Context){
+	app.Get("/queryrecorders/{jh:string}", func(ctx iris.Context){		
 		jh := ctx.Params().Get("jh")
 		
 		recorders := make([]Recorder, 0)
@@ -429,6 +506,14 @@ func main() {
 
 	//添加用户
 	app.Get("/adduser/{jh:string}/{xm:string}", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		jh := ctx.Params().Get("jh")
 		xm := ctx.Params().Get("xm")
 
@@ -448,6 +533,14 @@ func main() {
 
 	//删除某个用户
 	app.Get("/deluser/{jh:string}", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		jh := ctx.Params().Get("jh")
 		//xm := ctx.Params().Get("xm")
 
@@ -472,11 +565,27 @@ func main() {
 
 	//删除全部用户
 	app.Get("/delallusers", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/delallusers.html", false) //不压缩
 
 	})
 
 	app.Post("/delallusers", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到msg: %v\n", msg)
 
@@ -505,6 +614,14 @@ func main() {
 
 	//重定向到importassets.html网页, 以便提供一致的用户体验
 	app.Get("/importassets", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/importassets.html", false) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
@@ -512,8 +629,14 @@ func main() {
 
 	//接收JSON格式的资产信息,导入数据库
 	app.Post("/importassets", func(ctx iris.Context) {
-		//ctx.Gzip(true)               // enable gzip for big files
-
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到的用户EXCEL表: %v\n", msg)
 
@@ -573,11 +696,27 @@ func main() {
 
 	//删除全部资产表
 	app.Get("/delallassets", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/delallassets.html", false) //不压缩
 
 	})
 
 	app.Post("/delallassets", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		msg := ctx.FormValue("msg")
 		fmt.Printf("接收到msg: %v\n", msg)
 
@@ -593,6 +732,14 @@ func main() {
 
 	//重定向到exportassets.html网页, 以便提供一致的用户体验
 	app.Get("/exportassets", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/exportassets.html", true) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
@@ -600,12 +747,28 @@ func main() {
 	
 	//重定向到exportrecorders.html网页, 以便提供一致的用户体验
 	app.Get("/exportrecorders", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/exportrecorders.html", true) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	//发送JSON格式的流转记录表,以便EXCEL文件导出
 	app.Post("/exportrecorders", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		//ctx.Gzip(true)               // enable gzip for big files
 		recorders := make([]Recorder, 0)
 		err := orm.Find(&recorders)
@@ -625,13 +788,28 @@ func main() {
 	
 	//重定向到admin.html网页, 以便提供一致的用户体验
 	app.Get("/admin", func(ctx iris.Context) {
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		ctx.ServeFile("./web/admin.html", true) // true for gzip.
 		//        ctx.ServeFile("./html/index.html", true) // true for gzip.
 
 	})
 	//发送JSON格式的用户信息,以便EXCEL文件导出
 	app.Post("/getassets", func(ctx iris.Context) {
-		//ctx.Gzip(true)               // enable gzip for big files
+		//操作确权, 如果不是admin,则引导到主页
+		getcookienum := ctx.GetCookie("cookienum")
+		cookiestr := fmt.Sprintf("%v",cookienum)
+		if getcookienum != cookiestr {
+			ctx.Redirect("/")
+			return
+		}
+		
 		assets := make([]Asset, 0)
 		err := orm.Find(&assets)
 		if err != nil {
@@ -845,3 +1023,4 @@ func handleConnection(c websocket.Connection) {
 		c.To(websocket.Broadcast).Emit("chat", msg) //发给所有客户端除了当前客户端
 	})
 }
+
