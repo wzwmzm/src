@@ -24,7 +24,8 @@ function getCookie(name)
 }
 //操作确权, 如果不是admin,则引导到主页
 if (getCookie("cookienum")=="0000000000") {
-	window.location.replace("/");
+		alert("请用管理员帐号重新登录!");
+		window.location.replace("/");
 }
 
 //////与服务器交换数据的例子
