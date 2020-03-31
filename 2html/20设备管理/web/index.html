@@ -52,14 +52,20 @@
         .swiper-slide {
             overflow: auto;
         }
-        
-        .cardhead {
-            background-color: #003366;
-        }
-        
-        .cardbody {
-            background-color: #006699;
-        }
+		
+		p {
+    		margin-bottom: 0.25rem;
+		}
+		
+		.card-body {
+			-ms-flex: 1 1 auto;
+			flex: 1 1 auto;
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+			padding-top: 0.5rem;
+			padding-bottom: 0.5rem;
+			
+		}
     </style>
 	<script>
 
@@ -75,8 +81,7 @@
 		<div class="swiper-wrapper">
 
 			<!-- Swiper-slide 1  设置页 -->
-			<div class="swiper-slide" id="slide0">第0页:设置
-
+			<div class="swiper-slide" id="slide0">
 				<div class="container-fluid">
 					<div class="jumbotron jumbotron-fluid">
 						<h1 class="display-4 text-center"><strong>移动资管</strong></h1>
@@ -85,7 +90,7 @@
 				<div class="container">
 					<div id="accordion">
 						<div class="card">
-							<div class="card-header" data-toggle="collapse" href="#collapseOne">
+							<div class="card-header font-weight-bold" data-toggle="collapse" href="#collapseOne">
 								<a class="card-link" href="#collapseOne">用户名: <span id="name_xs"> </span> </a>
 							</div>
 							<div id="collapseOne" class="collapse" data-parent="#accordion">
@@ -121,7 +126,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
-								<a class="collapsed card-link" href="#collapseTwo">摄像头: <span id="cameraid_c"><b style="color:MediumVioletRed ">请选择摄像头</b></span></a>
+								<a class="collapsed card-link font-weight-bold" href="#collapseTwo">摄像头: <span id="cameraid_c"><b style="color:MediumVioletRed ">请选择摄像头</b></span></a>
 							</div>
 							<div id="collapseTwo" class="collapse" data-parent="#accordion" onblur="console.log('blur-1')" onfocus="console.log('focus-1')">
 								<div class="card-body" id="cameras-div">
@@ -137,39 +142,39 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseThree">
-								<a class="collapsed card-link" href="#collapseThree">用户手册</a>
+								<a class="collapsed card-link font-weight-bold" href="#collapseThree">用户手册</a>
 							</div>
 							<div id="collapseThree" class="collapse" data-parent="#accordion">
 
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">技巧:</div>
+								<div class="card  ">
+									<div class="card-header  ">技巧:</div>
 									<div class="card-body">向右滑动进入下一页.</div>
 								</div>
 
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">安卓手机无法连接网站:</div>
+								<div class="card  ">
+									<div class="card-header  ">安卓手机无法连接网站:</div>
 									<div class="card-body">原因:本网站使用了IPV6网址, 而你处于IPV4网络. <br /><br />
 										解决对策:关闭WIFI连接, 使用电话网络连接.</div>
 								</div>
 
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">APPLE手机无法访问:</div>
+								<div class="card  ">
+									<div class="card-header  ">APPLE手机无法访问:</div>
 									<div class="card-body">原因:本网站使用IPV6网址, 而APPLE手机对IPV6支持欠佳.<br /><br />
 										解决对策:1,等待苹果公司自身的改善;2,将网站迁移至IPV4网址.</div>
 								</div>
 
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">登记查询:</div>
-									<div class="card-body"><a  style="color:white" id="queryrecorders" href="javascript:;">/queryrecorders(仅查询本人登记的资产流转信息)</a></div>
+								<div class="card  ">
+									<div class="card-header  ">登记查询:</div>
+									<div class="card-body"><a id="queryrecorders" href="javascript:;">/queryrecorders(仅查询本人登记的资产流转信息)</a></div>
 								</div>
-								
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">管理员手册:</div>
-									<div class="card-body"><a href="admin" style="color:white">/admin(仅限管理员)</a></div>
+
+								<div class="card  ">
+									<div class="card-header  ">管理员手册:</div>
+									<div class="card-body"><a href="admin">/admin(仅限管理员)</a></div>
 								</div>
-								
-								<div class="card  bg-secondary text-white">
-									<div class="card-header  bg-dark text-white">开放的编程接口(API):</div>
+
+								<div class="card  ">
+									<div class="card-header  ">开放的编程接口(API):</div>
 									<div class="card-body">1,按警号查询登记记录: /queryrecorders/191536</div>
 								</div>
 
@@ -183,10 +188,9 @@
 			</div>
 
 			<!-- Swiper-slide 2  第一次扫描页 -->
-			<div class="swiper-slide" id="slide1">第1页:第一次扫码
-
+			<div class="swiper-slide" id="slide1">
 				<div class="container">
-					<br /><br /><br />
+					<br />
 					<h2> 请扫描二维码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
@@ -197,14 +201,14 @@
 			</div>
 
 			<!-- Swiper-slide 3  扫描设备结果页 -->
-			<div class="swiper-slide" id="slide2">第2页:显示扫描设备信息
+			<div class="swiper-slide" id="slide2">
 				<div class="container">
 					<br />
 					<h4 id="p0">
 						设备名称 :
 					</h4>
-					<div class="card  bg-secondary text-white">
-						<div class="card-header  bg-dark text-white">
+					<div class="card  ">
+						<div class="card-header  text-info">
 							<h6 id="p1">地址</h6>
 						</div>
 						<div class="card-body">
@@ -233,10 +237,9 @@
 			</div>
 
 			<!-- Swiper-slide 4  扫描地址码-->
-			<div class="swiper-slide" id="slide3">第3页:扫描变更地址码
-
+			<div class="swiper-slide" id="slide3">
 				<div class="container">
-					<br /><br /><br />
+					<br /><br />
 					<h2> 请扫描地址码:</h2>
 					<div class="d-flex justify-content-center row align-items-center  " style="height: 50vh;">
 
@@ -246,7 +249,7 @@
 			</div>
 
 			<!-- Swiper-slide 5  确认地址变更页-->
-			<div class="swiper-slide" id="slide4">第4页: 确认地址变更提交
+			<div class="swiper-slide" id="slide4">
 				<div class="container">
 
 					<h2>确认地址变更页:<br /><br /></h2>
@@ -275,9 +278,9 @@
 			</div>
 
 			<!-- Swiper-slide 6  第一次扫描地址结果页-->
-			<div class="swiper-slide" id="slide5">第5页: 显示扫描地址信息
+			<div class="swiper-slide" id="slide5">
 				<div class="container">
-					<br /><br />
+					<br />
 					<h3 id="d0">
 						在此地址设备列表:
 					</h3>

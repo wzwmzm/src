@@ -5,10 +5,10 @@ let asset; //存放当前二维码扫描的资产
 let assets; //存放当前地址二维码的资产列表
 let myscanner; //通用扫描仪, 多页共用这一个扫描仪
 let recorders; //存放设备的流转记录
-if (localStorage.status == undefined) localStorage.status = "0"; 	//localStorage.status设置的是允许进入的最大页号
+if (localStorage.status == undefined) localStorage.status = "0"; //localStorage.status设置的是允许进入的最大页号
 //创建COOKIE. cookie如果由服务器创建,缺省为HTTPONLY,客户端JS无法操作
-if (getCookie("cookienum")==null) {
-	document.cookie="cookienum=0000000000"
+if (getCookie("cookienum") == null) {
+	document.cookie = "cookienum=0000000000"
 }
 
 
@@ -38,31 +38,28 @@ $("#queryrecorders").click(function () {
 			switch (data.status) {
 				case "0":
 					let recorders1 = data.recorders;
-					console.log("流转记录: ",recorders1);
+					console.log("流转记录: ", recorders1);
 					$(".recorderslist1").remove();
-					let t1 =`<p class="recorderslist1"><br/><b>登记记录如下:</b>`
+					let t1 = `<p class="recorderslist1"><br/><b>登记记录如下:</b>`
 					//for (let key in recorders1) {
-					for(let key  =recorders1.length; (key-1) >= 0; key--) {
-						let val = recorders1[key-1];
+					for (let key = recorders1.length;
+						(key - 1) >= 0; key--) {
+						let val = recorders1[key - 1];
 						console.log(val.记录时间);
-						t1 += `<br/><b style="color:Chartreuse ">时间: ` + val.记录时间+ `</b>`;
+						t1 += `<br/><b class="text-info">时间: ` + val.记录时间 + `</b>`;
 						t1 += `<br/>资产名称: ` + val.资产名称;
 						t1 += `<br/>资产二维码: ` + val.二维码;
 						t1 += `<br/>变更地址: ` + val.存放地点;
-						t1 += `<br/>备注:` + val.备注;// + `<br/>`;
+						t1 += `<br/>备注:` + val.备注; // + `<br/>`;
 					} //for (let key in recorders) {
 					$("#queryrecorders").after(t1);
 					break;
 				case "2": //读取流转记录时发生错误
-					alert("错误: ", data.msg );
+					alert("错误: ", data.msg);
 					break;
 			} //switch
 
 		}) //$.get("queryrecorders/XXX",
-
-
-
-
 
 }) //$("#queryrecorders").click(function(){
 
@@ -116,7 +113,7 @@ $("#loginbtm").click(function () {
 				$("#name_xs").text(data.data["姓名"]);
 				usr = data.data;
 				localStorage.usr = JSON.stringify(data.data);
-				document.cookie="cookienum="+data.cookienum;
+				document.cookie = "cookienum=" + data.cookienum;
 				allow_1();
 			}
 		});
@@ -216,11 +213,11 @@ var swiper = new Swiper('.swiper-container', {
 					for (let key in recorders) {
 						let val = recorders[key];
 						let t1 = `
-                            <div class="card  bg-secondary text-white recorderslist">
-                                <div class="card-header  cardhead text-white">
-                                    <h6>时间: ` + val.记录时间 + `</h6>
+                            <div class="card  recorderslist">
+                                <div class="card-header">
+                                    <h6 class="text-info">时间: ` + val.记录时间 + `</h6>
                                 </div>
-                                <div class="card-body cardbody">
+                                <div class="card-body">
                                     <p>人员: ` + val.姓名 + `</p>
                                     <p>地址: ` + val.存放地点 + `</p>
                                     <p>备注: ` + val.备注 + `</p>
@@ -265,7 +262,7 @@ var swiper = new Swiper('.swiper-container', {
 					$("#d0").text(" " + assets[0].存放地点);
 					for (let key in assets) {
 						let val = assets[key];
-						let t1 = '<div class="card  bg-secondary text-white  assetslist"> <div class = "card-header  bg-dark text-white" ><h6>资产名称:' + val.资产名称 + '</h6> </div> <div class = "card-body" > ';
+						let t1 = '<div class="card    assetslist"> <div class = "card-header text-info" ><h6>资产名称:' + val.资产名称 + '</h6> </div> <div class = "card-body" > ';
 						let t2 = '<p>资产编号:' + val.资产编号 + '</p>';
 						let t3 = '<p>规格型号:' + val.规格型号 + '</p>';
 						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-') + '</p>';
@@ -333,7 +330,7 @@ function scan1() {
 	};
 
 	myscanner.addListener('scan', function (data) {
-
+		console.log("scanner1 is scanning.");
 	});
 	myscanner.addListener('active', function () {
 		console.log("scanner1 is active.");
@@ -368,7 +365,7 @@ function scan2() {
 	myscanner.addListener('scan', function (data) {
 		let content = utf82str(data); //解决中文乱码
 		//alert("scanner3: " + content);
-		console.log("scan: " + content);
+		console.log("scan2: " + content);
 		$.post("/query", {
 				dat: content
 			},
@@ -451,9 +448,8 @@ function scan3() {
 	myscanner.addListener('scan', function (data) {
 		let content = utf82str(data); //解决中文乱码
 		//alert("scanner3: " + content);
-		console.log("scan: " + content);
+		console.log("scan3: " + content);
 		//	scanner3.stop();	//结束扫描
-		localStorage.newaddr = content
 
 		$.post("/verifyaddr", {
 				dat: content
@@ -461,6 +457,7 @@ function scan3() {
 			function (data, status) {
 				switch (data.status) {
 					case "1": //完成地址校验,进入确认地址变更提交页,第4页
+						localStorage.newaddr = content
 						localStorage.status = 4;
 						switchstatus();
 						swiper.slideNext(); //进入确认提交页,第4页		
@@ -591,15 +588,14 @@ function formatDate(numb, format) {
 }
 
 //读取cookies
-function getCookie(name)
-{
-    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
- 
-    if(arr=document.cookie.match(reg))
- 
-        return unescape(arr[2]);
-    else
-        return null;
+function getCookie(name) {
+	var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+
+	if (arr = document.cookie.match(reg))
+
+		return unescape(arr[2]);
+	else
+		return null;
 }
 
 //switchstatus(); //进入指定状态
