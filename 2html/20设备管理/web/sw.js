@@ -31,16 +31,37 @@ workbox.core.setCacheNameDetails({
 //  // 注册成功后要立即缓存的资源列表
 //])
 //或者workbox.precaching.precacheAndRoute([]);
+//在service worker中监听install
+this.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open('v1').then(function(cache) {
+      return cache.addAll([
+        '/importusers.html',
+        '/sw-test/index.html',
+        '/sw-test/style.css',
+        '/sw-test/app.js',
+        '/sw-test/image-list.js',
+        '/sw-test/star-wars-logo.jpg',
+        '/sw-test/gallery/',
+        '/sw-test/gallery/bountyHunters.jpg',
+        '/sw-test/gallery/myLittleVader.jpg',
+        '/sw-test/gallery/snowTroopers.jpg'
+      ]);
+    })
+  );
+});
+
 
 workbox.routing.registerRoute(
   new RegExp('/js/.*\.js'),     //可以跨域, 相当于 /js/*.js 
 								//(同时避开本文件sw.js)
-  workbox.strategies.networkFirst()
+  new workbox.strategies.StaleWhileRevalidate()
 );
 
+
 workbox.routing.registerRoute(
-  /.*\.css/,                //不可以跨域
-  workbox.strategies.staleWhileRevalidate({		//先直接用缓存内容,然后再网络更新及缓存更新
+  /\.css$/,                //不可以跨域
+  new workbox.strategies.StaleWhileRevalidate({		//先直接用缓存内容,然后再网络更新及缓存更新
     cacheName: 'css-cache',
   })
 );
@@ -48,7 +69,7 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
 //  /.*\.(?:png|jpg|jpeg|svg|gif)/,             //不可以跨域，只能在当下目录
   new RegExp('.*\.(?:png|jpg|jpeg|svg|gif)'),   //可以跨域
-  workbox.strategies.cacheFirst({				//如果有缓存就用缓存,不再进行网络更新
+  new workbox.strategies.CacheFirst({				//如果有缓存就用缓存,不再进行网络更新
     cacheName: 'image-cache',
     plugins: [
       new workbox.expiration.Plugin({
