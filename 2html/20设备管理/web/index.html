@@ -66,6 +66,10 @@
 			padding-bottom: 0.5rem;
 			
 		}
+		
+		.card-header {
+			font-weight:bold;
+		}
     </style>
 	<script>
 
@@ -90,7 +94,7 @@
 				<div class="container">
 					<div id="accordion">
 						<div class="card">
-							<div class="card-header font-weight-bold" data-toggle="collapse" href="#collapseOne">
+							<div class="card-header" data-toggle="collapse" href="#collapseOne">
 								<a class="card-link" href="#collapseOne">用户名: <span id="name_xs"> </span> </a>
 							</div>
 							<div id="collapseOne" class="collapse" data-parent="#accordion">
@@ -126,7 +130,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseTwo">
-								<a class="collapsed card-link font-weight-bold" href="#collapseTwo">摄像头: <span id="cameraid_c"><b style="color:MediumVioletRed ">请选择摄像头</b></span></a>
+								<a class="collapsed" href="#collapseTwo">摄像头: <span id="cameraid_c"><b style="color:MediumVioletRed ">请选择摄像头</b></span></a>
 							</div>
 							<div id="collapseTwo" class="collapse" data-parent="#accordion" onblur="console.log('blur-1')" onfocus="console.log('focus-1')">
 								<div class="card-body" id="cameras-div">
@@ -142,7 +146,7 @@
 						</div>
 						<div class="card">
 							<div class="card-header" data-toggle="collapse" href="#collapseThree">
-								<a class="collapsed card-link font-weight-bold" href="#collapseThree">用户手册</a>
+								<a class="collapsed card-link " href="#collapseThree">用户手册</a>
 							</div>
 							<div id="collapseThree" class="collapse" data-parent="#accordion">
 
