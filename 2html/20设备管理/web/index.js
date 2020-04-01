@@ -215,7 +215,7 @@ var swiper = new Swiper('.swiper-container', {
 						let t1 = `
                             <div class="card  recorderslist">
                                 <div class="card-header">
-                                    <h6 class="text-info">时间: ` + val.记录时间 + `</h6>
+                                    <p class="text-info">时间: ` + val.记录时间 + `</p>
                                 </div>
                                 <div class="card-body">
                                     <p>人员: ` + val.姓名 + `</p>
@@ -262,7 +262,7 @@ var swiper = new Swiper('.swiper-container', {
 					$("#d0").text(" " + assets[0].存放地点);
 					for (let key in assets) {
 						let val = assets[key];
-						let t1 = '<div class="card    assetslist"> <div class = "card-header text-info" ><h6>资产名称:' + val.资产名称 + '</h6> </div> <div class = "card-body" > ';
+						let t1 = '<div class="card    assetslist"> <div class = "card-header text-info" ><p>资产名称:' + val.资产名称 + '</p> </div> <div class = "card-body" > ';
 						let t2 = '<p>资产编号:' + val.资产编号 + '</p>';
 						let t3 = '<p>规格型号:' + val.规格型号 + '</p>';
 						let t4 = '<p>取得日期:' + formatDate(val.取得日期, '-') + '</p>';
