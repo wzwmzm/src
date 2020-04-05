@@ -137,16 +137,7 @@ caddy.shymj.info.sh:443 {
 }
 
 
-caddy.shymj.shop:443 {
-#        root /home/wzw/project/go/src/2html/8iris/7proxy-caddy/www
-        tls     "/home/wzw/.acme.sh/*.shymj.shop/fullchain.cer"  "/home/wzw/.acme.sh/*.shymj.shop/*.shymj.shop.key"
-        proxy / localhost:44444
-#       log requests.log {
-#               rotate_size 50  # Rotate after 50 MB
-#               rotate_age  90  # Keep rotated files for 90 days
-#               rotate_keep 20  # Keep at most 20 log files
-#       }
-}
+
 
 ##############################################################################################################
 #二维码仓库管理
