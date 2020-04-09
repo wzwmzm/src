@@ -1,0 +1,34 @@
+---
+version: "1.1"
+
+server:
+  development: true
+  log:
+    level: debug
+    disableStacktrace: true
+    disableCaller: true
+    encoderConfig:
+      levelEncoder: capital
+      timeEncoder: iso8601
+  workers: 100
+  check_fingerprint: true
+  listen:
+    - 0.0.0.0:3478
+  realm: realm
+  reuseport: false
+  prometheus:
+    addr: 0.0.0.0:3258
+
+api:
+  addr: 0.0.0.0:3257
+auth:
+  public: false
+  stun: false
+
+  nonce:
+    static: false
+    timeout: 600s
+
+  static:
+    - username: username
+      password: secret

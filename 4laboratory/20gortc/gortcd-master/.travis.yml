@@ -1,0 +1,23 @@
+language: go
+
+sudo: false
+
+env:
+  - GO111MODULE=on
+
+go:
+  - stable
+  - master
+
+install: true
+
+script:
+  - make test-fast
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+matrix:
+  allow_failures:
+    - go: master
+  fast_finish: true
