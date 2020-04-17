@@ -18,8 +18,36 @@ server:
   workers: 100
   listen:
     - 0.0.0.0:3478
+ 
+#The REALM attribute may be present in requests and responses.  It
+#contains text that meets the grammar for "realm-value" as described
+#in RFC 3261 [RFC3261] but without the double quotes and their
+#surrounding whitespace.  That is, it is an unquoted realm-value (and
+#is therefore a sequence of qdtext or quoted-pair).  It MUST be a
+#UTF-8 [RFC3629] encoded sequence of less than 128 characters (which
+#can be as long as 763 bytes), and MUST have been processed using
+#SASLprep [RFC4013].
+
+#Presence of the REALM attribute in a request indicates that long-term
+#credentials are being used for authentication.  Presence in certain
+#error responses indicates that the server wishes the client to use a
+#long-term credential for authentication.
+#REALM属性可能存在于请求和响应中。它包含符合RFC3261[RFC3261]中描述的“领域值”语法的文本，但没有双引号及其周围的空白。也就是说，它是一个未被引用的领域值（因此是一个qdtext或被引用对的序列）。它必须是一个少于128个字符（可以长达763字节）的UTF-8[RFC3629]编码序列，并且必须使用SASLprep[RFC4013]进行处理。
+#请求中存在REALM属性表示正在使用长期凭据进行身份验证。某些错误响应中存在表示服务器希望客户端使用长期凭据进行身份验证。
+    
   # default realm
   realm: gortc.io
+  
+#The SOFTWARE attribute contains a textual description of the software
+#being used by the agent sending the message.  It is used by clients
+#and servers.  Its value SHOULD include manufacturer and version
+#number.  The attribute has no impact on operation of the protocol,
+#and serves only as a tool for diagnostic and debugging purposes.  The
+#value of SOFTWARE is variable length.  It MUST be a UTF-8 [RFC3629]
+#encoded sequence of less than 128 characters (which can be as long as
+#763 bytes).
+#软件属性包含发送消息的代理使用的软件的文本描述。它被客户机和服务器使用。其值应包括制造商和版本号。该属性对协议的操作没有影响，仅用作诊断和调试工具。软件的值是可变长度的。它必须是一个少于128个字符（可以长达763字节）的UTF-8[RFC3629]编码序列。
+  
   # the SOFTWARE attribute value;
   # not sending attribute if not set
   software: gortcd
@@ -45,7 +73,14 @@ api:
 auth:
   # if true, no credentials are checked
   public: false
-
+  
+#The NONCE attribute may be present in requests and responses.  It
+#contains a sequence of qdtext or quoted-pair, which are defined in
+#RFC 3261 [RFC3261].  Note that this means that the NONCE attribute
+#will not contain actual quote characters.  See RFC 2617 [RFC2617],
+#Section 4.3, for guidance on selection of nonce values in a server.
+#NONCE属性可能存在于请求和响应中。它包含一个qdtext或引号对序列，在RFC3261[RFC3261]中定义。注意，这意味着NONCE属性将不包含实际的引号字符。有关在服务器中选择nonce值的指导，请参阅RFC 2617[RFC2617]第4.3节。
+#It MUST be less than 128 characters (which can be as long as 763bytes).
   nonce:
     static: false
     timeout: 600s

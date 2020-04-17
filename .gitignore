@@ -13,3 +13,5 @@ tmp/
 node_modules/
 github.com/
 gopkg.in/
+go.sum
+go.mod
