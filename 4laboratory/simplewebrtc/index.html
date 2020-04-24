@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <script src="https://cdn.bootcss.com/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://webrtc.github.io/adapter/adapter-4.2.2.js"></script>
+    <script src="https://simplewebrtc.com/latest-v3.js"></script>
+
+
+
+
+    <style>
+        #remoteVideos video {
+
+            height: 150px;
+
+        }
+
+
+
+        #localVideo {
+
+            height: 150px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <textarea id="messages" rows="5" cols="20"></textarea>
+    <br />
+
+    <input id="text" type="text" />
+
+    <input id="send" type="button" value="send" />
+    <br />
+
+    <video id="localVideo"></video>
+
+    <div id="remoteVideos"></div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
