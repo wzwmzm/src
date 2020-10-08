@@ -17,9 +17,9 @@ func main() {
 	http.Handle("/d/", http.StripPrefix("/d/", http.FileServer(http.Dir("D:\\"))))
 	http.Handle("/e/", http.StripPrefix("/e/", http.FileServer(http.Dir("E:\\"))))
 	http.Handle("/f/", http.StripPrefix("/f/", http.FileServer(http.Dir("F:\\"))))
-	fmt.Println("http://gofans.ga:8888...")
-	fmt.Println("http://localhost:8888...")
-	err := http.ListenAndServe(":8888", nil)
+	fmt.Println("http://gofans.ga:8080...")
+	fmt.Println("http://localhost:8080...")
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		fmt.Println(err)
 	}

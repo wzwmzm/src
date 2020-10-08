@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/" version="1">
+	<title>播放列表</title>
+	<trackList>
+		<track>
+			<location>http://cctvalih5ca.v.myalicdn.com/live/cctv13_2/index.m3u8</location>
+			<title>cctv13_2</title>
+			<duration>52320</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>0</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>http://cctvalih5ca.v.myalicdn.com/live/cctv4_2/index.m3u8</location>
+			<title>cctv4_2</title>
+			<duration>52000</duration>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>1</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>rtmp://58.200.131.2:1935/livetv/fhzw</location>
+			<title>凤凰中文</title>
+			<image>http://coverartarchive.org/release/3f775bdb-dcb5-43b7-9585-3ffd8fdb4d18/front-500</image>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>2</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>rtmp://58.200.131.2:1935/livetv/fhzx</location>
+			<title>凤凰资讯</title>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>3</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>rtmp://ivi.bupt.edu.cn:1935/livetv/fhzx</location>
+			<title>凤凰资讯-1</title>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>4</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+				<vlc:option>file-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>rtmp://ivi.bupt.edu.cn:1935/livetv/fhzw</location>
+			<title>凤凰中文-1</title>
+			<image>http://coverartarchive.org/release/3f775bdb-dcb5-43b7-9585-3ffd8fdb4d18/front-500</image>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>5</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+				<vlc:option>file-caching=1000</vlc:option>
+			</extension>
+		</track>
+		<track>
+			<location>rtmp://58.200.131.2:1935/livetv/startv</location>
+			<title>星空卫视</title>
+			<image>http://coverartarchive.org/release/3f775bdb-dcb5-43b7-9585-3ffd8fdb4d18/front-500</image>
+			<extension application="http://www.videolan.org/vlc/playlist/0">
+				<vlc:id>6</vlc:id>
+				<vlc:option>network-caching=1000</vlc:option>
+			</extension>
+		</track>
+	</trackList>
+	<extension application="http://www.videolan.org/vlc/playlist/0">
+		<vlc:item tid="0"/>
+		<vlc:item tid="1"/>
+		<vlc:item tid="2"/>
+		<vlc:item tid="3"/>
+		<vlc:item tid="4"/>
+		<vlc:item tid="5"/>
+		<vlc:item tid="6"/>
+	</extension>
+</playlist>
