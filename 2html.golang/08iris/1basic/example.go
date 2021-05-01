@@ -1,6 +1,6 @@
 package main
 
-import "github.com/kataras/iris"
+import "github.com/kataras/iris/v12"
 
 func main() {
 	app := iris.Default()
@@ -142,10 +142,13 @@ func main() {
 	//http://localhost:8080/mb
 
 	/////////////一个静态网站,包含子目录都可以自动路由寻址//////////////////////
-	app.StaticWeb("/", "./html") //<-----------------------设定网站根目录
+	
+
+	//app.StaticWeb("/", "./html") //<-----------------------设定网站根目录
+	app.HandleDir("/", iris.Dir("./html"))
 
 	app.Get("/", func(ctx iris.Context) {
-		ctx.ServeFile("./html/index.html", false) // true for gzip.
+		ctx.ServeFile("./html/index.html")//, false) //新版本不带此参数 // true for gzip.
 	})
 	//http://localhost:8080                 (含有js子目录)
 	//http://localhost:8080/index.html      (效果同上)
