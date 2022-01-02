@@ -1,3 +1,5 @@
+// 需要安装推理引擎OPENVINO
+//
 // What it does:
 //
 // 	This program outputs the current OpenVINO IE library version to the console.
