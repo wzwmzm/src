@@ -10,7 +10,6 @@
 //
 // 		go run ./cmd/motion-detect/main.go 0
 //
-// +build example
 
 package main
 
@@ -85,8 +84,9 @@ func main() {
 
 		// now find contours
 		contours := gocv.FindContours(imgThresh, gocv.RetrievalExternal, gocv.ChainApproxSimple)
-		for i, c := range contours {
-			area := gocv.ContourArea(c)
+
+		for i := 0; i < contours.Size(); i++ {
+			area := gocv.ContourArea(contours.At(i))
 			if area < MinimumArea {
 				continue
 			}
@@ -95,7 +95,7 @@ func main() {
 			statusColor = color.RGBA{255, 0, 0, 0}
 			gocv.DrawContours(&img, contours, i, statusColor, 2)
 
-			rect := gocv.BoundingRect(c)
+			rect := gocv.BoundingRect(contours.At(i))
 			gocv.Rectangle(&img, rect, color.RGBA{0, 0, 255, 0}, 2)
 		}
 
