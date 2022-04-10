@@ -1,5 +1,0 @@
-<view class="title">吴志伟{{wording}}</view>
-<image mode="widthFix" src="../../img/太极.png"></image>
-<view>asdf</view>
-<image mode="widthFix" src="../../img/256.png"></image>
-<button  bindtap="onClick" > ckick</button>
