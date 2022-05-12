@@ -1,0 +1,1 @@
+"/tmp/.mount_WeChatq96cJ1/nwjs/cli.bat" cloud functions deploy --e cloud1-4g8ffig9c3a987e3 --n quickstartFunctions --r --project "/home/wzw/WeChatProjects/miniprogram-1" --report_first --report
