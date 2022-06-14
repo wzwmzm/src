@@ -17,7 +17,7 @@
         <head>
             <meta charset="UTF-8">
             <title></title>
-            <script src="JQuery/jquery-1.11.3.js"></script>
+            <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
             <script type="text/javascript">
                 var stu = [
                     { "name": "张三", "sex": "男", "age": "20" },
