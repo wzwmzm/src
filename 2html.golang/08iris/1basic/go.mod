@@ -9,5 +9,5 @@ require (
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/net v0.0.0-20210226101413-39120d07d75e // indirect
-	golang.org/x/sys v0.0.0-20210225134936-a50acf3fe073 // indirect
+	golang.org/x/sys v0.1.0 // indirect
 )
