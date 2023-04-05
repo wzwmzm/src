@@ -1,0 +1,39 @@
+以下是示例代码，使用gocv库来实现像素操作：
+
+```go
+package main
+
+import (
+    "gocv.io/x/gocv"
+)
+
+func main() {
+    // 读取图像
+    img := gocv.IMRead("test.jpg", gocv.IMReadColor)
+
+    // 获取图片大小
+    rows, cols := img.Rows(), img.Cols()
+
+    // 遍历图片所有像素，进行操作
+    for row := 0; row < rows; row++ {
+        for col := 0; col < cols; col++ {
+            // 获取当前像素
+            pixel := img.GetVec3b(row, col)
+
+            // 操作像素值
+            pixel[0] = 255 - pixel[0] // Blue
+            pixel[1] = 255 - pixel[1] // Green
+            pixel[2] = 255 - pixel[2] // Red
+
+            // 保存修改后的像素值
+            img.SetVec3b(row, col, pixel)
+        }
+    }
+
+    // 保存修改后的图片
+    gocv.IMWrite("output.jpg", img)
+}
+```
+
+这个代码读取了一张图片，遍历了所有像素，并对RGB三个通道的像素值进行了取反操作。最后，将修改后的图片保存到了本地。
+使用gocv库来实现像素操作
