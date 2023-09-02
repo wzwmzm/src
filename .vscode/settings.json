@@ -3,5 +3,10 @@
     "debug.console.fontSize": 15,
     "markdown.preview.fontSize": 15,
     "terminal.integrated.fontSize": 15,
-    "interactiveSession.editor.fontSize": 15
+    "interactiveSession.editor.fontSize": 15,
+    "go.toolsEnvVars": {
+        "GOPATH": "/home/wzw/go"
+    },
+    "scm.inputFontSize": 15,
+    "chat.editor.fontSize": 15
 }

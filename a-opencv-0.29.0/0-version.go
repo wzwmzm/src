@@ -6,6 +6,7 @@
 //
 // 		go run ./cmd/version/main.go
 //
+//go:build example
 // +build example
 
 package main
@@ -19,4 +20,5 @@ import (
 func main() {
 	fmt.Printf("gocv version: %s\n", gocv.Version())
 	fmt.Printf("opencv lib version: %s\n", gocv.OpenCVVersion())
+	fmt.Println("你好GOCV！！！")
 }
